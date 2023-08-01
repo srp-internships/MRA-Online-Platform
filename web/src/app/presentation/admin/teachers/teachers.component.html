@@ -1,0 +1,59 @@
+<div class="hero is-small">
+  <div class="hero-body">
+    <div class="is-flex is-justify-content-space-between">
+      <h1 class="title">Учителя</h1>
+      <button class="button is-rounded is-primary" (click)="onAdd()" data-add-teacher>
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-add"></i>
+          </span>
+          <span>Добавить</span>
+        </span>
+      </button>
+    </div>
+    <div class="is-flex is-justify-content-end">
+      <srp-dynamic-filter [sourse]="items" (filterChange)="filteredTeachers = $event"></srp-dynamic-filter>
+    </div>
+  </div>
+  <div class="hero-foot">
+    <srp-loader [templateRef]="table"></srp-loader>
+    <ng-template #table>
+      <table class="table is-hoverable is-narrow is-fullwidth is-pointer-table">
+        <thead>
+          <tr>
+            <th width="50">#</th>
+            <th>Имя</th>
+            <th>Email</th>
+            <th>Номер телефон</th>
+            <th width="50"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngIf="filteredTeachers?.length; else noData">
+            <tr
+              *ngFor="let item of filteredTeachers; let i = index"
+              (dblclick)="onEdit(item)"
+              [attr.data-row-id]="item.email">
+              <td>{{ i + 1 }}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.email }}</td>
+              <td>{{ item.phoneNumber }}</td>
+              <td>
+                <button class="button is-outlined is-danger is-small" title="remove" (click)="onDelete(item)">
+                  <span class="icon">
+                    <i class="fas fa-remove"></i>
+                  </span>
+                </button>
+              </td>
+            </tr>
+          </ng-container>
+          <ng-template #noData>
+            <tr>
+              <td colspan="4" class="has-text-danger">Данные не найдены.</td>
+            </tr>
+          </ng-template>
+        </tbody>
+      </table>
+    </ng-template>
+  </div>
+</div>

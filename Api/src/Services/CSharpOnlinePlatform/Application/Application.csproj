@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Remove="Courses\Commands\**" />
+		<Compile Remove="Courses\Queries\**" />
+		<Compile Remove="Exercises\Queries\**" />
+		<Compile Remove="Exercises\Commands\**" />
+		<Compile Remove="Themes\Commands\**" />
+		<Compile Remove="Themes\Queries\**" />
+		<EmbeddedResource Remove="Courses\Commands\**" />
+		<EmbeddedResource Remove="Courses\Queries\**" />
+		<EmbeddedResource Remove="Exercises\Queries\**" />
+		<EmbeddedResource Remove="Exercises\Commands\**" />
+		<EmbeddedResource Remove="Themes\Commands\**" />
+		<EmbeddedResource Remove="Themes\Queries\**" />
+		<None Remove="Courses\Commands\**" />
+		<None Remove="Courses\Queries\**" />
+		<None Remove="Exercises\Queries\**" />
+		<None Remove="Exercises\Commands\**" />
+		<None Remove="Themes\Commands\**" />
+		<None Remove="Themes\Queries\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\Core\Core.csproj" />
+		<ProjectReference Include="..\Domain\Domain.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.2.2" />
+		<PackageReference Include="Google.Apis.Drive.v3" Version="1.57.0.2789" />
+		<PackageReference Include="MailKit" Version="3.4.1" />
+		<PackageReference Include="MediatR" Version="10.0.1" />
+		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.9" />
+		<PackageReference Include="MimeKit" Version="3.4.1" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.23.1" />
+	</ItemGroup>
+
+</Project>

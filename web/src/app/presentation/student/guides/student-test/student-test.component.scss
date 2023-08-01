@@ -1,0 +1,24 @@
+.srp-tests {
+    height: 100%;
+    grid-template-rows: 9rem auto;
+  }
+  
+  .srp-tests-body {
+    display: grid;
+    overflow: hidden;
+  }
+  
+  .srp-tests-description {
+    overflow: auto;
+    height: 100%;
+  }
+  
+  .srp-doc-view {
+    padding: 1rem 2rem;
+  }
+
+  .srp-tests-actions > button {
+    margin-top: 20px;
+    width: 100%;
+  }
+  

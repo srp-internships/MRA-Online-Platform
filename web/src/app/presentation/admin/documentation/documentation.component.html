@@ -1,0 +1,49 @@
+<div class="hero is-small">
+  <div class="hero-body">
+    <div class="is-flex is-justify-content-space-between">
+      <h1 class="title">Документация</h1>
+      <button class="button is-rounded is-primary" (click)="onAdd()" data-add-doc>
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-add"></i>
+          </span>
+          <span>Добавить</span>
+        </span>
+      </button>
+    </div>
+  </div>
+  <div class="hero-foot">
+    <srp-loader [templateRef]="table"></srp-loader>
+    <ng-template #table>
+      <table class="table is-hoverable is-narrow is-fullwidth is-pointer-table">
+        <thead>
+          <tr>
+            <th width="50">#</th>
+            <th>Заголовок</th>
+            <th width="50"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngIf="items?.length; else noData">
+            <tr *ngFor="let item of items; let i = index" (dblclick)="onEdit(item)" [attr.data-row-id]="item.id">
+              <td>{{ i + 1 }}</td>
+              <td>{{ item.title }}</td>
+              <td>
+                <button class="button is-outlined is-danger is-small" title="remove" (click)="onDelete(item)">
+                  <span class="icon">
+                    <i class="fas fa-remove"></i>
+                  </span>
+                </button>
+              </td>
+            </tr>
+          </ng-container>
+          <ng-template #noData>
+            <tr>
+              <td colspan="4" class="has-text-danger">Данные не найдены.</td>
+            </tr>
+          </ng-template>
+        </tbody>
+      </table>
+    </ng-template>
+  </div>
+</div>

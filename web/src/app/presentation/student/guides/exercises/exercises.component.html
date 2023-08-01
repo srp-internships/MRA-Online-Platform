@@ -1,0 +1,65 @@
+<section class="srp-exercises">
+  <div class="srp-exercises-header">
+    <section class="hero is-primary is-small">
+      <div class="hero-body">
+        <div class="has-text-centered">
+          <a (click)="navigateToTheme()" class="has-text-white is-size-3-desktop is-size-4-mobile is-italic">
+            {{ currentTopic?.name }}
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-foot">
+        <nav class="tabs is-boxed is-small">
+          <div class="container is-fluid">
+            <ul>
+              <li
+                class="tab"
+                [class.is-active]="exercise.isActive"
+                *ngFor="let exercise of exercises; let i = index"
+                (click)="onSelectedTab(exercise)">
+                <a [title]="exercise.name" class="icon-text">
+                  <span>{{ 'Задача ' + (i + 1) }}</span>
+                  <span class="icon" [ngSwitch]="exercise.status" [ngClass]="getTabIconColor(exercise.status)">
+                    <i class="fas fa-circle-xmark" *ngSwitchCase="exerciseStatus.Failed"></i>
+                    <i class="fas fa-circle-check" *ngSwitchCase="exerciseStatus.Passed"></i>
+                    <i class="fas fa-circle" *ngSwitchCase="exerciseStatus.NotSubmitted"></i>
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </section>
+  </div>
+  <div class="srp-exercises-body" *ngIf="selectedExercise">
+    <div class="srp-exercises-description">
+      <div class="srp-doc-view content">
+        <h3 class="has-text-primary-dark">{{ selectedExercise.name }}</h3>
+        <div [innerHtml]="selectedExercise.description | safeHtml"></div>
+      </div>
+    </div>
+    <div class="srp-exercises-template">
+      <ngx-codemirror
+        class="ngx-codemirror"
+        [(ngModel)]="selectedExercise.template"
+        [options]="{
+          mode: 'text/x-csharp',
+          lineNumbers: true
+        }"></ngx-codemirror>
+      <div class="srp-exercises-actions">
+        <button
+          class="button is-primary"
+          [class.is-loading]="isSubmitted"
+          *ngIf="selectedExercise.status !== exerciseStatus.Passed"
+          (click)="onSubmit(selectedExercise)">
+          <span class="icon is-small">
+            <i class="fas fa-paper-plane"></i>
+          </span>
+          <span>Отправить</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

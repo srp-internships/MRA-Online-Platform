@@ -1,0 +1,61 @@
+<nav class="navbar is-primary navbar-shadow is-fixed-top" role="navigation" aria-label="main navigation">
+  <div class="container is-fluid is-flex">
+    <div class="navbar-brand">
+      <a
+        role="button"
+        class="navbar-burger"
+        aria-label="menu"
+        aria-expanded="false"
+        data-target="navbarBasicExample"
+        (click)="onToggle()">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+      <a class="navbar-item is-hidden-touch" [routerLink]="'/' + layout.role">
+        <img src="assets\images\white-icon.png" height="28" />
+        <span class="ml-2 is-size-4">MRA Academy</span>
+      </a>
+      <a class="navbar-item ml-4" (click)="layout.openBetaDialog()">
+        <span class="has-text-warning is-size-5">Beta</span>
+      </a>
+    </div>
+
+    <div class="w-100 is-flex is-justify-content-end">
+      <div class="dropdown is-right mt-2 is-hoverable is-hidden-touch">
+        <div class="dropdown-trigger">
+          <button class="button is-primary" aria-haspopup="true" aria-controls="dropdown-menu">
+            <span>{{ layout.email }}</span>
+            <span class="icon is-small">
+              <i class="fas fa-angle-down" aria-hidden="true"></i>
+            </span>
+          </button>
+          <a class="button is-primary" routerLink="/help" *ngIf="layout.role !== 'admin'">
+            <span class="icon">
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+            </span>
+          </a>
+        </div>
+        <div class="dropdown-menu" id="dropdown-menu" role="menu">
+          <div class="dropdown-content">
+            <a (click)="onProfileClick()" class="dropdown-item">
+              <span class="icon-text">
+                <span class="icon">
+                  <i class="fa fa-user" aria-hidden="true"></i>
+                </span>
+                <span>Профиль</span>
+              </span>
+            </a>
+            <hr class="dropdown-divider" />
+            <a class="dropdown-item" [routerLink]="'/' + accountRoutingModule.getPath(links.SignIn)">
+              <span class="icon">
+                <i class="fas fa-sign-out"></i>
+              </span>
+              <span>Выход</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

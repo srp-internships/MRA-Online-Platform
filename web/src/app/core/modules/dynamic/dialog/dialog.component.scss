@@ -1,0 +1,15 @@
+.modal-card-body {
+    max-height: calc(100vh - 240px);
+}
+
+.srp-horizontal-form {
+    display: flex;
+    justify-content:space-between;
+    gap: 1rem;
+}
+
+@media only screen and (max-width: 1023px) {
+    .srp-horizontal-form {
+       flex-direction: column;
+    }
+}

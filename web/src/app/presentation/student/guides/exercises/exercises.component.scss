@@ -1,0 +1,56 @@
+.srp-exercises {
+  height: 100%;
+  display: grid;
+  grid-template-rows: 9rem auto;
+}
+
+.srp-exercises-body {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  overflow: hidden;
+}
+
+.srp-exercises-description {
+  overflow: auto;
+  height: 100%;
+}
+
+.srp-doc-view {
+  padding: 1rem 2rem;
+}
+
+.srp-exercises-template {
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto 50px;
+  overflow: hidden;
+
+  .srp-exercises-actions {
+    display: flex;
+    position:sticky;
+    top: 0;
+    gap: 1rem;
+    padding: 5px 30px;
+    justify-content: flex-end;
+  }
+}
+
+@media only screen and (max-width: 1023px) {
+  .srp-exercises-body {
+    grid-template-columns: auto;
+    grid-template-rows: 1fr 1fr;
+  }
+
+  .srp-exercises-template .srp-exercises-actions > button {
+    width: 100%;
+  }
+}
+
+.CodeMirror {
+  height: auto;
+}
+
+
+.ngx-codemirror {
+  overflow: auto;
+}

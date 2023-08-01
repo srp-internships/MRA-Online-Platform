@@ -1,0 +1,58 @@
+<ng-container [formGroup]="form">
+  <label [attr.for]="control.key" class="label">{{ control.label }}</label>
+  <div [ngSwitch]="control.controlType" class="control">
+    <input
+      class="input"
+      *ngSwitchCase="'input'"
+      [ngStyle]="control.style"
+      [formControlName]="control.key"
+      [id]="control.key"
+      [type]="control.type" />
+
+    <div class="select is-fullwidth" *ngSwitchCase="'dropdown'" [ngStyle]="control.style">
+      <select [id]="control.key" [formControlName]="control.key">
+        <option *ngFor="let opt of control.options" [ngValue]="opt.value">{{ opt.text }}</option>
+      </select>
+    </div>
+    <div *ngSwitchCase="'texteditor'" [id]="control.key" [ngStyle]="control.style" [class.maximized]="maximized">
+      <ngx-editor-menu [editor]="editor" [toolbar]="toolbar" [customMenuRef]="paginationItem"> </ngx-editor-menu>
+      <div class="content">
+        <ngx-editor [editor]="editor" placeholder="" [formControlName]="control.key"> </ngx-editor>
+      </div>
+    </div>
+    <div *ngSwitchCase="'codeeditor'" [id]="control.key" [ngStyle]="control.style">
+      <ngx-codemirror
+        [formControlName]="control.key"
+        [options]="{
+          lineNumbers: true,
+          mode: 'text/x-csharp'
+        }"></ngx-codemirror>
+    </div>
+  </div>
+  <p class="help is-danger" *ngIf="isValid">{{ control.label }} не является правильным</p>
+</ng-container>
+
+<ng-template #paginationItem>
+  <div class="NgxEditor__Seperator"></div>
+  <div class="NgxEditor__MenuItem NgxEditor__MenuItem--Icon" (click)="onClickCode($event)" title="Код">
+    <span class="icon">
+      <i class="fas fa-code"></i>
+    </span>
+  </div>
+  <div class="NgxEditor__MenuItem NgxEditor__MenuItem--Icon" (click)="onClick($event)" title="Разделитель страниц">
+    <span class="icon">
+      <i class="fas fa-arrows-left-right-to-line"></i>
+    </span>
+  </div>
+  <div class="NgxEditor__Seperator"></div>
+  <div
+    class="NgxEditor__MenuItem NgxEditor__MenuItem--Icon"
+    [title]="maximized ? 'Свернуть' : 'Развернуть'"
+    (click)="onToggleSceen($event)"
+    title="Разделитель страниц">
+    <span class="icon" [ngSwitch]="maximized">
+      <i class="fas fa-maximize" *ngSwitchCase="false"></i>
+      <i class="fas fa-minimize" *ngSwitchCase="true"></i>
+    </span>
+  </div>
+</ng-template>

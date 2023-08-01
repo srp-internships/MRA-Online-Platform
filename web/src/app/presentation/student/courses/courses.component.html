@@ -1,0 +1,54 @@
+<section class="section">
+  <div class="container">
+    <span class="is-size-3 has-text-primary">Курсы</span>
+    <srp-loader [templateRef]="coursesRef"></srp-loader>
+    <ng-template #coursesRef>
+      <div class="columns is-multiline is-desktop mt-3">
+        <div class="column is-4 is-6-tablet-only" *ngFor="let course of courses">
+          <div class="card">
+            <div class="card-content">
+              <div class="media">
+                <div class="media-left"></div>
+                <div class="media-content">
+                  <p class="title is-4 has-text-centered srp-course-name">
+                    <a [routerLink]="'/' + getGuideLink(course.id)" class="link">{{ course.name }}</a>
+                  </p>
+                  <p class="subtitle is-6">
+                    <span class="icon-text">
+                      <span class="icon has-text-success">
+                        <i class="fas fa-user-graduate"></i>
+                      </span>
+                      {{ course.teacherName }}
+                    </span>
+                    <br />
+                    <span class="icon-text">
+                      <span class="icon has-text-danger">
+                        <i class="fas fa-hourglass-end"></i>
+                      </span>
+                      {{ course.endDate | date: 'dd MMM, yyyy' }}
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <div class="card-footer-item">
+                <div class="w-100">
+                  <progress
+                    class="progress is-primary is-small"
+                    max="100"
+                    [value]="
+                      course.totalThemes === 0 ? 0 : (course.completedThemes * 100) / course.totalThemes
+                    "></progress>
+                </div>
+                <span class="ml-2 is-italic has-text-grey-light"
+                  >{{ course.completedThemes }}/{{ course.totalThemes }}</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</section>

@@ -1,0 +1,54 @@
+<div [formGroup]="variantsForm" style="background-color: white; padding: 20px">
+  <label class="label">Варианты</label>
+  <div class="control">
+    <table class="table is-hoverable is-narrow is-fullwidth is-pointer-table">
+      <thead>
+        <tr>
+          <th width="10"><span>&#10003;</span></th>
+          <th width="40">#</th>
+          <th>Названия</th>
+          <th width="50"></th>
+        </tr>
+      </thead>
+      <ng-container *ngIf="Vars.controls.length; else noData">
+        <tbody formArrayName="Vars">
+          <tr *ngFor="let variant of Vars.controls; let i = index" [formGroupName]="i">
+            <td>
+              <input
+                type="radio"
+                id="{{ 'isCorrect' + i }}"
+                name="optradio"
+                [checked]="variant.value.isCorrect"
+                (change)="onItemChange(i)" />
+            </td>
+            <td>{{ i + 1 }}</td>
+            <td style="width: 600px">
+              <input type="text" class="input" formControlName="value" [value]="variant.value.value" />
+            </td>
+            <td>
+              <button class="button is-outlined is-danger is-small" title="remove" (click)="removeVar(i)">
+                <span class="icon">
+                  <i class="fas fa-remove"></i>
+                </span>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </ng-container>
+      <ng-template #noData>
+        <tr>
+          <td colspan="4" class="has-text-danger">Данные не найдены.</td>
+        </tr>
+      </ng-template>
+    </table>
+
+    <footer class="modal-card-foot is-flex is-justify-content-end" style="padding: 10px">
+      <button data-dialog-submit type="button" class="button is-primary" (click)="addVar()">
+        <i class="fas fa-add" style="margin-right: 10px"></i>
+        Добавить вариант
+      </button>
+      <button data-dialog-submit type="submit" class="button is-primary" (click)="onSave()">Сохранить</button>
+      <button class="button" (click)="onCancel()">Отменить</button>
+    </footer>
+  </div>
+</div>

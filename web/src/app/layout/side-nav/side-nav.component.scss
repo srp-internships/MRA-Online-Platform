@@ -1,0 +1,27 @@
+.text-ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.menu-list .icon-text {
+    width: 14rem;
+}
+$border-color: #eee;
+.menu-list li {
+    border-bottom: 1px solid $border-color;
+}
+
+.menu-list li:first-child {
+    border-top: 1px solid $border-color;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.link-disabled {
+    pointer-events: none;
+}

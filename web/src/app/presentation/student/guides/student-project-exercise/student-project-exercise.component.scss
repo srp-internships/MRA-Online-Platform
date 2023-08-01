@@ -1,0 +1,57 @@
+.srp-project-exercises {
+    height: 100%;
+    display: grid;
+    grid-template-rows: 9rem auto;
+  }
+  
+  .srp-project-exercises-body {
+    display: grid;
+    grid-template-columns: 75% 25%;
+    overflow: hidden;
+  }
+  
+  .srp-project-exercises-description {
+    overflow: auto;
+    height: 100%;
+  }
+  
+  .srp-doc-view {
+    padding: 1rem 2rem;
+  }
+  
+  .srp-project-exercises-comment {
+    height: 100%;
+    display: grid;
+    overflow: auto;
+  }
+  
+  .inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }
+
+  .inputfile + label {
+    background-color: hsl(0deg, 0%, 100%);
+    border-color: hsl(0deg, 0%, 86%);
+    border-width: 1px;
+    color: hsl(0deg, 0%, 21%);
+    cursor: pointer;
+    justify-content: center;
+    padding-bottom: calc(0.5em - 1px);
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: calc(0.5em - 1px);
+    text-align: center;
+    white-space: nowrap;
+}
+
+.inputfile:focus + label,
+.inputfile + label:hover {
+    background-color: rgb(16, 214, 132);
+    outline: 1px dotted rgb(66, 13, 190);
+	  outline: -webkit-focus-ring-color auto 5px;
+}

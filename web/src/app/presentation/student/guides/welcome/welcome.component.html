@@ -1,0 +1,57 @@
+<div class="welcome">
+  <div class="picture">
+    <div class="picture-content">
+      <span class="is-size-1-widescreen is-size-2-desktop is-size-3-touch has-text-white">Добро пожаловать!</span>
+    </div>
+    <picture>
+      <source srcset="assets/images/welcome-header.svg" media="(min-width: 780px)" />
+      <source srcset="assets/images/welcome-header-mobile.svg" media="(max-width: 780px)" />
+      <img src="assets/images/welcome-header.svg" alt="welcome header" />
+    </picture>
+  </div>
+
+  <div class="container section">
+    <srp-loader [templateRef]="statistics"></srp-loader>
+    <ng-template #statistics>
+      <ng-container *ngIf="rate && rate.completedRate; else notFound">
+        <div class="columns">
+          <div class="column">
+            <svg width="200" height="250" class="rate-svg">
+              <text x="100" y="40" class="rect-description">Вы на</text>
+              <rect x="5" y="50" rx="20" ry="20" width="190" height="190" class="rect" />
+              <text x="50%" y="160" class="rate-position" dominant-baseline="middle">{{ rate.position }}</text>
+              <text x="80" y="230" fill="#efefef">месте</text>
+            </svg>
+          </div>
+          <div class="column">
+            <svg viewBox="0 0 36 45" class="rate-svg">
+              <path
+                class="circle-bg"
+                d="M18 10.0845
+                      a 15.9155 15.9155 0 0 1 0 31.831
+                      a 15.9155 15.9155 0 0 1 0 -31.831" />
+              <path
+                class="circle"
+                [attr.stroke-dasharray]="[getRatePercent(rate), 100]"
+                d="M18 10.0845
+                      a 15.9155 15.9155 0 0 1 0 31.831
+                      a 15.9155 15.9155 0 0 1 0 -31.831" />
+              <text x="18" y="28" dominant-baseline="middle" text-anchor="middle" fill="#1cd478">
+                {{ rate.completedRate }}
+              </text>
+              <text x="18" y="6" class="circle-description">Ваш балл</text>
+            </svg>
+          </div>
+        </div>
+        <br />
+        <br />
+        <br />
+      </ng-container>
+      <ng-template #notFound>
+        <div class="is-flex is-justify-content-center w-100 notification is-primary">
+          <span class="is-size-5">Для того, чтобы увидеть результать необходимо выполнить задачу.</span>
+        </div>
+      </ng-template>
+    </ng-template>
+  </div>
+</div>

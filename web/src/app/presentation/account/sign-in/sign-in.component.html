@@ -1,0 +1,61 @@
+<div class="srp-auth-login">
+  <form class="box" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <h1 class="title has-text-primary">MRA Academy</h1>
+
+    <div class="field">
+      <label class="label">Email</label>
+      <div class="control has-icons-left has-icons-right">
+        <input
+          class="input"
+          [ngClass]="{ 'is-danger': submitted && email.errors }"
+          type="email"
+          placeholder="пр. daler@gmail.com"
+          formControlName="email" />
+        <span class="icon is-small is-left">
+          <i class="fas fa-envelope"></i>
+        </span>
+      </div>
+      <div *ngIf="email.errors?.required && (email.touched || submitted)" class="help is-danger">
+        Требуется электронная почта.
+      </div>
+      <div *ngIf="email.errors?.email && submitted && (email.touched || email.dirty)" class="help is-danger">
+        Введите действительный адрес электронной почты.
+      </div>
+    </div>
+    <div class="field">
+      <label class="label">Пароль</label>
+      <div class="control has-icons-left">
+        <input
+          class="input"
+          [ngClass]="{ 'is-danger': submitted && password.errors }"
+          type="password"
+          placeholder="********"
+          formControlName="password" />
+        <span class="icon is-small is-left">
+          <i class="fas fa-lock"></i>
+        </span>
+      </div>
+      <div *ngIf="password.errors?.required && (password.touched || submitted)" class="help is-danger">
+        Требуется пароль.
+      </div>
+      <div
+        *ngIf="password.errors?.invalidPassword && submitted && (password.touched || password.dirty)"
+        class="help is-danger">
+        Пароль должен состоять минимум из 8 символов, <br />
+        минимум 1 заглавная буква, 1 строчная буква и 1 цифра
+      </div>
+    </div>
+    <div class="field is-flex is-justify-content-space-between mt-4">
+      <a class="is-link" routerLink="../reset-password">Забыли пароль?</a>
+      <button class="button is-primary" type="submit" (submit)="onSubmit()" [ngClass]="{ 'is-loading': loading }">
+        Войти
+      </button>
+    </div>
+    <hr />
+    <div class="has-text-centered">
+      <span>Хотите записаться на урок?</span> <br />
+      тогда
+      <a [routerLink]="'/' + _accountRotingModule.getPath(links.SignUp)">Зарегистрируйтесь </a>
+    </div>
+  </form>
+</div>

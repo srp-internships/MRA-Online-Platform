@@ -1,0 +1,35 @@
+<srp-change-password *ngIf="show"></srp-change-password>
+<div *ngIf="!show">
+  <div class="modal-card-head">
+    <p class="modal-card-title">
+      <span class="is-size-4">Профиль</span>
+    </p>
+    <a (click)="onClose()">
+      <span class="icon has-text-dark">
+        <i class="fas fa-lg fa-solid fa-xmark" aria-hidden="true"></i>
+      </span>
+    </a>
+  </div>
+  <section class="modal-card-body">
+    <p class="subtitle has-text-grey-light">
+      Имя: <strong>{{ config.data.FirstName }}</strong>
+    </p>
+    <p class="subtitle has-text-grey-light">
+      Фамилия: <strong>{{ config.data.LastName }}</strong>
+    </p>
+    <p class="subtitle has-text-grey-light">
+      Дата рождения: <strong>{{ config.data.Birthdate | date }}</strong>
+    </p>
+    <p class="subtitle has-text-grey-light">
+      Номер телефона: <strong>{{ config.data.Contact.PhoneNumber }}</strong>
+    </p>
+    <p class="subtitle has-text-grey-light">
+      Пароль: <strong>********</strong>&nbsp;
+      <a (click)="onChangePassword()">
+        <span class="icon has-text-primary">
+          <i class="fas fa-sm fa-solid fa-pencil" aria-hidden="true"></i>
+        </span>
+      </a>
+    </p>
+  </section>
+</div>

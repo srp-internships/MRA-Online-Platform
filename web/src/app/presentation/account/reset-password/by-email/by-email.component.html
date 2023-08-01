@@ -1,0 +1,40 @@
+<div class="srp-auth-email-submission">
+  <div class="box">
+    <h4 class="title has-text-centered has-text-primary">Сброс пароль</h4>
+    <div class="notification">Введите адрес электронной почты, и мы вышлем вам инструкции по сбросу пароля.</div>
+    <div class="field">
+      <label class="label">Email</label>
+      <div class="control has-icons-left has-icons-right">
+        <input
+          class="input"
+          [ngClass]="{ 'is-danger': submitted && emailControl.errors }"
+          type="email"
+          placeholder="пр. daler@gmail.com"
+          [formControl]="emailControl" />
+        <span class="icon is-small is-left">
+          <i class="fas fa-envelope"></i>
+        </span>
+      </div>
+      <div *ngIf="emailControl.errors?.['required'] && (emailControl.touched || submitted)" class="help is-danger">
+        Требуется электронная почта.
+      </div>
+      <div
+        *ngIf="emailControl.errors?.['email'] && submitted && (emailControl.touched || emailControl.dirty)"
+        class="help is-danger">
+        Введите действительный адрес электронной почты.
+      </div>
+    </div>
+    <srp-loader [templateRef]="formRef"></srp-loader>
+  </div>
+</div>
+
+<ng-template #formRef>
+  <div class="is-flex is-justify-content-end">
+    <button class="button is-primary" type="submit" (click)="onSubmit()">
+      <span class="icon">
+        <i class="fas fa-paper-plane"></i>
+      </span>
+      <span>Отправить</span>
+    </button>
+  </div>
+</ng-template>

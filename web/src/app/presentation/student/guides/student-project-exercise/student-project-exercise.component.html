@@ -1,0 +1,94 @@
+<section class="srp-project-exercises">
+  <div class="srp-exercises-header">
+    <section class="hero is-primary is-small">
+      <div class="hero-body">
+        <div class="has-text-centered">
+          <a (click)="navigateToTheme()" class="has-text-white is-size-3-desktop is-size-4-mobile is-italic">
+            {{ currentTopic?.name }}
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-foot">
+        <nav class="tabs is-boxed is-small">
+          <div class="container is-fluid">
+            <ul>
+              <li
+                class="tab"
+                [class.is-active]="exercise.isActive"
+                *ngFor="let exercise of exercises; let i = index"
+                (click)="onSelectedTab(exercise)">
+                <a [title]="exercise.name" class="icon-text">
+                  <span>{{ i + 1 + '-й проект' }}</span>
+                  <span class="icon" [ngSwitch]="exercise.status" [ngClass]="getTabIconColor(exercise.status)">
+                    <i class="fas fa-circle-xmark" *ngSwitchCase="exerciseStatus.Failed"></i>
+                    <i class="fas fa-circle-check" *ngSwitchCase="exerciseStatus.Passed"></i>
+                    <i class="fas fa-circle" *ngSwitchCase="exerciseStatus.NotSubmitted"></i>
+                    <i class="fa-solid fa-sync fa-spin" *ngSwitchCase="exerciseStatus.WaitForTeacher"></i>
+                    <i class="fa-solid fa-sync fa-spin" *ngSwitchCase="exerciseStatus.WaitForStudent"></i>
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </section>
+  </div>
+  <div class="srp-project-exercises-body" *ngIf="selectedExercise">
+    <div class="srp-project-exercises-description">
+      <div class="srp-doc-view content">
+        <h3 class="has-text-primary-dark">{{ selectedExercise.name }}</h3>
+        <div [innerHtml]="selectedExercise.description | safeHtml"></div>
+      </div>
+
+      <div class="is-sticky top-0 has-background-white p-1">
+        <div class="is-flex is-justify-content-space">
+          <div
+            style="display: flex"
+            *ngIf="
+              !isSubmitted &&
+              selectedExercise.status !== exerciseStatus.Passed &&
+              selectedExercise.status !== exerciseStatus.WaitForTeacher
+            ">
+            <input type="file" name="file" id="file" class="inputfile" (change)="onChange($event)" accept=".rar,.zip" />
+            <label for="file"><strong>Выберите файл</strong></label>
+          </div>
+
+          <button
+            class="button is-primary"
+            [class.is-loading]="isSubmitted"
+            *ngIf="
+              selectedExercise.status !== exerciseStatus.Passed &&
+              selectedExercise.status !== exerciseStatus.WaitForTeacher
+            "
+            (click)="onSubmit(selectedExercise)">
+            <span class="icon is-small">
+              <i class="fas fa-paper-plane"></i>
+            </span>
+            <span>Отправить</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="srp-project-exercises-comment">
+      <div class="srp-doc-view content">
+        <h3 class="has-text-primary-dark">Комментарий</h3>
+        <ng-container *ngIf="selectedExercise.comment; else noData">
+          <div [innerHtml]="selectedExercise.comment | safeHtml"></div>
+        </ng-container>
+        <ng-template #noData>
+          <tr>
+            <td colspan="4" class="has-text-danger">
+              {{
+                selectedExercise.status === exerciseStatus.WaitForTeacher
+                  ? 'Проект загружен. Ожидайте ответа учителя'
+                  : 'Комментарий не найдены.'
+              }}
+            </td>
+          </tr>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,86 @@
+<section class="srp-tests">
+  <div class="srp-tests-header">
+    <section class="hero is-primary is-small">
+      <div class="hero-body">
+        <div class="has-text-centered">
+          <a (click)="navigateToTheme()" class="has-text-white is-size-3-desktop is-size-4-mobile is-italic">
+            {{ currentTopic?.name }}
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-foot">
+        <nav class="tabs is-boxed is-small">
+          <div class="container is-fluid">
+            <ul>
+              <li
+                class="tab"
+                [class.is-active]="test.isActive"
+                *ngFor="let test of tests; let i = index"
+                (click)="onSelectedTab(test)">
+                <a [title]="test.name" class="icon-text">
+                  <span>{{ i + 1 + '-й тест' }}</span>
+                  <span class="icon" [ngSwitch]="test.status" [ngClass]="getTabIconColor(test.status)">
+                    <i class="fas fa-circle-xmark" *ngSwitchCase="testStatus.Failed"></i>
+                    <i class="fas fa-circle-check" *ngSwitchCase="testStatus.Passed"></i>
+                    <i class="fas fa-circle" *ngSwitchCase="testStatus.NotSubmitted"></i>
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </section>
+  </div>
+  <div class="srp-tests-body" *ngIf="selectedTest">
+    <div class="srp-tests-description">
+      <div class="srp-doc-view content">
+        <h3 class="has-text-primary-dark">{{ selectedTest.name }}</h3>
+        <div [innerHtml]="selectedTest.description | safeHtml"></div>
+      </div>
+    </div>
+
+    <div class="srp-doc-view">
+      <ng-container *ngIf="selectedTest.variants; else noData">
+        <div *ngFor="let variant of selectedTest.variants; let i = index">
+          <input
+            class="mt-2"
+            type="radio"
+            id="{{ i }}"
+            name="optradio"
+            (change)="onSelectVariant(i)"
+            [checked]="selectedTest.correctVariant === variant.value" />
+          <label class="m-2" for="{{ i }}">{{ variant.value }}</label>
+          <span
+            *ngIf="selectedTest.correctVariant === variant.value"
+            class="icon"
+            [ngSwitch]="selectedTest.status"
+            [ngClass]="getTabIconColor(selectedTest.status)">
+            <i class="fas fa-circle-xmark" *ngSwitchCase="testStatus.Failed"></i>
+            <i class="fas fa-circle-check" *ngSwitchCase="testStatus.Passed"></i>
+            <i class="fas fa-circle" *ngSwitchCase="testStatus.NotSubmitted"></i>
+          </span>
+        </div>
+      </ng-container>
+      <ng-template #noData>
+        <tr>
+          <td colspan="4" class="has-text-danger">Данные не найдены.</td>
+        </tr>
+      </ng-template>
+
+      <div class="srp-tests-actions">
+        <button
+          class="button is-primary"
+          [class.is-loading]="isSubmitted"
+          *ngIf="selectedTest.status === testStatus.NotSubmitted"
+          (click)="onSubmit(selectedTest, selectedVariant)">
+          <span class="icon is-small">
+            <i class="fas fa-paper-plane"></i>
+          </span>
+          <span>Отправить</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

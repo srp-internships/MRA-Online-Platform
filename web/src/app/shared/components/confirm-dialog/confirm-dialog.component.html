@@ -1,0 +1,10 @@
+<div class="modal-card-head">
+  <p class="modal-card-title">Подтвердите удаление</p>
+</div>
+<section class="modal-card-body">
+  <span class="is-bold">Вы действительно хотите удалить '{{ config.data }}'? </span>
+</section>
+<footer class="is-flex is-justify-content-end p-2 has-background-white">
+  <button class="button is-danger" (click)="onClose(true)">Да</button>
+  <button class="button ml-3" (click)="onClose(false)">Нет</button>
+</footer>

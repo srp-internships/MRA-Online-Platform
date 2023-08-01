@@ -1,0 +1,76 @@
+/* You can add global styles to this file, and also import other style files */
+
+// Import a Google Font
+@import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
+@import './bulma-customs.scss';
+@import '~ngx-toastr/toastr';
+@import '~codemirror/lib/codemirror';
+
+:root {
+    --srp-primary: #129fd7;
+}
+
+
+.w-100 {
+    width: 100% !important;
+}
+
+.is-pointer-table>tbody>tr {
+    cursor: pointer;
+}
+
+html,
+body {
+    overflow: hidden;
+}
+
+.srp-teacher-filter-list {
+    display: flex;
+    width: 100%;
+}
+
+.static-page-images {
+
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background-color: #f7f7f7;
+
+}
+
+.g-1 {
+    gap: 1rem;
+}
+
+
+pre  {
+    background-color: #383838;
+    color: #d5d5d5;
+    border-radius: 10px;
+}
+
+.maximized {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10000;
+    width: 100%;
+    height: 100vh;
+    overflow: auto;
+    background-color: #fff;
+}
+
+.is-sticky {
+  position: sticky;
+}
+
+.top-0 {
+  top: 0;
+}
+
+.bottom-0 {
+  bottom: 0;
+}

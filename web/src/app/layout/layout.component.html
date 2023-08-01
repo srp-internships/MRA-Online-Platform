@@ -1,0 +1,45 @@
+<div class="srp-layout">
+  <srp-nav class="srp-navbar"></srp-nav>
+  <div class="srp-layout-content" [class.is-hidden-empty]="!layout.sideNavs.length">
+    <div class="srp-side-bar has-background-white-ter is-hidden-touch" *ngIf="layout.sideNavs.length">
+      <srp-side-nav (clickItem)="layout.scrollTop()"></srp-side-nav>
+    </div>
+    <section class="srp-layout-main" #main>
+      <ng-content></ng-content>
+    </section>
+  </div>
+</div>
+
+<div class="srp-sidebar-mobile" *ngIf="layout.toggleMenu | async" (click)="layout.onToggleMenu(false)">
+  <div class="card">
+    <header class="card-header">
+      <p class="card-header-title is-size-5">
+        <button class="card-header-icon" aria-label="more options">
+          <img src="assets\images\blue-icon.png" width="30" />
+        </button>
+        <a [routerLink]="'/' + layout.role">MRA Academy</a>
+      </p>
+    </header>
+    <srp-side-nav (clickItem)="layout.scrollTop()"></srp-side-nav>
+    <footer class="card-footer">
+      <a (click)="onProfileClick()" class="card-footer-item">
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fa fa-user" aria-hidden="true"></i>
+          </span>
+          <span>Профиль</span>
+        </span>
+      </a>
+      <a class="card-footer-item" [routerLink]="'/' + accountRoutingModule.getPath(links.SignIn)">
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-sign-out"></i>
+          </span>
+          <span>Выход</span>
+        </span>
+      </a>
+    </footer>
+  </div>
+
+  <div class="srp-sidebar-mobile-background"></div>
+</div>

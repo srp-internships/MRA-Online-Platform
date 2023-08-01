@@ -1,0 +1,29 @@
+<table class="table is-hoverable is-narrow is-fullwidth is-pointer-table">
+  <thead>
+    <tr>
+      <th width="50">#</th>
+      <th>Названия</th>
+      <th width="50"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngIf="sourse?.length; else noData">
+      <tr *ngFor="let projectExercise of sourse; let i = index" (dblclick)="onEdit(projectExercise)">
+        <td>{{ i + 1 }}</td>
+        <td>{{ projectExercise.name }}</td>
+        <td>
+          <button class="button is-outlined is-danger is-small" title="remove" (click)="onDelete(projectExercise)">
+            <span class="icon">
+              <i class="fas fa-remove"></i>
+            </span>
+          </button>
+        </td>
+      </tr>
+    </ng-container>
+    <ng-template #noData>
+      <tr>
+        <td colspan="4" class="has-text-danger">Данные не найдены.</td>
+      </tr>
+    </ng-template>
+  </tbody>
+</table>

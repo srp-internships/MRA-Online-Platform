@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project>
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA0aFpSbqpTkOr3Ssyp3xF3AAAAAACAAAAAAADZgAAwAAAABAAAABCd68ScgqKfpiLwl6vZhcHAAAAAASAAACgAAAAEAAAANO4fMvq9m0RaWF7rMQtcVWAAAAAv1PQvMfDjrwNs65RKt3Yk26VgOabT8tB9cCatE+JjZ4uttJt8NmbM7xUvLjAA3rhSyrMLUYv2iPUDS1TxSnv+vrLzjxMhcsa/n5T5Br1dHXkO3xwE8dPKphZwGCv0YZIJjHG20h0VtJEAzcFa29SP0Q+mAIRAYIlTR9ks9bbW3gUAAAA3Fdpf7/PFRCe0aiznTZy761o5Uc=</EncryptedPassword>
+    <History>True|2022-08-23T06:31:19.8849096Z;False|2022-08-23T11:25:02.3745067+05:00;False|2022-08-23T11:24:34.1201104+05:00;True|2022-08-23T09:41:23.8751200+05:00;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+  <ItemGroup>
+    <EFMigrations Include="Infrastructure.Persistence.ApplicationDbContext">
+      <Value>Data Source=tcp:onlineplatformdbdbserver.database.windows.net,1433%3bInitial Catalog=CompilerDB%3bUser Id=onlineplatformapiadministrator%40onlineplatformdbdbserver%3bPassword=onlineplatformapibd4e928c-29fe-4580-ad4a-3f84edf8aae2%24</Value>
+    </EFMigrations>
+  </ItemGroup>
+</Project>

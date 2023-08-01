@@ -1,0 +1,25 @@
+<header class="section is-flex is-justify-content-space-between">
+  <h1 class="title">{{ title }}</h1>
+  <button class="button is-rounded is-primary" (click)="onAdd()">
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fas fa-add"></i>
+      </span>
+      <span>Добавить</span>
+    </span>
+  </button>
+</header>
+<srp-loader [templateRef]="tabs"></srp-loader>
+<ng-template #tabs>
+  <srp-tabs [classes]="['is-boxed']">
+    <srp-tab title="Задачи" (selected)="onSelectedTab(newExercise)">
+      <srp-exercises [exercises]="excercises"></srp-exercises>
+    </srp-tab>
+    <srp-tab title="Тесты" (selected)="onSelectedTab(newTest)">
+      <srp-tests [sourse]="tests"></srp-tests>
+    </srp-tab>
+    <srp-tab title="Проекты" (selected)="onSelectedTab(newProjectExercise)">
+      <srp-project-exercises [sourse]="projectExercises"></srp-project-exercises>
+    </srp-tab>
+  </srp-tabs>
+</ng-template>

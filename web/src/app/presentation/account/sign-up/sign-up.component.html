@@ -1,0 +1,246 @@
+<div class="srp-auth-sign-up">
+  <div class="box">
+    <h1 class="title has-text-primary">Зарегистрироваться</h1>
+
+    <ul class="steps is-dashed is-horizontal">
+      <li
+        class="steps-segment"
+        [class.is-active]="selectedStep.step === item.step"
+        *ngFor="let item of registrationSteps">
+        <span class="steps-marker">{{ item.step }}</span>
+      </li>
+    </ul>
+
+    <ng-container [ngSwitch]="selectedStep.step">
+      <form *ngSwitchCase="steps.UserData" [formGroup]="selectedStep.formGroup">
+        <div class="columns">
+          <div class="column">
+            <div class="field">
+              <label class="label">Имя <span class="has-text-warning">*</span></label>
+              <div class="control">
+                <input
+                  class="input"
+                  type="text"
+                  [ngClass]="{
+                    'is-danger': selectedStep.submitted && getControl(selectedStep.step, 'firstName').errors
+                  }"
+                  placeholder="Daler"
+                  formControlName="firstName" />
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="field">
+              <div class="control">
+                <label class="label">Фамилия <span class="has-text-warning">*</span></label>
+                <input
+                  class="input"
+                  type="text"
+                  placeholder="Majidov"
+                  [ngClass]="{
+                    'is-danger': selectedStep.submitted && getControl(selectedStep.step, 'lastName').errors
+                  }"
+                  formControlName="lastName" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="columns">
+          <div class="column">
+            <div class="field">
+              <label class="label">Чем вы занимаетесь? <span class="has-text-warning">*</span></label>
+              <div class="control">
+                <input
+                  class="input"
+                  type="text"
+                  [ngClass]="{
+                    'is-danger': selectedStep.submitted && getControl(selectedStep.step, 'occupation').errors
+                  }"
+                  placeholder="Студент, Школьник ..."
+                  formControlName="occupation" />
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="field">
+              <label class="label">Номер телефона <span class="has-text-warning">*</span></label>
+              <div class="control">
+                <input
+                  class="input"
+                  type="text"
+                  [ngClass]="{
+                    'is-danger': selectedStep.submitted && getControl(selectedStep.step, 'phoneNumber').errors
+                  }"
+                  placeholder="92XXXXXXX"
+                  formControlName="phoneNumber" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Дата рождения <span class="has-text-warning">*</span></label>
+          <div class="control">
+            <input
+              class="input"
+              type="date"
+              [ngClass]="{ 'is-danger': selectedStep.submitted && getControl(selectedStep.step, 'dateOfBirth').errors }"
+              formControlName="dateOfBirth" />
+          </div>
+        </div>
+      </form>
+      <form *ngSwitchCase="steps.ContactData" [formGroup]="selectedStep.formGroup">
+        <div class="columns">
+          <div class="column">
+            <div class="field">
+              <label class="label">Страна <span class="has-text-warning">*</span></label>
+              <div class="control">
+                <input
+                  class="input"
+                  type="text"
+                  [ngClass]="{ 'is-danger': selectedStep.submitted && getControl(selectedStep.step, 'country').errors }"
+                  formControlName="country"
+                  readonly />
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="field">
+              <label class="label">Область, край <span class="has-text-warning">*</span></label>
+              <div class="control">
+                <input
+                  class="input"
+                  type="text"
+                  [ngClass]="{ 'is-danger': selectedStep.submitted && getControl(selectedStep.step, 'region').errors }"
+                  formControlName="region" />
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="field">
+              <label class="label">Город <span class="has-text-warning">*</span></label>
+              <div class="control">
+                <input
+                  class="input"
+                  type="text"
+                  [ngClass]="{ 'is-danger': selectedStep.submitted && getControl(selectedStep.step, 'city').errors }"
+                  formControlName="city" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Адрес <span class="has-text-warning">*</span></label>
+          <div class="control">
+            <input
+              class="input"
+              type="text"
+              [ngClass]="{ 'is-danger': selectedStep.submitted && getControl(selectedStep.step, 'address').errors }"
+              formControlName="address" />
+          </div>
+        </div>
+      </form>
+      <form *ngSwitchCase="steps.CredentialData" [formGroup]="selectedStep.formGroup">
+        <div class="field">
+          <label class="label">Email <span class="has-text-warning">*</span></label>
+          <div class="control">
+            <input
+              class="input"
+              type="email"
+              formControlName="email"
+              [ngClass]="{ 'is-danger': selectedStep.submitted && getControl(selectedStep.step, 'email').errors }" />
+            <div
+              *ngIf="
+                getControl(selectedStep.step, 'email').errors?.['email'] && selectedStep.submitted && (getControl(selectedStep.step, 'email').touched || getControl(selectedStep.step, 'email').dirty)
+              "
+              class="help is-danger">
+              Введите действительный адрес электронной почты.
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Курс <span class="has-text-warning">*</span></label>
+          <div class="control">
+            <div
+              class="select w-100"
+              [ngClass]="{ 'is-danger': selectedStep.submitted && getControl(selectedStep.step, 'courseId').errors }">
+              <select class="w-100" formControlName="courseId">
+                <option *ngFor="let item of courses$ | async" [value]="item.id">{{ item.name }}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="columns">
+          <div class="column">
+            <div class="field">
+              <label class="label">Пароль <span class="has-text-warning">*</span></label>
+              <div class="control">
+                <input
+                  class="input"
+                  type="password"
+                  [ngClass]="{
+                    'is-danger': selectedStep.submitted && getControl(selectedStep.step, 'password').errors
+                  }"
+                  placeholder="********"
+                  formControlName="password" />
+                <div
+                  *ngIf="
+                    getControl(selectedStep.step, 'password').errors?.['invalidPassword'] &&
+                    selectedStep.submitted &&
+                    (getControl(selectedStep.step, 'password').touched || getControl(selectedStep.step, 'password').dirty)
+                  "
+                  class="help is-danger">
+                  Пароль должен состоять минимум из 8 символов, <br />
+                  минимум 1 заглавная буква, 1 строчная буква и 1 цифра
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="field">
+              <div class="control">
+                <label class="label">Подтверждения пароля</label>
+                <input class="input" type="password" placeholder="********" formControlName="confirmPassword" />
+                <div
+                  *ngIf="passwordMatchError && (confirmPassword.touched || selectedStep.submitted)"
+                  class="help is-danger">
+                  Не совпадает с текущим паролем
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <re-captcha class="mt-4" formControlName="recaptchaToken"></re-captcha>
+      </form>
+    </ng-container>
+    <div class="buttons mt-4 is-justify-content-space-between">
+      <button class="button is-outlined is-small" *ngIf="selectedStep.step !== steps.UserData" (click)="onBack()">
+        <span class="icon">
+          <i class="fas fa-arrow-left"></i>
+        </span>
+        <span> Назад</span>
+      </button>
+      <a class="button is-outlined is-small" *ngIf="selectedStep.step === steps.UserData" routerLink="/">
+        <span class="icon">
+          <i class="fas fa-sign-in"></i>
+        </span>
+        <span> Вернуть</span>
+      </a>
+      <button
+        class="button is-primary is-outlined is-small"
+        *ngIf="selectedStep.step !== steps.CredentialData"
+        (click)="onNext()">
+        <span> Следующий</span>
+        <span class="icon">
+          <i class="fas fa-arrow-right"></i>
+        </span>
+      </button>
+      <button
+        type="submit"
+        class="button is-primary"
+        *ngIf="selectedStep.step === steps.CredentialData"
+        (click)="onSubmit()">
+        Регистрация
+      </button>
+    </div>
+  </div>
+</div>

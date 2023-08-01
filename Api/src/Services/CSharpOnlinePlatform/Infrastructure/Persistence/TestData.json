@@ -1,0 +1,291 @@
+﻿{
+  "Roles": [
+    {
+      "Id": "fab4fac1-c546-41de-aebc-a14da6895711",
+      "Name": "admin",
+      "ConcurrencyStamp": "1",
+      "NormalizedName": "ADMIN"
+    },
+    {
+      "Id": "fcc4fac1-c546-41de-aebc-a14da6895711",
+      "Name": "teacher",
+      "ConcurrencyStamp": "2",
+      "NormalizedName": "TEACHER"
+    },
+    {
+      "Id": "fab4fac1-c546-34de-aebc-a14da6895711",
+      "Name": "student",
+      "ConcurrencyStamp": "3",
+      "NormalizedName": "STUDENT"
+    }
+  ],
+  "Admins": [
+    {
+      "Id": "b74ddd14-6340-4840-95c2-db12554843e5",
+      "Email": "admin@mail.ru",
+      "FirstName": "Admin",
+      "LastName": "Adminov",
+      "Birthdate": "1998-11-09T00:00:00"
+    }
+  ],
+  "Teachers": [
+    {
+      "Id": "78df321c-98c6-47ed-9269-20d42d1b3ca9",
+      "Email": "tursunhuja@mail.ru",
+      "FirstName": "Tursunhuja",
+      "LastName": "Norkhujaev",
+      "Birthdate": "1996-11-09T00:00:00"
+    }
+  ],
+  "Students": [
+    {
+      "Id": "b0aa9859-7fc2-4301-ba78-87457304a84d",
+      "Email": "dilshod@mail.ru",
+      "FirstName": "Dilshod",
+      "LastName": "Komilov",
+      "Birthdate": "1996-11-09T00:00:00",
+      "Occupation": "Student"
+    },
+    {
+      "Id": "4bbfa0df-587c-43ac-96b2-ebc359eee499",
+      "Email": "abbosidiqov0807@gmail.com",
+      "FirstName": "Abbos",
+      "LastName": "Siddiqov",
+      "Birthdate": "1996-11-09T00:00:00",
+      "Occupation": "Student"
+    },
+    {
+      "Id": "e9052c73-97b3-436b-a863-cd0e2f14a955",
+      "Email": "orasta@mail.ru",
+      "FirstName": "Orasta",
+      "LastName": "Mirdadoeva",
+      "Birthdate": "1996-11-09T00:00:00",
+      "Occupation": "Student"
+    },
+    {
+      "Id": "794ea1a5-23f5-49e5-8a3b-8faebb2b8d24",
+      "Email": "aziz@mail.ru",
+      "FirstName": "Aziz",
+      "LastName": "Gulakov",
+      "Birthdate": "1996-11-09T00:00:00",
+      "Occupation": "Student"
+    }
+  ],
+  "Contacts": [
+
+    {
+      "Id": "D9DE6501-FFD5-4C87-B5BA-D43AD9EDBA20",
+      "PhoneNumber": "987871436",
+      "Region": "Sogd",
+      "Country": "Tajikistan",
+      "Address": "32",
+      "City": "Khujand",
+      "UserId": "b74ddd14-6340-4840-95c2-db12554843e5"
+    },
+    {
+      "Id": "D076F015-8FF5-41EE-A16D-1C8003D86B46",
+      "PhoneNumber": "987871096",
+      "Region": "Sogd",
+      "Country": "Tajikistan",
+      "Address": "32",
+      "City": "Khujand",
+      "UserId": "78df321c-98c6-47ed-9269-20d42d1b3ca9"
+    },
+    {
+      "Id": "67E5394B-DDA9-406D-8452-8E15881C629E",
+      "PhoneNumber": "987871096",
+      "Region": "Sogd",
+      "Country": "Tajikistan",
+      "Address": "32",
+      "City": "Khujand",
+      "UserId": "b0aa9859-7fc2-4301-ba78-87457304a84d"
+    },
+    {
+      "Id": "9C8C3ED9-5357-4B77-A3B3-C66CB43513DE",
+      "PhoneNumber": "+99212345678",
+      "Region": "Sogd",
+      "Country": "Tajikistan",
+      "Address": "32",
+      "City": "Khujand",
+      "UserId": "4bbfa0df-587c-43ac-96b2-ebc359eee499"
+    },
+    {
+      "Id": "20938B30-5C46-4621-B533-B5D6DEF89103",
+      "PhoneNumber": "987871096",
+      "Region": "Sogd",
+      "Country": "Tajikistan",
+      "Address": "32",
+      "City": "Khujand",
+      "UserId": "e9052c73-97b3-436b-a863-cd0e2f14a955"
+    },
+    {
+      "Id": "CDA07640-4EFA-497B-8012-12D88D2958C0",
+      "PhoneNumber": "+99255555555",
+      "Region": "Sogd",
+      "Country": "Tajikistan",
+      "Address": "32",
+      "City": "Khujand",
+      "UserId": "794ea1a5-23f5-49e5-8a3b-8faebb2b8d24"
+    }
+  ],
+  "UserRoles": [
+    {
+      "Id": "b74ddd14-6340-4843-95c2-db12554843e5",
+      "RoleId": "fab4fac1-c546-41de-aebc-a14da6895711",
+      "UserId": "b74ddd14-6340-4840-95c2-db12554843e5"
+    },
+    {
+      "Id": "c34ddd14-6340-4843-95c2-db12554843e5",
+      "RoleId": "fcc4fac1-c546-41de-aebc-a14da6895711",
+      "UserId": "78df321c-98c6-47ed-9269-20d42d1b3ca9"
+    },
+    {
+      "Id": "b74ddd14-6340-4843-95c2-db12554843e6",
+      "RoleId": "fab4fac1-c546-34de-aebc-a14da6895711",
+      "UserId": "b0aa9859-7fc2-4301-ba78-87457304a84d"
+    },
+    {
+      "Id": "b74ddd14-6340-4843-95c2-db12554843e7",
+      "RoleId": "fab4fac1-c546-34de-aebc-a14da6895711",
+      "UserId": "4bbfa0df-587c-43ac-96b2-ebc359eee499"
+    },
+    {
+      "Id": "b74ddd14-6340-4843-95c2-db12554843e8",
+      "RoleId": "fab4fac1-c546-34de-aebc-a14da6895711",
+      "UserId": "e9052c73-97b3-436b-a863-cd0e2f14a955"
+    },
+    {
+      "Id": "b74ddd14-6340-4843-95c2-db12554843e9",
+      "RoleId": "fab4fac1-c546-34de-aebc-a14da6895711",
+      "UserId": "794ea1a5-23f5-49e5-8a3b-8faebb2b8d24"
+    }
+  ],
+  "Courses": [
+    {
+      "Id": "06DFE727-D631-40A3-A4BA-059EB192D8BA",
+      "Name": "C# for beginners",
+      "LearningLanguage": "English",
+      "TeacherId": "78df321c-98c6-47ed-9269-20d42d1b3ca9"
+    }
+  ],
+  "Themes": [
+    {
+      "Id": "35CB4789-F19A-41BD-A02E-F6A3DD202198",
+      "Name": "Массивы",
+      "Content": "Массив представляет набор однотипных данных. Объявление массива похоже на объявление переменной за тем исключением, что после указания типа ставятся квадратные скобки. Индексы и получение элементов массива\r\nДля обращения к элементам массива используются индексы. Индекс представляет номер элемента в массиве, при этом нумерация начинается с нуля, поэтому индекс первого элемента будет равен 0, индекс четвертого элемента - 3. \r\nИспользуя индексы, мы можем получить элементы массива. Получение элементов с конца массива\r\nБлагодаря наличию свойства Length, мы можем вычислить индекс последнего элемента массива - это длина массива - 1. Например, если длина массива - 4 (то есть массив имеет 4 элемента), то индекс последнего элемента будет равен 3. И, используя свойство Length, мы можем легко получить элементы с конца массива",
+      "StartDate": "2022-06-07T00:00:00+05:00",
+      "EndDate": "2022-06-10T00:00:00+05:00",
+      "CourseId": "06DFE727-D631-40A3-A4BA-059EB192D8BA"
+    },
+    {
+      "Id": "806E0AA9-EA5C-44AF-9750-B1A911764D2C",
+      "Name": "Методы",
+      "Content": "Если переменные хранят некоторые значения, то методы содержат собой набор инструкций, которые выполняют определенные действия. По сути метод - это именованный блок кода, который выполняет некоторые действия.Модификаторы и параметры необязательны.\r\nРанее мы уже использовали как минимум один метод - Console.WriteLine(), который выводит информацию на консоль. Теперь рассмотрим, как мы можем создавать свои методы.Преимуществом методов является то, что их можно повторно и многократно вызывать в различных частях программы.",
+      "StartDate": "2022-06-10T00:00:00+05:00",
+      "EndDate": "2022-06-13T00:00:00+05:00",
+      "CourseId": "06DFE727-D631-40A3-A4BA-059EB192D8BA"
+    },
+    {
+      "Id": "368AB6C4-A638-46DB-ACD4-517929F78ED1",
+      "Name": "Арифметические операции языка",
+      "Content": "В C# используется большинство операций, которые применяются и в других языках программирования. Операции представляют определенные действия над операндами - участниками операции. В качестве операнда может выступать переменной или какое-либо значение (например, число). Операции бывают унарными (выполняются над одним операндом), бинарными - над двумя операндами и тернарными - выполняются над тремя операндами. Рассмотрим все виды операций.Стоит нам трактовать это выражение как (10 / 5) * 2 или как 10 / (5 * 2)? Ведь в зависимости от трактовки мы получим разные результаты.\r\nКогда операции имеют один и тот же приоритет, порядок вычисления определяется ассоциативностью операторов. В зависимости от ассоциативности есть два типа операторов:\r\nЛевоассоциативные операторы, которые выполняются слева направо\r\nПравоассоциативные операторы, которые выполняются справа налево\r\nВсе арифметические операторы являются левоассоциативными, то есть выполняются слева направо. Поэтому выражение 10 / 5 * 2 необходимо трактовать как (10 / 5) * 2, то есть результатом будет 4.",
+      "StartDate": "2022-06-13T00:00:00+05:00",
+      "EndDate": "2022-06-16T00:00:00+05:00",
+      "CourseId": "06DFE727-D631-40A3-A4BA-059EB192D8BA"
+    },
+    {
+      "Id": "F2245388-55D7-4C88-BE39-AD90E30767F4",
+      "Name": "Классы и объекты",
+      "Content": "C# является полноценным объектно-ориентированным языком. Это значит, что программу на C# можно представить в виде взаимосвязанных взаимодействующих между собой объектов.\r\n\r\nОписанием объекта является класс, а объект представляет экземпляр этого класса. Можно еще провести следующую аналогию. У нас у всех есть некоторое представление о человеке, у которого есть имя, возраст, какие-то другие характеристики. То есть некоторый шаблон - этот шаблон можно назвать классом. Конкретное воплощение этого шаблона может отличаться, например, одни люди имеют одно имя, другие - другое имя. И реально существующий человек (фактически экземпляр данного класса) будет представлять объект этого класса.\r\n\r\nВ принципе ранее уже использовались классы. Например, тип string, который представляет строку, фактически является классом. Или, например, класс Console, у которого метод WriteLine() выводит на консоль некоторую информацию. Теперь же посмотрим, как мы можем определять свои собственные классы.\r\n\r\nПо сути класс представляет новый тип, который определяется пользователем. Класс определяется с помощью ключевого слова сlass",
+      "StartDate": "2022-06-16T00:00:00+05:00",
+      "EndDate": "2022-06-19T00:00:00+05:00",
+      "CourseId": "06DFE727-D631-40A3-A4BA-059EB192D8BA"
+    }
+  ],
+  "Exercises": [
+    {
+      "Id": "A686816F-A7F5-445F-BAF2-538D034812D6",
+      "Name": "Создайте массив",
+      "Rating": 5,
+      "Template": "public class Exercises\r\n{\r\n    public int[] GetArray()\r\n    {\r\n        return TODO: /*Создайте массив здесь*/;\r\n    }\r\n}",
+      "Test": "using NUnit.Framework;\r\npublic class ExercisesTest\r\n{\r\n    [Test]\r\n    public void GetArrayTest()\r\n    {\r\n        var exercises = new Exercises();\r\n        var expectedArray = new int[] { 10, 20, 3, 4, 5 };\r\n        var array = exercises.GetArray();\r\n\r\n        Assert.AreEqual(array.Length, expectedArray.Length, \"Количество элементов не верны\");\r\n        for (int i = 0; i < expectedArray.Length; i++)\r\n            {\r\n                Assert.AreEqual(expectedArray[i], array[i], \"Вы не правильно задали элементы массива\");\r\n            }\r\n        }\r\n    }",
+      "Description": "Создайте массив типа int с следующими элементами 10, 20, 3, 4, 5",
+      "ThemeId": "35CB4789-F19A-41BD-A02E-F6A3DD202198"
+    },
+    {
+      "Id": "BB1B271E-5E68-466C-BDF0-C428F0BDEB41",
+      "Name": "Создайте функцию Summ",
+      "Template": "public class Exercises\r\n{\r\n    //TODO: Создайте функцию здесь\r\n}",
+      "Rating": 10,
+      "Test": "using NUnit.Framework;\r\npublic class ExercisesTest\r\n{\r\n    [Test]\r\n    public void SumTest()\r\n    {\r\n        Exercises exercises = new Exercises();\r\n        var random = new Random();\r\n        int a = random.Next();\r\n        int b = random.Next();\r\n        var summ = exercises.Summ(a, b);\r\n        Assert.AreEqual(summ, a + b, \"Функция вернуло не верное значение\");\r\n    }\r\n}",
+      "Description": "Создайте функцию с именим Summ который суммирует две числа и возврашает сумму.",
+      "ThemeId": "806E0AA9-EA5C-44AF-9750-B1A911764D2C"
+    },
+    {
+      "Id": "D3333088-476A-4B7D-837F-057450E1012F",
+      "Name": "Вычеслите дискриминант",
+      "Rating": 7,
+      "Template": "public class Exercises\r\n{\r\n    public int CalculateDiscriminant(int a, int b, int c)\r\n    {\r\n        //TODO: Вычеслите дискриминант здесь\r\n    }\r\n}",
+      "Test": "using NUnit.Framework;\r\npublic class ExercisesTest\r\n{\r\n    [Test]\r\n    public void SumTest()\r\n    {\r\n        Exercises exercises = new Exercises();\r\n        var discriminant = exercises.CalculateDiscriminant(1, -4, -5);\r\n        Assert.AreEqual(discriminant, 36, \"Функция вернуло не верное значение\");\r\n    }\r\n}",
+      "Description": "Вычеслите дискриминант используя параметры",
+      "ThemeId": "368AB6C4-A638-46DB-ACD4-517929F78ED1"
+    },
+    {
+      "Id": "A326BF95-9BBF-46D5-B780-DFC657A82FAD",
+      "Name": "Создайте класс",
+      "Template": "//TODO: Создайте класс здесь",
+      "Rating": 2,
+      "Test": "using NUnit.Framework;\r\npublic class ExercisesTest\r\n{\r\n    [Test]\r\n    public void ClassTest()\r\n    {\r\n        var person = new Person();\r\n        person.FirstName = \"James\";\r\n        person.LastName = \"Milner\";\r\n        }\r\n    }",
+      "Description": "Создайте класс Person с публичними свойствами string FirstName и string LastName.",
+      "ThemeId": "F2245388-55D7-4C88-BE39-AD90E30767F4"
+    }
+  ],
+  "StudentCourses": [
+    {
+      "Id": "F0990089-CEA8-40C4-A5DA-174251BC6E1B",
+      "StudentId": "b0aa9859-7fc2-4301-ba78-87457304a84d",
+      "CourseId": "06DFE727-D631-40A3-A4BA-059EB192D8BA"
+    },
+    {
+      "Id": "9AECCE94-16BA-41CF-A1EE-295A1A892B2B",
+      "StudentId": "4bbfa0df-587c-43ac-96b2-ebc359eee499",
+      "CourseId": "06DFE727-D631-40A3-A4BA-059EB192D8BA"
+    },
+    {
+      "Id": "7DB0215F-A8F4-4F52-93B4-D6AE3AF59E9D",
+      "StudentId": "e9052c73-97b3-436b-a863-cd0e2f14a955",
+      "CourseId": "06DFE727-D631-40A3-A4BA-059EB192D8BA"
+    },
+    {
+      "Id": "5F827027-6BFB-4E0C-8CDA-C948F0D1459F",
+      "StudentId": "794ea1a5-23f5-49e5-8a3b-8faebb2b8d24",
+      "CourseId": "06DFE727-D631-40A3-A4BA-059EB192D8BA"
+    }
+  ],
+  "StudentCourseExercises": [
+    {
+      "Id": "FB366C19-989D-4511-8B57-BCCE7D571794",
+      "StudentCourseId": "F0990089-CEA8-40C4-A5DA-174251BC6E1B",
+      "ExerciseId": "A686816F-A7F5-445F-BAF2-538D034812D6",
+      "Status": 1,
+      "Date": "2022-06-12T00:00:00+05:00",
+      "Code": "public class Exercises\r\n{\r\n    public int[] GetArray()\r\n    {\r\n        return new int[4] { 1, 2, 3, 5 };\r\n    }\r\n}"
+    },
+    {
+      "Id": "ED1F5A52-0070-49AF-A853-69E87FC2C196",
+      "StudentCourseId": "9AECCE94-16BA-41CF-A1EE-295A1A892B2B",
+      "ExerciseId": "A686816F-A7F5-445F-BAF2-538D034812D6",
+      "Status": 1,
+      "Date": "2022-05-13T00:00:00+05:00",
+      "Code": "public class Exercises\r\n{\r\n    public int[] GetArray()\r\n    {\r\n        return new int[3] { 1, 2, 3};\r\n    }\r\n}"
+    },
+    {
+      "Id": "2A5947E7-B9D7-44C4-82C7-3DC920D79324",
+      "StudentCourseId": "9AECCE94-16BA-41CF-A1EE-295A1A892B2B",
+      "ExerciseId": "BB1B271E-5E68-466C-BDF0-C428F0BDEB41",
+      "Status": 2,
+      "Date": "2022-06-11T00:00:00+05:00",
+      "Code": "Test"
+    }
+  ]
+}

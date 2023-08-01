@@ -1,0 +1,24 @@
+<aside class="menu">
+  <div *ngFor="let s of layout.sideNavs">
+    <p *ngIf="s.title" class="menu-label has-text-weight-bold has-text-centered is-italic">{{ s.title }}</p>
+    <ul class="menu-list">
+      <li *ngFor="let item of s.items">
+        <a
+          [class.link-disabled]="item.disabled"
+          [title]="item.text"
+          [routerLink]="item.link"
+          [queryParams]="item.params"
+          routerLinkActive="is-active"
+          (click)="clickItem.emit(item)">
+          <span class="icon-text">
+            <span class="icon" *ngIf="item.icon">
+              <i [class]="item.icon"></i>
+            </span>
+            <span class="text-ellipsis">{{ item.text }}</span>
+          </span>
+          <span class="help is-danger" *ngIf="item.disabled">{{ item.disabledText }}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</aside>

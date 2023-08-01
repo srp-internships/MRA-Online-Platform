@@ -1,0 +1,49 @@
+{
+  "Roles": [
+    {
+      "Id": "fab4fac1-c546-41de-aebc-a14da6895711",
+      "Name": "admin",
+      "ConcurrencyStamp": "1",
+      "NormalizedName": "ADMIN"
+    },
+    {
+      "Id": "fcc4fac1-c546-41de-aebc-a14da6895711",
+      "Name": "teacher",
+      "ConcurrencyStamp": "2",
+      "NormalizedName": "TEACHER"
+    },
+    {
+      "Id": "fab4fac1-c546-34de-aebc-a14da6895711",
+      "Name": "student",
+      "ConcurrencyStamp": "3",
+      "NormalizedName": "STUDENT"
+    }
+  ],
+  "Admins": [
+    {
+      "Id": "b74ddd14-6340-4840-95c2-db12554843e5",
+      "Email": "admin@mail.ru",
+      "FirstName": "Admin",
+      "LastName": "Adminov",
+      "Birthdate": "1991-11-09T00:00:00"
+    }
+  ],
+  "Contacts": [
+    {
+      "Id": "D9DE6501-FFD5-4C87-B5BA-D43AD9EDBA20",
+      "PhoneNumber": "98000000",
+      "Region": "Sogd",
+      "Country": "Tajikistan",
+      "Address": "100",
+      "City": "Khujand",
+      "UserId": "b74ddd14-6340-4840-95c2-db12554843e5"
+    }
+  ],
+  "UserRoles": [
+    {
+      "Id": "b74ddd14-6340-4843-95c2-db12554843e5",
+      "RoleId": "fab4fac1-c546-41de-aebc-a14da6895711",
+      "UserId": "b74ddd14-6340-4840-95c2-db12554843e5"
+    }
+  ]
+}

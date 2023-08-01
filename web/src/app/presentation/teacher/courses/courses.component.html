@@ -1,0 +1,54 @@
+<div class="hero is-small">
+  <div class="hero-body">
+    <div class="is-flex is-justify-content-space-between">
+      <h1 class="title">Курсы</h1>
+      <button class="button is-rounded is-primary" (click)="onAdd()">
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-add"></i>
+          </span>
+          <span>Добавить</span>
+        </span>
+      </button>
+    </div>
+    <div class="is-flex is-justify-content-end">
+      <srp-dynamic-filter [sourse]="items" (filterChange)="filteredCourses = $event"></srp-dynamic-filter>
+    </div>
+  </div>
+  <div class="hero-foot">
+    <srp-loader [templateRef]="table"></srp-loader>
+    <ng-template #table>
+      <table class="table is-hoverable is-narrow is-fullwidth is-pointer-table">
+        <thead>
+          <tr>
+            <th width="50">#</th>
+            <th>Названия</th>
+            <th>Язык курса</th>
+            <th width="50"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngIf="filteredCourses?.length; else noData">
+            <tr *ngFor="let course of filteredCourses; let i = index" (dblclick)="onEdit(course)">
+              <td>{{ i + 1 }}</td>
+              <td>{{ course.name }}</td>
+              <td>{{ course.courseLanguage }}</td>
+              <td>
+                <button class="button is-outlined is-danger is-small" title="remove" (click)="onDelete(course)">
+                  <span class="icon">
+                    <i class="fas fa-remove"></i>
+                  </span>
+                </button>
+              </td>
+            </tr>
+          </ng-container>
+          <ng-template #noData>
+            <tr>
+              <td colspan="4" class="has-text-danger">Данные не найдены.</td>
+            </tr>
+          </ng-template>
+        </tbody>
+      </table>
+    </ng-template>
+  </div>
+</div>

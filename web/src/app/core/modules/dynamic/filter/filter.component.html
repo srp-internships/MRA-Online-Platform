@@ -1,0 +1,17 @@
+<div class="field has-addons">
+  <div class="control has-icons-left" [class.is-expanded]="hasFilterItems()">
+    <input
+      data-srp-filter
+      class="input is-rounded"
+      [(ngModel)]="name"
+      (ngModelChange)="onListFilter()"
+      type="text"
+      placeholder="Поиск по имени" />
+    <span class="icon is-small is-left">
+      <i class="fas fa-search"></i>
+    </span>
+  </div>
+  <div class="control" *ngFor="let item of items" [class.has-icons-left]="item.hasIcon">
+    <ng-container [ngTemplateOutlet]="item.filterItemContent.templateRef"></ng-container>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+<div class="container section">
+  <a srpBackButton>Назад</a>
+  <br />
+  <ng-container *ngIf="doc; else notFound">
+    <h1 class="title">{{ doc.title }}</h1>
+    <hr />
+    <div class="content" [innerHtml]="doc.content | safeHtml"></div>
+    <nav class="pagination" role="navigation" aria-label="pagination">
+      <ul class="pagination-list" *ngIf="_pagingService.pagings.length > 1">
+        <li *ngFor="let item of _pagingService.pagings">
+          <a class="pagination-link" [class.is-current]="item.active" (click)="onPaginationClick(item.key)">
+            {{ item.key }}</a
+          >
+        </li>
+      </ul>
+    </nav>
+  </ng-container>
+  <ng-template #notFound>
+    <h1 class="title has-text-danger">Документ не найден :(</h1>
+  </ng-template>
+</div>

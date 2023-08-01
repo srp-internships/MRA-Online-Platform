@@ -1,0 +1,18 @@
+<div class="modal-card-head">
+  <p class="modal-card-title">{{ dialogData.title }}</p>
+</div>
+<form [formGroup]="form" (ngSubmit)="onSubmit($event)">
+  <section class="modal-card-body">
+    <ng-container *ngFor="let element of elements">
+      <div class="field" [class.srp-horizontal-form]="element.elementType === 'panel'">
+        <ng-container *ngFor="let control of element.controls()">
+          <srp-dynamic-dialog-form [control]="control" [form]="form"> </srp-dynamic-dialog-form>
+        </ng-container>
+      </div>
+    </ng-container>
+  </section>
+  <footer class="modal-card-foot is-flex is-justify-content-end">
+    <button data-dialog-submit type="submit" class="button is-primary">{{ dialogData.primaryButtonText }}</button>
+    <button class="button" (click)="onClose($event)">Отменить</button>
+  </footer>
+</form>

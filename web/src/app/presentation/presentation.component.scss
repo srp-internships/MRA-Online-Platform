@@ -1,0 +1,74 @@
+.srp-dashboard-section {
+    display: grid;
+    grid-template-columns: 15rem auto;
+    height: 100vh;
+    gap: 1rem;
+
+    .srp-dashboard-main {
+        margin-top: 50px;
+       overflow: auto;
+    }
+}
+
+$side-bar-with: 15rem;
+.srp-side-bar {
+    padding-top: 4rem;
+    width: $side-bar-with;
+}
+
+.text-ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.menu-list .icon-text {
+    width: calc($side-bar-with - 1rem);
+}
+
+@media only screen and (max-width: 1023px) {
+    .srp-dashboard-section {
+        grid-template-columns: auto;
+    }
+  }
+
+  .navbar-shadow {
+    box-shadow: 0 1px 10px 0px rgb(0 0 0 / 40%);
+}
+
+.srp-sidebar-mobile {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 1000;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 16rem auto;
+
+    article {
+        display: grid;
+        grid-template-rows: 80px auto 50px;
+    }
+
+    .srp-sidebar-mobile-background {
+        background-color: rgba(78, 78, 78, 0.645);
+    }
+}
+
+
+
+.panel-heading{
+    background-color: white;
+    height: auto;
+}
+
+.navbar-item span{
+    font-size: 18px;
+}
+
+.panel-heading > a:hover{
+   background-color: white;
+}
+
+

@@ -1,0 +1,62 @@
+.srp-layout {
+  display: grid;
+  grid-template-rows: 50px auto;
+  height: 100vh;
+
+  .srp-layout-content {
+    grid-row: 2;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 15rem auto;
+    .srp-side-bar {
+        padding-top: 10px;
+        overflow: auto;
+        box-shadow: 4px 0px 20px -10px rgba(0, 0, 0, 0.6);
+      }
+    
+      .srp-layout-main {
+        overflow: auto;
+      }
+  }
+}
+
+@media only screen and (max-width: 1023px) {
+  .srp-layout-content {
+    grid-template-columns: auto !important;
+  }
+}
+
+.srp-sidebar-mobile {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  z-index: 1000;
+  width: 100%;
+  overflow: auto;
+  display: grid;
+  grid-template-columns: 16rem auto;
+
+  .card {
+    display: grid;
+    grid-template-rows: 70px auto 50px;
+    grid-gap: 1rem;
+
+    .card-content {
+      overflow: auto;
+    }
+  }
+
+  .srp-sidebar-mobile-background {
+    background-color: rgba(70, 70, 70, 0.7);
+  }
+}
+
+.is-hidden-empty {
+  grid-template-columns: auto !important;
+}
+
+.icon-profile{
+  color: rgb(215, 215, 86);
+  font-size: medium;
+}

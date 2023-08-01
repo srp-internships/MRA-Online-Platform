@@ -1,0 +1,80 @@
+<div class="container">
+  <div class="srp-guide-content">
+    <srp-loader [templateRef]="contentRef"></srp-loader>
+    <ng-template #contentRef>
+      <div class="topic-content" *ngIf="topic">
+        <div class="is-sticky top-0 has-background-white p-1">
+          <div class="is-flex is-justify-content-space-between">
+            <div class="is-size-2-desktop is-size-3-tablet is-size-4-mobile has-text-weight-semibold has-text-primary">
+              <span>{{ topic.name }}</span>
+            </div>
+            <div class="buttons">
+              <button class="button is-primary is-outlined is-responsive" (click)="toHome()">
+                <span class="icon is-small">
+                  <i class="fas fa-home"></i>
+                </span>
+              </button>
+              <button class="button is-danger is-outlined is-responsive" (click)="printTopic()">
+                <span class="icon is-small">
+                  <i class="fas fa-print"></i>
+                </span>
+                <span>Печать</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <hr class="mt-2 mb-2" />
+        <div class="content" [innerHTML]="topic.content ?? '' | safeHtml" #content></div>
+        <div class="is-sticky bottom-0 has-background-white pt-3">
+          <div class="is-flex is-justify-content-space-between">
+            <nav class="pagination" role="navigation" aria-label="pagination">
+              <ul class="pagination-list" *ngIf="pagingService.pagings.length > 1">
+                <li *ngFor="let item of pagingService.pagings">
+                  <a class="pagination-link" [class.is-current]="item.active" (click)="onPaginationClick(item.key)">
+                    {{ item.key }}</a
+                  >
+                </li>
+              </ul>
+            </nav>
+
+            <div>
+              <button
+                class="button is-primary"
+                style="margin-left: 10px"
+                *ngIf="topic.haveTests"
+                (click)="onOpenTest()">
+                <span class="icon">
+                  <i class="fas fa-tasks"></i>
+                </span>
+                <span>Тесты</span>
+              </button>
+
+              <button
+                class="button is-primary"
+                style="margin-left: 10px"
+                *ngIf="topic.haveExercises"
+                (click)="onOpenExercise()">
+                <span class="icon">
+                  <i class="fas fa-tasks"></i>
+                </span>
+                <span>Задачи</span>
+              </button>
+
+              <button
+                class="button is-primary"
+                style="margin-left: 10px"
+                *ngIf="topic.haveProjectExercise"
+                (click)="onOpenProjectExercise()">
+                <span class="icon">
+                  <i class="fas fa-tasks"></i>
+                </span>
+                <span>Проекты</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>

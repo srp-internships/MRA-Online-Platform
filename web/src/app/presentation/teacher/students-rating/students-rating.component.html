@@ -1,0 +1,52 @@
+<div class="hero is-small">
+  <div class="hero-body">
+    <h1 class="title">Рейтинги студентов</h1>
+    <srp-dynamic-filter [sourse]="items" (filterChange)="filteredItems = $event">
+      <srp-filter-item>
+        <ng-template srpFilterItemContent>
+          <div class="control has-icons-left">
+            <div class="select is-rounded">
+              <select [(ngModel)]="selectedCourseId" (ngModelChange)="loadRatings()">
+                <option *ngFor="let course of courses" [value]="course.id">{{ course.name }}</option>
+              </select>
+            </div>
+            <div class="icon is-small is-left">
+              <i class="fas fa-globe"></i>
+            </div>
+          </div>
+        </ng-template>
+      </srp-filter-item>
+    </srp-dynamic-filter>
+  </div>
+
+  <div class="hero-foot">
+    <srp-loader [templateRef]="table"></srp-loader>
+    <ng-template #table>
+      <table class="table is-hoverable is-narrow is-fullwidth is-pointer-table">
+        <thead>
+          <tr>
+            <th width="50">#</th>
+            <th>ФИО</th>
+            <th>Общая попытка</th>
+            <th>Общий балл</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngIf="filteredItems?.length; else noData">
+            <tr *ngFor="let topic of filteredItems; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ topic.name }}</td>
+              <td>{{ topic.totalSubmit }}</td>
+              <td>{{ topic.totalRate }}</td>
+            </tr>
+          </ng-container>
+          <ng-template #noData>
+            <tr>
+              <td colspan="4" class="has-text-danger">Данные не найдены.</td>
+            </tr>
+          </ng-template>
+        </tbody>
+      </table>
+    </ng-template>
+  </div>
+</div>
