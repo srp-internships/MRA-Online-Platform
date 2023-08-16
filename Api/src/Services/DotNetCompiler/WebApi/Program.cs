@@ -2,6 +2,8 @@
 using Microsoft.Extensions.Hosting;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Builder;
+using MRA.Jobs.Web.AzureKeyVault;
 
 namespace WebApi;
 
@@ -10,6 +12,11 @@ public class Program
     public async static Task Main(string[] args)
     {
         var builder = CreateHostBuilder(args).Build();
+
+        var webAppBuilder = WebApplication.CreateBuilder(args);
+
+        webAppBuilder.ConfigureAzureKeyVault();
+
         await builder.RunAsync();
     }
 
