@@ -39,7 +39,7 @@ namespace Infrastructure
             services.AddIdentityServices(configuration);
             services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
             services.AddScoped<ILoadSeedData, LoadSeedDataFromJson>();
-            services.AddScoped<IApplicationDbContextInitializer, ApplicationDbContextInitializer>();
+            // services.AddScoped<IApplicationDbContextInitializer, ApplicationDbContextInitializer>();
             services.AddScoped<IMigration, DbMigration>();
 
             services.AddHttpContextAccessor();
@@ -53,9 +53,10 @@ namespace Infrastructure
             });
             services.AddScoped<ICodeAnalyzerService, CodeAnalyzerService>();
             services.AddSingleton<IEmailSenderService, EmailSenderService>();
-            services.AddIdentityCore<User>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+           
+            // services.AddIdentityCore<User>(options => options.SignIn.RequireConfirmedAccount = true)
+            //     .AddEntityFrameworkStores<ApplicationDbContext>()
+            //     .AddDefaultTokenProviders();
 
             services.AddScoped<IGoogleDriveService, GoogleDriveService>();
 
@@ -64,45 +65,20 @@ namespace Infrastructure
 
         static void AddIdentityServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddIdentity<User, IdentityRole<Guid>>(options =>
-            {
-                options.Password.RequireUppercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireDigit = false;
-            }).AddEntityFrameworkStores<ApplicationDbContext>()
-              .AddTokenProvider(configuration[ApplicationConstants.JWT_TOKEN_PROVIDER], typeof(DataProtectorTokenProvider<User>));
+            // services.AddIdentity<User, IdentityRole<Guid>>(options =>
+            // {
+            //     options.Password.RequireUppercase = false;
+            //     options.Password.RequireNonAlphanumeric = false;
+            //     options.Password.RequireDigit = false;
+            // }).AddEntityFrameworkStores<ApplicationDbContext>()
+            //   .AddTokenProvider(configuration[ApplicationConstants.JWT_TOKEN_PROVIDER], typeof(DataProtectorTokenProvider<User>));
 
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(o =>
-            {
-                o.SaveToken = true;
-                o.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = configuration[ApplicationConstants.JWT_VALID_ISSUER],
-                    ValidAudience = configuration[ApplicationConstants.JWT_VALID_AUDIENCE],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration[ApplicationConstants.JWT_SECRET])),
-                    ClockSkew = TimeSpan.Zero
-                };
-                o.Events = new JwtBearerEvents
-                {
-                    OnAuthenticationFailed = context =>
-                    {
-                        if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
-                        {
-                            context.Response.Headers.Add(ApplicationConstants.TOKEN_EXPIRED, ApplicationConstants.IS_TOKEN_EXPIRED);
-                        }
-                        return Task.CompletedTask;
-                    }
-                };
-            });
+            }).AddJwtBearer();
             services.AddScoped<IJWTManagerRepository, JWTManagerRepository>();
         }
     }

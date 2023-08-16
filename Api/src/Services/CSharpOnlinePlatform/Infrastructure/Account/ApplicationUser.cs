@@ -2,7 +2,7 @@
 
 namespace Infrastructure.Account
 {
-    public class ApplicationUser : IdentityUser
+    public class ApplicationUser
     {
     }
 }
