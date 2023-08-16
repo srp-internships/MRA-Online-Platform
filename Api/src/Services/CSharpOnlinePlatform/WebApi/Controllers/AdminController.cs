@@ -35,18 +35,6 @@ namespace WebApi.Controllers
             return await Mediator.Send(new GetAdminQuery(_userHttpContextAccessor.GetUserId()));
         }
 
-        // [HttpPost("CreateStudent")]
-        // public async Task<ActionResult<IdentityResult>> CreateStudent([FromBody] CreateStudentCommand studentCommand)
-        // {
-        //     return await Mediator.Send(studentCommand);
-        // }
-
-        // [HttpPost("CreateTeacher")]
-        // public async Task<ActionResult<IdentityResult>> CreateTeacher([FromBody] CreateTeacherCommand teacherCommand)
-        // {
-        //     return await Mediator.Send(teacherCommand);
-        // }
-
         [HttpDelete("DeleteTeacher/{teacherGuid}")]
         public async Task<ActionResult<Guid>> DeleteTeacher(Guid teacherGuid)
         {

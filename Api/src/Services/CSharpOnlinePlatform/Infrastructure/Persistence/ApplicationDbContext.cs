@@ -1,6 +1,4 @@
 ﻿using Application.Common.Interfaces;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System.Reflection;
 
 namespace Infrastructure.Persistence

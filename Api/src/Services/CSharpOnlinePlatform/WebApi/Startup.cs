@@ -59,23 +59,6 @@ namespace WebApi
             return builder.GetEdmModel();
         }
 
-        // private static void IgnoreUserProperties(ODataConventionModelBuilder builder)
-        // {
-        //     var identityUser = builder.EntityType<User>();
-        //     identityUser.Ignore(s => s.UserName);
-        //     identityUser.Ignore(s => s.NormalizedUserName);
-        //     identityUser.Ignore(s => s.NormalizedEmail);
-        //     identityUser.Ignore(s => s.EmailConfirmed);
-        //     identityUser.Ignore(s => s.PasswordHash);
-        //     identityUser.Ignore(s => s.SecurityStamp);
-        //     identityUser.Ignore(s => s.ConcurrencyStamp);
-        //     identityUser.Ignore(s => s.PhoneNumberConfirmed);
-        //     identityUser.Ignore(s => s.TwoFactorEnabled);
-        //     identityUser.Ignore(s => s.LockoutEnd);
-        //     identityUser.Ignore(s => s.LockoutEnabled);
-        //     identityUser.Ignore(s => s.AccessFailedCount);
-        // }
-
         void AddSwaggerServices(IServiceCollection services)
         {
             services.AddSwaggerGen(setup =>

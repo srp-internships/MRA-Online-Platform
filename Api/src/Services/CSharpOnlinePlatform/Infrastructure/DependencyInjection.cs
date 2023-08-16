@@ -2,21 +2,16 @@
 using Application.Account.Services;
 using Application.CodeAnalyzer.Services;
 using Application.Common.Interfaces;
-using Application.JWTToken;
 using Application.Services;
 using Infrastructure.Account.Services;
 using Infrastructure.CodeAnalyzer.Services;
-using Infrastructure.JWTToken;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.SeedData;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 using System.Security.Principal;
-using System.Text;
 
 namespace Infrastructure
 {
@@ -39,7 +34,6 @@ namespace Infrastructure
             services.AddIdentityServices(configuration);
             services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
             services.AddScoped<ILoadSeedData, LoadSeedDataFromJson>();
-            // services.AddScoped<IApplicationDbContextInitializer, ApplicationDbContextInitializer>();
             services.AddScoped<IMigration, DbMigration>();
 
             services.AddHttpContextAccessor();
@@ -52,11 +46,6 @@ namespace Infrastructure
                 c.DefaultRequestHeaders.Add("API_KEY", configuration[ApplicationConstants.COMPILER_API_KEY]);
             });
             services.AddScoped<ICodeAnalyzerService, CodeAnalyzerService>();
-            services.AddSingleton<IEmailSenderService, EmailSenderService>();
-           
-            // services.AddIdentityCore<User>(options => options.SignIn.RequireConfirmedAccount = true)
-            //     .AddEntityFrameworkStores<ApplicationDbContext>()
-            //     .AddDefaultTokenProviders();
 
             services.AddScoped<IGoogleDriveService, GoogleDriveService>();
 
@@ -65,13 +54,6 @@ namespace Infrastructure
 
         static void AddIdentityServices(this IServiceCollection services, IConfiguration configuration)
         {
-            // services.AddIdentity<User, IdentityRole<Guid>>(options =>
-            // {
-            //     options.Password.RequireUppercase = false;
-            //     options.Password.RequireNonAlphanumeric = false;
-            //     options.Password.RequireDigit = false;
-            // }).AddEntityFrameworkStores<ApplicationDbContext>()
-            //   .AddTokenProvider(configuration[ApplicationConstants.JWT_TOKEN_PROVIDER], typeof(DataProtectorTokenProvider<User>));
 
             services.AddAuthentication(x =>
             {
@@ -79,7 +61,6 @@ namespace Infrastructure
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer();
-            services.AddScoped<IJWTManagerRepository, JWTManagerRepository>();
         }
     }
 }
