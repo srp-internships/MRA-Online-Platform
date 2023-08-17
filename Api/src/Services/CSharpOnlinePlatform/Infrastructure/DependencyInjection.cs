@@ -1,4 +1,5 @@
-﻿using Application;
+﻿using System.Security.Claims;
+using Application;
 using Application.Account.Services;
 using Application.CodeAnalyzer.Services;
 using Application.Common.Interfaces;
@@ -12,55 +13,72 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Security.Principal;
+using Infrastructure.Identity;
 
-namespace Infrastructure
+namespace Infrastructure;
+
+public static class DependencyInjection
 {
-    public static class DependencyInjection
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services,
+        IConfiguration configuration)
     {
-        public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+        if (configuration.GetValue<bool>(ApplicationConstants.USE_MEMORY_DB))
         {
-            if (configuration.GetValue<bool>(ApplicationConstants.USE_MEMORY_DB))
-            {
-                services.AddDbContext<ApplicationDbContext>(options =>
-                    options.UseInMemoryDatabase(ApplicationConstants.ONLINE_PLATFORM_DB));
-            }
-            else
-            {
-                services.AddDbContext<ApplicationDbContext>(options =>
-                    options.UseSqlServer(
-                        configuration.GetConnectionString(ApplicationConstants.DEFAULT_CONNECTION),
-                        b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
-            }
-            services.AddIdentityServices(configuration);
-            services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
-            services.AddScoped<ILoadSeedData, LoadSeedDataFromJson>();
-            services.AddScoped<IMigration, DbMigration>();
-
-            services.AddHttpContextAccessor();
-            services.AddTransient<IPrincipal>(provider => provider.GetService<IHttpContextAccessor>().HttpContext.User);
-            services.AddScoped<IUserHttpContextAccessor, UserHttpContextAccessor>();
-
-            services.AddHttpClient(ApplicationConstants.COMPILER_CLIENT, c =>
-            {
-                c.BaseAddress = new Uri(configuration[ApplicationConstants.COMPILER_API_HOST]);
-                c.DefaultRequestHeaders.Add("API_KEY", configuration[ApplicationConstants.COMPILER_API_KEY]);
-            });
-            services.AddScoped<ICodeAnalyzerService, CodeAnalyzerService>();
-
-            services.AddScoped<IGoogleDriveService, GoogleDriveService>();
-
-            return services;
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseInMemoryDatabase(ApplicationConstants.ONLINE_PLATFORM_DB));
+        }
+        else
+        {
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(
+                    configuration.GetConnectionString(ApplicationConstants.DEFAULT_CONNECTION),
+                    b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
         }
 
-        static void AddIdentityServices(this IServiceCollection services, IConfiguration configuration)
-        {
+        services.AddIdentityServices(configuration);
+        services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
+        services.AddScoped<ILoadSeedData, LoadSeedDataFromJson>();
+        services.AddScoped<IMigration, DbMigration>();
 
-            services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer();
-        }
+        services.AddHttpContextAccessor();
+        services.AddTransient<IPrincipal>(provider => provider.GetService<IHttpContextAccessor>().HttpContext.User);
+        services.AddScoped<IUserHttpContextAccessor, UserHttpContextAccessor>();
+
+        services.AddHttpClient(ApplicationConstants.COMPILER_CLIENT, c =>
+        {
+            c.BaseAddress = new Uri(configuration[ApplicationConstants.COMPILER_API_HOST]);
+            c.DefaultRequestHeaders.Add("API_KEY", configuration[ApplicationConstants.COMPILER_API_KEY]);
+        });
+        services.AddScoped<ICodeAnalyzerService, CodeAnalyzerService>();
+
+        services.AddScoped<IGoogleDriveService, GoogleDriveService>();
+
+        return services;
+    }
+
+    static void AddIdentityServices(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddAuthentication(x =>
+        {
+            x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+        }).AddJwtBearer();
+
+        services.AddAuthorization(a =>
+        {
+            a.AddPolicy(ApplicationPolicies.Administrator, op => op
+                .RequireClaim(ClaimTypes.Role, ApplicationClaimValues.Administrator)
+                .RequireClaim(ApplicationClaimsTypes.Applicaton, ApplicationClaimValues.ApplicationName));
+
+            a.AddPolicy(ApplicationPolicies.Teacher, op => op
+                .RequireClaim(ClaimTypes.Role, ApplicationClaimValues.Teacher, ApplicationClaimValues.Administrator)
+                .RequireClaim(ApplicationClaimsTypes.Applicaton, ApplicationClaimValues.ApplicationName));
+
+            a.AddPolicy(ApplicationPolicies.Student, op => op
+                .RequireClaim(ClaimTypes.Role, ApplicationClaimValues.Student, ApplicationClaimValues.Teacher,
+                    ApplicationClaimValues.Administrator)
+                .RequireClaim(ApplicationClaimsTypes.Applicaton, ApplicationClaimValues.ApplicationName));
+        });
     }
 }
