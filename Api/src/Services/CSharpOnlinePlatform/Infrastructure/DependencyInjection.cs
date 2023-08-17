@@ -69,16 +69,16 @@ public static class DependencyInjection
         {
             a.AddPolicy(ApplicationPolicies.Administrator, op => op
                 .RequireClaim(ClaimTypes.Role, ApplicationClaimValues.Administrator)
-                .RequireClaim(ApplicationClaimsTypes.Applicaton, ApplicationClaimValues.ApplicationName));
+                .RequireClaim(ApplicationClaimTypes.Applicaton, ApplicationClaimValues.ApplicationName));
 
             a.AddPolicy(ApplicationPolicies.Teacher, op => op
                 .RequireClaim(ClaimTypes.Role, ApplicationClaimValues.Teacher, ApplicationClaimValues.Administrator)
-                .RequireClaim(ApplicationClaimsTypes.Applicaton, ApplicationClaimValues.ApplicationName));
+                .RequireClaim(ApplicationClaimTypes.Applicaton, ApplicationClaimValues.ApplicationName));
 
             a.AddPolicy(ApplicationPolicies.Student, op => op
                 .RequireClaim(ClaimTypes.Role, ApplicationClaimValues.Student, ApplicationClaimValues.Teacher,
                     ApplicationClaimValues.Administrator)
-                .RequireClaim(ApplicationClaimsTypes.Applicaton, ApplicationClaimValues.ApplicationName));
+                .RequireClaim(ApplicationClaimTypes.Applicaton, ApplicationClaimValues.ApplicationName));
         });
     }
 }
