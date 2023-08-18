@@ -26,7 +26,7 @@ namespace Application.Admin.Commands.TeacherCommand.TeacherCRUD
             teacher.LastName = request.LastName;
             teacher.Email = request.Email;
             teacher.Birthdate = request.DateOfBirth;
-            teacher.UserName = request.Email;            
+            // teacher.UserName = request.Email;            
             teacher.Contact.Country = request.Country;
             teacher.Contact.Region = request.Region;
             teacher.Contact.City = request.City;

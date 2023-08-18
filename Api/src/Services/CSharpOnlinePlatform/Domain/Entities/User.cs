@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
-
+﻿
 namespace Domain.Entities
 {
-    public abstract class User : IdentityUser<Guid>, IEntity
+    public abstract class User: IEntity
     {
+        public Guid Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Password { get; set; }
@@ -11,5 +11,6 @@ namespace Domain.Entities
         public DateTime Birthdate { get; set; }
         public virtual Contact Contact { get; set; }
         public string FullName => $"{LastName} {FirstName}";
+        public string Email { get; set; }
     }
 }

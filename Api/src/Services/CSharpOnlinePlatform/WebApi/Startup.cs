@@ -47,7 +47,7 @@ namespace WebApi
         IEdmModel GetEdmModel()
         {
             ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
-            IgnoreUserProperties(builder);
+            // IgnoreUserProperties(builder);
             builder.EntitySet<Admin>("Admin");
             builder.EntitySet<Teacher>("Teacher");
             builder.EntitySet<Student>("Student");
@@ -57,23 +57,6 @@ namespace WebApi
             builder.EntitySet<StudentCourse>("StudentCourse");
             builder.EntitySet<StudentCourseExercise>("StudentCourseExercise");
             return builder.GetEdmModel();
-        }
-
-        private static void IgnoreUserProperties(ODataConventionModelBuilder builder)
-        {
-            var identityUser = builder.EntityType<User>();
-            identityUser.Ignore(s => s.UserName);
-            identityUser.Ignore(s => s.NormalizedUserName);
-            identityUser.Ignore(s => s.NormalizedEmail);
-            identityUser.Ignore(s => s.EmailConfirmed);
-            identityUser.Ignore(s => s.PasswordHash);
-            identityUser.Ignore(s => s.SecurityStamp);
-            identityUser.Ignore(s => s.ConcurrencyStamp);
-            identityUser.Ignore(s => s.PhoneNumberConfirmed);
-            identityUser.Ignore(s => s.TwoFactorEnabled);
-            identityUser.Ignore(s => s.LockoutEnd);
-            identityUser.Ignore(s => s.LockoutEnabled);
-            identityUser.Ignore(s => s.AccessFailedCount);
         }
 
         void AddSwaggerServices(IServiceCollection services)
@@ -108,7 +91,7 @@ namespace WebApi
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment environment, IApplicationDbContextInitializer initializer, IMigration migration)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment environment, IMigration migration)
         {
             app.UseRouting();
             app.UseCors(ApplicationConstants.ALLOW_ORIGIN_TO_WEB_CLIENT_NAME);
@@ -127,7 +110,7 @@ namespace WebApi
             });
             // Migrate and seed database
             migration.Migrate();
-            initializer.InitializeAsync().Wait();
+            // initializer.InitializeAsync().Wait();
         }
 
         void EnableCorePolicies(IServiceCollection services)
