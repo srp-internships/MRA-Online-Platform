@@ -2,10 +2,12 @@
 using Microsoft.Extensions.Hosting;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging.ApplicationInsights;
+
 using MRA.Jobs.Web.AzureKeyVault;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
+using Mra.Shared.Initializer.Azure.Insight;
+using Mra.Shared.Initializer.Azure.KeyVault;
 
 namespace WebApi;
 
@@ -14,11 +16,7 @@ public class Program
     public async static Task Main(string[] args)
     {
         var host = CreateHostBuilder(args).Build();
-
-        var builder = WebApplication.CreateBuilder(args);
-
-        builder.ConfigureAzureKeyVault();
-
+        
         await host.RunAsync();
     }
 
@@ -28,14 +26,10 @@ public class Program
                 webBuilder.UseStartup<Startup>())
         .ConfigureLogging((context, builder) =>
         {
-            if (!context.HostingEnvironment.IsDevelopment())
+            if (context.HostingEnvironment.IsProduction())
             {                 
-                builder.AddApplicationInsights(
-              configureTelemetryConfiguration: (config) =>
-              {
-                  config.ConnectionString = context.Configuration["Logging:ApplicationInsights:ConnectionString"];
-              },
-              configureApplicationInsightsLoggerOptions: (options) => { });
+                builder.AddApiApplicationInsights(context.Configuration);
+                context.Configuration.Get<ConfigurationManager>().ConfigureAzureKeyVault("Mra.Online.Platform");
             }
         });
 }

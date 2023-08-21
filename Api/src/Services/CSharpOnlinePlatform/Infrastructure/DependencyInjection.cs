@@ -1,5 +1,4 @@
-﻿using System.Security.Claims;
-using Application;
+﻿using Application;
 using Application.Account.Services;
 using Application.CodeAnalyzer.Services;
 using Application.Common.Interfaces;
@@ -14,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Security.Principal;
 using Infrastructure.Identity;
+using Mra.Shared.Common.Constants;
 
 namespace Infrastructure;
 
@@ -22,6 +22,9 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services,
         IConfiguration configuration)
     {
+        
+        //services.AddAzureEmailService();//uncomment this if u wont use email service from Azure from namespace Mra.Shared.Initializer.Azure.EmailService
+
         if (configuration.GetValue<bool>(ApplicationConstants.USE_MEMORY_DB))
         {
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -69,16 +72,17 @@ public static class DependencyInjection
         {
             a.AddPolicy(ApplicationPolicies.Administrator, op => op
                 .RequireClaim(ClaimTypes.Role, ApplicationClaimValues.Administrator)
-                .RequireClaim(ApplicationClaimTypes.Applicaton, ApplicationClaimValues.ApplicationName));
+                .RequireClaim(ClaimTypes.Application, ApplicationClaimValues.ApplicationName));
 
             a.AddPolicy(ApplicationPolicies.Teacher, op => op
                 .RequireClaim(ClaimTypes.Role, ApplicationClaimValues.Teacher, ApplicationClaimValues.Administrator)
-                .RequireClaim(ApplicationClaimTypes.Applicaton, ApplicationClaimValues.ApplicationName));
+                .RequireClaim(ClaimTypes.Application, ApplicationClaimValues.ApplicationName));
 
             a.AddPolicy(ApplicationPolicies.Student, op => op
                 .RequireClaim(ClaimTypes.Role, ApplicationClaimValues.Student, ApplicationClaimValues.Teacher,
                     ApplicationClaimValues.Administrator)
-                .RequireClaim(ApplicationClaimTypes.Applicaton, ApplicationClaimValues.ApplicationName));
+                .RequireClaim(ClaimTypes.Application, ApplicationClaimValues.ApplicationName));
         });
+        
     }
 }
