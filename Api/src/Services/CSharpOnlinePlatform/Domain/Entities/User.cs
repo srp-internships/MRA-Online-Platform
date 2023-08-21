@@ -1,7 +1,7 @@
 ﻿
 namespace Domain.Entities
 {
-    public abstract class User: IEntity
+    public abstract class User
     {
         public Guid Id { get; set; }
         public string FirstName { get; set; }

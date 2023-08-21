@@ -1,5 +1,5 @@
-﻿using Application;
-using Application.Common.Interfaces;
+﻿using System.Collections.Generic;
+using Application;
 using Core.Filters;
 using Domain.Entities;
 using Infrastructure;
@@ -13,18 +13,19 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
 using Microsoft.OpenApi.Models;
-using System.Collections.Generic;
+
+using Mra.Shared.Initializer.Azure.KeyVault;
 
 namespace WebApi
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -42,6 +43,10 @@ namespace WebApi
             services.AddControllers(options => options.Filters.Add<ApiExceptionFilterAttribute>())
                  .AddOData(op => op.Select().Filter().Expand().Count().SetMaxTop(null).AddRouteComponents("api/odata", GetEdmModel()));
             EnableCorePolicies(services);
+
+            
+            
+            //services.AddAzureEmailService();//uncomment this if u wont use email service from Azure from namespace Mra.Shared.Initializer.Azure.EmailService
         }
 
         IEdmModel GetEdmModel()
@@ -61,6 +66,7 @@ namespace WebApi
 
         void AddSwaggerServices(IServiceCollection services)
         {
+            
             services.AddSwaggerGen(setup =>
             {
                 setup.SwaggerDoc("v1", new OpenApiInfo { Title = "C# Online Platform", Version = "v1" });
