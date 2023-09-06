@@ -7,7 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Admin\" />
+    <Folder Include="Admins\" />
+    <Folder Include="Contacts\" />
+    <Folder Include="Courses\" />
+    <Folder Include="Documentations\" />
+    <Folder Include="Exercises\" />
+    <Folder Include="ProjectExercises\" />
+    <Folder Include="StudentCources\" />
+    <Folder Include="Students\" />
   </ItemGroup>
 
 </Project>
