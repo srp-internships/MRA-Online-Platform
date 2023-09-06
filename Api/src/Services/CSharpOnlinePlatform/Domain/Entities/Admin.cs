@@ -1,6 +1,6 @@
 ﻿namespace Domain.Entities
 {
-    public class Admin : User
+    public class Admin : User, IEntity
     {
     }
 }
