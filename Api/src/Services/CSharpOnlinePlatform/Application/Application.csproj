@@ -9,24 +9,19 @@
 		<Compile Remove="Courses\Commands\**" />
 		<Compile Remove="Courses\Queries\**" />
 		<Compile Remove="Exercises\Queries\**" />
+		<Compile Remove="Exercises\Commands\**" />
 		<Compile Remove="Themes\Commands\**" />
 		<Compile Remove="Themes\Queries\**" />
-		<Compile Include="Courses\Commands\Create\CreateCourseCommand.cs" />
-		<Compile Include="Courses\Commands\Create\CreateCourseCommandValidator.cs" />
-		<Compile Include="Courses\Commands\Delete\DeleteCourseCommand.cs" />
-		<Compile Include="Courses\Commands\Delete\DeleteCourseCommandValidator.cs" />
-		<Compile Include="Courses\Commands\Update\UpdateCourseCommand.cs" />
-		<Compile Include="Courses\Commands\Update\UpdateCourseCommandValidator.cs" />
-		<Compile Include="Exercises\Commands\Create\CreateExerciseCommand.cs" />
-		<Compile Include="Exercises\Commands\Create\CreateExerciseCommandValidator.cs" />
 		<EmbeddedResource Remove="Courses\Commands\**" />
 		<EmbeddedResource Remove="Courses\Queries\**" />
 		<EmbeddedResource Remove="Exercises\Queries\**" />
+		<EmbeddedResource Remove="Exercises\Commands\**" />
 		<EmbeddedResource Remove="Themes\Commands\**" />
 		<EmbeddedResource Remove="Themes\Queries\**" />
 		<None Remove="Courses\Commands\**" />
 		<None Remove="Courses\Queries\**" />
 		<None Remove="Exercises\Queries\**" />
+		<None Remove="Exercises\Commands\**" />
 		<None Remove="Themes\Commands\**" />
 		<None Remove="Themes\Queries\**" />
 	</ItemGroup>
