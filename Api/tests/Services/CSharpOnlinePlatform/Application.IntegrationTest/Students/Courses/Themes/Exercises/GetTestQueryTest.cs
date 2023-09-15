@@ -1,5 +1,4 @@
-﻿using Application.Admin.Commands.StudentCommand;
-using Application.Students.Queries;
+﻿using Application.Students.Queries;
 using Domain.Entities;
 using NUnit.Framework;
 using System;
@@ -16,9 +15,8 @@ namespace Application.IntegrationTest.Students.Courses.Themes.Exercises
         {
             await RunAsStudentAsync();
 
-            var student = GetStudentCommand("Iyu", "iyu@mail.ru");
-            await SendAsync(student);
-            var iyu = await GetAsync<Student>(s => s.Email == student.Email);
+            var iyu = new Student { Id = new Guid(), Birthdate = DateTime.Now };
+            await AddAsync(iyu);
 
             var course = CreateCourse();
             await AddAsync(course);
@@ -115,24 +113,7 @@ namespace Application.IntegrationTest.Students.Courses.Themes.Exercises
             };
         }
 
-        CreateStudentCommand GetStudentCommand(string name, string email)
-        {
-            return new CreateStudentCommand()
-            {
-                FirstName = name,
-                LastName = "Glick",
-                Address = "PA, Lancaster",
-                BirthDate = System.DateTime.Today,
-                PhoneNumber = "992927770000",
-                City = "Khujand",
-                Country = "Tajikistan",
-                Email = email,
-                Occupation = "student",
-                Password = "Pw12345@",
-                Region = "Sogd",
-                CourseName = "C# for beginners"
-            };
-        }
+       
         #endregion
     }
 }

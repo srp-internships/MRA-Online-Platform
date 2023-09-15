@@ -24,7 +24,7 @@ namespace Application.IntegrationTest.Admin
         [Test]
         public async Task GetAdminQuery_CorrectData_Admin()
         {
-            var admin = new Domain.Entities.Admin() { Id = Guid.NewGuid(), FirstName = "TestName", LastName = "TestName" };
+            var admin = new Domain.Entities.Admin() { Id = Guid.NewGuid()};
             await AddAsync(admin);
             var command = new GetAdminQuery(admin.Id);
 

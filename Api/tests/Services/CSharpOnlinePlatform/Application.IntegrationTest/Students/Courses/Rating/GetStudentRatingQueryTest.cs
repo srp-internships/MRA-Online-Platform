@@ -1,5 +1,4 @@
-﻿using Application.Admin.Commands.StudentCommand;
-using Application.Students.Queries;
+﻿using Application.Students.Queries;
 using Domain.Entities;
 using NUnit.Framework;
 using System;
@@ -17,15 +16,15 @@ namespace Application.IntegrationTest.Students.Courses.Rating
             await RunAsStudentAsync();
 
             // Create Students
-            var student = GetStudentCommand("Alex", "alex@mail.ru");
-            await SendAsync(student);
-            var alex = await GetAsync<Student>(s => s.Email == student.Email);
-            student = GetStudentCommand("Baha", "baha@mail.ru");
-            await SendAsync(student);
-            var baha = await GetAsync<Student>(s => s.Email == student.Email);
-            student = GetStudentCommand("Alik", "alik@mail.ru");
-            await SendAsync(student);
-            var alik = await GetAsync<Student>(s => s.Email == student.Email);
+
+            var alex = new Student { Id = new Guid(), Birthdate = DateTime.Now };
+            await AddAsync(alex);
+
+            var baha = new Student { Id = new Guid(), Birthdate = DateTime.Now };
+            await AddAsync(baha);
+
+            var alik = new Student { Id = new Guid(), Birthdate = DateTime.Now };
+            await AddAsync(alik);
 
             //Create Course for made up Students
             var course = CreateCourse();
@@ -42,15 +41,18 @@ namespace Application.IntegrationTest.Students.Courses.Rating
 
             //Link the Course to the Students and the Exercises to the StudentCourse for Alex
             var studentCourse = await CreateStudentCourse(alex.Id, course.Id);
-            await CreateStudentCourseExercises(variable, Status.Passed, typeCasting, Status.Passed, dataType, Status.Passed, studentCourse);
+            await CreateStudentCourseExercises(variable, Status.Passed, typeCasting, Status.Passed, dataType,
+                Status.Passed, studentCourse);
 
             //Link the Course to the Students and the Exercises to the StudentCourse for Baha
             studentCourse = await CreateStudentCourse(baha.Id, course.Id);
-            await CreateStudentCourseExercises(variable, Status.Passed, typeCasting, Status.Failed, dataType, Status.Passed, studentCourse);
+            await CreateStudentCourseExercises(variable, Status.Passed, typeCasting, Status.Failed, dataType,
+                Status.Passed, studentCourse);
 
             //Link the Course to the Students and the Exercises to the StudentCourse for Alik
             studentCourse = await CreateStudentCourse(alik.Id, course.Id);
-            await CreateStudentCourseExercises(variable, Status.Failed, typeCasting, Status.Passed, dataType, Status.Passed, studentCourse);
+            await CreateStudentCourseExercises(variable, Status.Failed, typeCasting, Status.Passed, dataType,
+                Status.Passed, studentCourse);
 
             //Testing
             GetStudentRatingQuery alexRate = new GetStudentRatingQuery(course.Id, alex.Id);
@@ -74,15 +76,18 @@ namespace Application.IntegrationTest.Students.Courses.Rating
             ratingDTO.Position.Should().Be(2);
         }
 
-        private async Task CreateStudentCourseExercises(Exercise variable, Status statusVariable, Exercise typeCasting, Status statusTypeCasting, Exercise dataType, Status statusDataType, StudentCourse studentCourse)
+        private async Task CreateStudentCourseExercises(Exercise variable, Status statusVariable, Exercise typeCasting,
+            Status statusTypeCasting, Exercise dataType, Status statusDataType, StudentCourse studentCourse)
         {
             await CreateStudentCourseExercise(studentCourse.Id, variable.Id, statusVariable);
             await CreateStudentCourseExercise(studentCourse.Id, typeCasting.Id, statusTypeCasting);
             await CreateStudentCourseExercise(studentCourse.Id, dataType.Id, statusDataType);
         }
 
-        #region TestData 
-        async Task<StudentCourseExercise> CreateStudentCourseExercise(Guid studentCourseId, Guid exerciseId, Status status)
+        #region TestData
+
+        async Task<StudentCourseExercise> CreateStudentCourseExercise(Guid studentCourseId, Guid exerciseId,
+            Status status)
         {
             var studentCourseExercise = new StudentCourseExercise()
             {
@@ -143,25 +148,6 @@ namespace Application.IntegrationTest.Students.Courses.Rating
                 Id = Guid.NewGuid(),
                 Name = "C# Basic",
                 LearningLanguage = "Tajik"
-            };
-        }
-
-        CreateStudentCommand GetStudentCommand(string name, string email)
-        {
-            return new CreateStudentCommand()
-            {
-                FirstName = name,
-                LastName = "Glick",
-                Address = "PA, Lancaster",
-                BirthDate = System.DateTime.Today,
-                PhoneNumber = "992927770000",
-                City = "Khujand",
-                Country = "Tajikistan",
-                Email = email,
-                Occupation = "student",
-                Password = "Pw12345@",
-                Region = "Sogd",
-                CourseName = "C# for beginners"
             };
         }
 

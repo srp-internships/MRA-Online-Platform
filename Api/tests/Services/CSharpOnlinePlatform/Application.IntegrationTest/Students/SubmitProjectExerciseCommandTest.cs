@@ -1,5 +1,4 @@
-﻿using Application.Admin.Commands.StudentCommand;
-using Application.Admin.Commands.TeacherCommand;
+﻿using Application.Admin.Commands.TeacherCommand;
 using Application.Students.Commands;
 using Application.Teachers.Commands.CourseCommand;
 using Application.Teachers.Commands.ProjectExerciseCommand.CreateProjectExercise;
@@ -122,9 +121,9 @@ public class SubmitProjectExerciseCommandTest
         var student = new Student()
         {
             Id = Guid.NewGuid(),
-            FirstName = firstName,// "TestingUploading",
-            LastName = lastName,// "TestingUploading",
-            Email = email,// "testingUploading@gmail.com",
+            // FirstName = firstName,// "TestingUploading",
+            // LastName = lastName,// "TestingUploading",
+            // Email = email,// "testingUploading@gmail.com",
             Occupation = "Student"
         };
         await AddAsync(student);

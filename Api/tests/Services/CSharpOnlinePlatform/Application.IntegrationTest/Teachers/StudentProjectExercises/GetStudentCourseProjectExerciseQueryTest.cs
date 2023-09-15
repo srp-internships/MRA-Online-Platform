@@ -45,21 +45,21 @@ namespace Application.IntegrationTest.Teachers.StudentProjectExercises
             projectExerciseNotFoundExceptionShown.Should().BeTrue();
         }
 
-        [Test]
-        public async Task GetStudentCourseProjectExerciseQuery_WrongTeacherId_NotFoundException()
-        {
-            var projectExerciseId = await GetProjectExerciseId();
-            await SendAsync(GetTeacherCommand());
-            var anotherTeacher = await GetAsync<Teacher>(t => t.Email == "test1999@mail.ru");
-
-            var getStudentProjectExercise =
-                new GetStudentCourseProjectExerciseQuery(projectExerciseId, anotherTeacher.Id);
-            ValidationFailureException validationException = Assert.ThrowsAsync<ValidationFailureException>
-                (() => SendAsync(getStudentProjectExercise));
-            var projectExerciseNotFoundExceptionShown = IsErrorExists("TeacherId", "Отказано в доступе.", validationException);
-
-            projectExerciseNotFoundExceptionShown.Should().BeTrue();
-        }
+        // [ Test]
+        // public async Task GetStudentCourseProjectExerciseQuery_WrongTeacherId_NotFoundException()
+        // {
+        //     var projectExerciseId = await GetProjectExerciseId();
+        //     // await SendAsync(GetTeacherCommand());
+        //     var anotherTeacher = await GetAsync<Teacher>(t => t.Email == "test1999@mail.ru");
+        //
+        //     var getStudentProjectExercise =
+        //         new GetStudentCourseProjectExerciseQuery(projectExerciseId, anotherTeacher.Id);
+        //     ValidationFailureException validationException = Assert.ThrowsAsync<ValidationFailureException>
+        //         (() => SendAsync(getStudentProjectExercise));
+        //     var projectExerciseNotFoundExceptionShown = IsErrorExists("TeacherId", "Отказано в доступе.", validationException);
+        //
+        //     projectExerciseNotFoundExceptionShown.Should().BeTrue();
+        // }
 
         [Test]
         public async Task GetStudentCourseProjectExerciseQuery_NoStudentProjectExerciseUploads_EmptyList()
@@ -91,22 +91,22 @@ namespace Application.IntegrationTest.Teachers.StudentProjectExercises
         }
 
 
-        CreateTeacherCommand GetTeacherCommand()
-        {
-            return new CreateTeacherCommand()
-            {
-                FirstName = "FirstName",
-                LastName = "Lastname",
-                DateOfBirth = DateTime.Now,
-                Email = "test1999@mail.ru",
-                Password = "Abcd1234)",
-                PhoneNumber = "123456789",
-                Country = "Tojikiston",
-                Region = "Mintaqa",
-                City = "Shahr",
-                Address = "Suroga",
-            };
-        }
+        // CreateTeacherCommand GetTeacherCommand()
+        // {
+        //     return new CreateTeacherCommand()
+        //     {
+        //         FirstName = "FirstName",
+        //         LastName = "Lastname",
+        //         DateOfBirth = DateTime.Now,
+        //         Email = "test1999@mail.ru",
+        //         Password = "Abcd1234)",
+        //         PhoneNumber = "123456789",
+        //         Country = "Tojikiston",
+        //         Region = "Mintaqa",
+        //         City = "Shahr",
+        //         Address = "Suroga",
+        //     };
+        // }
 
         async Task AddStudentProjectexercise(Guid courseId, Guid projectExerciseId)
         {

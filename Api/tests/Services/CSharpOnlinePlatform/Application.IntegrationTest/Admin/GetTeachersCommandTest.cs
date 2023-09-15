@@ -13,7 +13,7 @@ namespace Application.IntegrationTest.Admin
         [Test]
         public async Task GetTeachersCommand_ListOfTeachers()
         {
-            var teacher = new Teacher() { Id = Guid.NewGuid(), FirstName = "TestTeacher", LastName = "TestTeacher" };
+            var teacher = new Teacher() { Id = Guid.NewGuid() };
             await AddAsync(teacher);
             var command = new GetTeachersCommand();
 

@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using static Application.IntegrationTest.TestHelper;
-using Application.Admin.Commands.StudentCommand;
 
 namespace Application.IntegrationTest.Students.Courses
 {
@@ -48,13 +47,21 @@ namespace Application.IntegrationTest.Students.Courses
             await RunAsStudentAsync();
 
             // Arrange
-            var student = GetStudentCommand("Hasanboy", "hasanboy@mail.ru");
-            await SendAsync(student);
-            var hasanboy = await GetAsync<Student>(s => s.Email == student.Email);
+            
+            var hasanboy = new Student
+            {
+                Id = Guid.NewGuid(),
+                Birthdate = DateTime.Now,
+            };
 
-            student = GetStudentCommand("Vosid", "vosid@mail.ru");
-            await SendAsync(student);
-            var vosid = await GetAsync<Student>(s => s.Email == student.Email);
+            var vosid = new Student
+            {
+                Id = Guid.NewGuid(),
+                Birthdate = DateTime.Now,
+            };
+
+            await AddAsync(vosid);
+            
 
             Course course = await CreateTestData(hasanboy, vosid);
 
@@ -158,25 +165,6 @@ namespace Application.IntegrationTest.Students.Courses
             };
             await AddAsync(exercise);
             return exercise;
-        }
-
-        CreateStudentCommand GetStudentCommand(string name, string email)
-        {
-            return new CreateStudentCommand()
-            {
-                FirstName = name,
-                LastName = "Glick",
-                Address = "PA, Lancaster",
-                BirthDate = System.DateTime.Today,
-                PhoneNumber = "992927770000",
-                City = "Khujand",
-                Country = "Tajikistan",
-                Email = email,
-                Occupation = "student",
-                Password = "Pw12345@",
-                Region = "Sogd",
-                CourseName = "C# for beginners"
-            };
         }
         #endregion
     }
