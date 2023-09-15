@@ -22,11 +22,7 @@ namespace Application.Admin.Commands.TeacherCommand.TeacherCRUD
         {
             var teacher = await _dbContext.GetEntities<Teacher>().Include(c => c.Contact).SingleAsync(t => t.Id == request.Id);
 
-            teacher.FirstName = request.FirstName;
-            teacher.LastName = request.LastName;
-            teacher.Email = request.Email;
             teacher.Birthdate = request.DateOfBirth;
-            // teacher.UserName = request.Email;            
             teacher.Contact.Country = request.Country;
             teacher.Contact.Region = request.Region;
             teacher.Contact.City = request.City;

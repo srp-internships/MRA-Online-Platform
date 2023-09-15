@@ -61,7 +61,7 @@ namespace Application.Students.Commands
 
             var studentCourseProjectExerciseId = Guid.NewGuid();
             var student = await _dbContext.GetEntities<Student>().SingleAsync(s => s.Id == request.StudentId);
-            var fileName = $"{studentCourseProjectExerciseId}_{student.FullName}";
+            var fileName = $"{studentCourseProjectExerciseId}_{student.Id}";
 
             var uploadedFileLink = await _driveService.TryUpload(fileName, fileStream);
 

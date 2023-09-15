@@ -22,5 +22,15 @@ namespace Infrastructure.Account.Services
             }
             return Guid.Empty;
         }
+
+        public string GetEmail()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetUserName()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

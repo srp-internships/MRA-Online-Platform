@@ -17,7 +17,6 @@ namespace Application.Courses.DTO
         {
             var map = profile.CreateMap<Course, CourseDTO>();
             map.ForMember(s => s.TotalThemes, op => op.MapFrom(x => x.Themes.Count));
-            map.ForMember(s => s.TeacherName, op => op.MapFrom(x => x.Teacher.FullName));
             map.ForMember(s => s.CompletedThemes, op => op.MapFrom(x => 0));
             map.ForMember(s => s.EndDate, op => op.MapFrom(x => x.GetEndDate()));
         }
