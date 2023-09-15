@@ -4,21 +4,6 @@ namespace Infrastructure.Persistence.SeedData
 {
     public class SeedDataModel
     {
-        [SeedDataProperty(typeof(IdentityRole<Guid>), 1)]
-        public List<IdentityRole<Guid>> Roles { get; set; }
-
-        [SeedDataProperty(typeof(Admin), 2)]
-        public List<Admin> Admins { get; set; }
-
-        [SeedDataProperty(typeof(IdentityUserRole<Guid>), 5.5)]
-        public List<IdentityUserRole<Guid>> UserRoles { get; set; }
-
-        [SeedDataProperty(typeof(Student), 4)]
-        public List<Student> Students { get; set; }
-
-        [SeedDataProperty(typeof(Teacher), 5)]
-        public List<Teacher> Teachers { get; set; }
-
         [SeedDataProperty(typeof(Contact), 6)]
         public List<Contact> Contacts { get; set; }
 

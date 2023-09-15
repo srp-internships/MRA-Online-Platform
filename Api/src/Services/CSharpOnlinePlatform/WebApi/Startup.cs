@@ -52,10 +52,7 @@ namespace WebApi
         IEdmModel GetEdmModel()
         {
             ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
-            // IgnoreUserProperties(builder);
-            builder.EntitySet<Admin>("Admin");
-            builder.EntitySet<Teacher>("Teacher");
-            builder.EntitySet<Student>("Student");
+            
             builder.EntitySet<Course>("Course");
             builder.EntitySet<Theme>("Theme");
             builder.EntitySet<Exercise>("Exercise");

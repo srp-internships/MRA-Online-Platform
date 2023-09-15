@@ -10,18 +10,12 @@ using Microsoft.AspNetCore.Authorization;
 using System;
 using Application.CodeAnalyzer.Commands;
 using Application.CodeAnalyzer.DTO;
-using Core.Exceptions;
-using Microsoft.AspNetCore.OData.Query;
-using Domain.Entities;
-using Application.Students;
-using Application.Documentations.DTO;
 using Application.Documentations;
+using Application.Documentations.DTO;
+using Core.Exceptions;
+using Domain.Entities;
 using Application.Students.Commands;
-using System.IO;
-using Microsoft.AspNetCore.Http;
 using Core.DTO;
-using System.Net.Http.Headers;
-using System.Drawing;
 
 namespace WebApi.Controllers
 {
@@ -33,13 +27,6 @@ namespace WebApi.Controllers
         public StudentController(IUserHttpContextAccessor httpContextAccessor)
         {
             _userHttpContextAccessor = httpContextAccessor;
-        }
-
-        [HttpGet]
-        [EnableQuery(MaxExpansionDepth = 0, MaxNodeCount = 10)]
-        public async Task<Student> Get()
-        {
-            return await Mediator.Send(new GetStudentQuery(_userHttpContextAccessor.GetUserId()));
         }
 
         [HttpGet("api/[controller]/Courses")]

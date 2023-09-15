@@ -38,7 +38,6 @@ namespace Application.Students.Queries
                 .Include(s => s.Themes)
                 .ThenInclude(s => s.Tests)
                 .Include(s => s.Students)
-                .Include(s => s.Teacher)
                 .Where(c => c.Id == request.CourseGuid)
                 .SelectMany(sc => sc.Themes)
                 .OrderBy(s => s.StartDate)

@@ -60,8 +60,8 @@ namespace Application.Students.Commands
             var fileStream = new FileStream(uploadedProjectName, FileMode.Open, FileAccess.Read, FileShare.Read, buffer, useAsync: true);
 
             var studentCourseProjectExerciseId = Guid.NewGuid();
-            var student = await _dbContext.GetEntities<Student>().SingleAsync(s => s.Id == request.StudentId);
-            var fileName = $"{studentCourseProjectExerciseId}_{student.Id}";
+            
+            var fileName = $"{studentCourseProjectExerciseId}_{request.StudentId}";
 
             var uploadedFileLink = await _driveService.TryUpload(fileName, fileStream);
 
@@ -70,7 +70,7 @@ namespace Application.Students.Commands
             {
                 response.Success = true;
                 response.Message = "Проект загружен. Ожидайте ответа учителя";
-                await CreateNewStudentCourseProjectExercise(projectExercise, uploadedFileLink.linkToProject, student.Id, projectExercise.Theme.CourseId);
+                await CreateNewStudentCourseProjectExercise(projectExercise, uploadedFileLink.linkToProject, request.StudentId, projectExercise.Theme.CourseId);
             }
             else
             {

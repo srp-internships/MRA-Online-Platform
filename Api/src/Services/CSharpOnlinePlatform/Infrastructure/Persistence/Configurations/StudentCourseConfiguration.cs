@@ -6,12 +6,7 @@
         {
             builder.HasKey(sc=>sc.Id);
             builder.Property(sc=>sc.Id).ValueGeneratedOnAdd();
-
-            builder.HasOne(sc => sc.Student)
-                .WithMany(s => s.Courses)
-                .HasForeignKey(sc => sc.StudentId)
-                .OnDelete(DeleteBehavior.ClientCascade);
-
+            
             builder.HasOne(sc => sc.Course)
                 .WithMany(s => s.Students)
                 .HasForeignKey(sc => sc.CourseId)

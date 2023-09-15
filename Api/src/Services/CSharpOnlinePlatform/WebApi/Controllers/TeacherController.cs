@@ -3,7 +3,6 @@ using Application.Courses.DTO;
 using Application.Documentations;
 using Application.Documentations.DTO;
 using Application.Exercises.DTO;
-using Application.Teachers;
 using Application.Teachers.Commands.CourseCommand;
 using Application.Teachers.Commands.ExerciseCommand;
 using Application.Teachers.Commands.ProjectExerciseCommand.CheckProjectExercise;
@@ -24,7 +23,6 @@ using Application.Themes.DTO;
 using Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OData.Query;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -40,14 +38,7 @@ namespace WebApi.Controllers
         {
             _userHttpContextAccessor = userHttpContextAccessor;
         }
-
-        [HttpGet]
-        [EnableQuery(MaxExpansionDepth = 0, MaxNodeCount = 10)]
-        public async Task<Teacher> Get()
-        {
-            return await Mediator.Send(new GetTeacherQuery(_userHttpContextAccessor.GetUserId()));
-        }
-
+        
         [HttpGet("api/[controller]/Rating/{courseId}")]
         public async Task<ActionResult<List<GetRatingDTO>>> GetStudentsRating(Guid courseId)
         {

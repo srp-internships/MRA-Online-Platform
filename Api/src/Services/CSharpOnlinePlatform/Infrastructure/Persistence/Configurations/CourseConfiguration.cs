@@ -13,10 +13,6 @@
                 .WithOne(sc => sc.Course)
                 .HasForeignKey(sc => sc.CourseId);
 
-            builder.HasOne(c => c.Teacher)
-                .WithMany(t => t.LeadingCourses)
-                .HasForeignKey(c => c.TeacherId);
-
             builder.HasMany(c => c.Themes)
                 .WithOne(th => th.Course)
                 .OnDelete(DeleteBehavior.Cascade);
