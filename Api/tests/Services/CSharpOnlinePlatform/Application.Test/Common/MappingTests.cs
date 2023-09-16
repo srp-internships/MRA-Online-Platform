@@ -1,5 +1,4 @@
-﻿using Application.Admin.Commands.TeacherCommand;
-using Application.Common.Mapping;
+﻿using Application.Common.Mapping;
 using Application.Courses.DTO;
 using Application.Exercises.DTO;
 using Application.Teachers.Queries.ProjectExerciseQuery;
@@ -38,7 +37,6 @@ namespace Application.Test.Common
         [TestCase(typeof(Course), typeof(ShortCourseDTO))]
         [TestCase(typeof(Domain.Entities.Test), typeof(TeacherTestDTO))]
         [TestCase(typeof(ProjectExercise), typeof(StudentProjectExerciseDTO))]
-        [TestCase(typeof(Teacher), typeof(GetTeacherCommandDTO))]
         [TestCase(typeof(ProjectExercise), typeof(GetProjectExerciseQueryDTO))]
         public void ShouldSupportMappingFromSourceToDestination(Type source, Type destination)
         {
