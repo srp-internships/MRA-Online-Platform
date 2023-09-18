@@ -14,9 +14,8 @@ namespace Application.IntegrationTest.Students
         [Test]
         public async Task GetStudentProjectExerciseQuery_NotExistingThemeId_NotFoundException()
         {
-            await RunAsStudentAsync();
-            var student = await GetAuthenticatedUser<Student>();
-            var command = new GetStudentProjectExerciseQuery(Guid.NewGuid(), student.Id);
+            var studentId = Guid.NewGuid();
+            var command = new GetStudentProjectExerciseQuery(Guid.NewGuid(), studentId);
 
             ValidationFailureException validationFailureException = Assert.ThrowsAsync<ValidationFailureException>(() => SendAsync(command));
             var notFoundExceptionShown = IsErrorExists("ThemeId", "Тема не найдена.", validationFailureException);
@@ -28,7 +27,7 @@ namespace Application.IntegrationTest.Students
         public async Task GetStudentProjectExerciseQuery_NotExistingStudentId_NotFoundException()
         {
             await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
+            var teacherId = Guid.NewGuid();
             var theme = new Theme()
             {
                 Id = Guid.NewGuid(),

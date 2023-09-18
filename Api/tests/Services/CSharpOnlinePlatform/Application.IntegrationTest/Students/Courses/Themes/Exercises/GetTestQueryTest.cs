@@ -15,8 +15,7 @@ namespace Application.IntegrationTest.Students.Courses.Themes.Exercises
         {
             await RunAsStudentAsync();
 
-            var iyu = new Student { Id = new Guid(), Birthdate = DateTime.Now };
-            await AddAsync(iyu);
+            var iyuId = Guid.NewGuid();
 
             var course = CreateCourse();
             await AddAsync(course);
@@ -33,19 +32,20 @@ namespace Application.IntegrationTest.Students.Courses.Themes.Exercises
             var variant2 = CreateVariant(test.Id, "Not Correct 1");
             await AddAsync(variant2);
 
-            var studentCourse = CreateStudentCourse(iyu.Id, course.Id);
+            var studentCourse = CreateStudentCourse(iyuId, course.Id);
             await AddAsync(studentCourse);
 
             var studentCourseTest = CreateStudentCourseTest(test.Id, studentCourse.Id);
             await AddAsync(studentCourseTest);
 
-            GetTestsQuery query = new GetTestsQuery(theme.Id, iyu.Id);
+            GetTestsQuery query = new GetTestsQuery(theme.Id, iyuId);
             var testDTO = await SendAsync(query);
             testDTO[0].Status.Should().Be(Status.Passed);
             testDTO[0].Variants.Count.Should().Be(2);
         }
 
-        #region TestData 
+        #region TestData
+
         VariantTest CreateVariant(Guid testId, string value)
         {
             return new VariantTest()
@@ -113,7 +113,6 @@ namespace Application.IntegrationTest.Students.Courses.Themes.Exercises
             };
         }
 
-       
         #endregion
     }
 }

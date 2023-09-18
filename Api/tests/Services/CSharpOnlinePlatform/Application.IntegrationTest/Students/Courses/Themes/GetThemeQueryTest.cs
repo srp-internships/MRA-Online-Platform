@@ -1,14 +1,14 @@
-﻿using Application.Students.Queries;
-using Domain.Entities;
-using NUnit.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using FluentAssertions;
-using static Application.IntegrationTest.TestHelper;
+using Application.Students.Queries;
 using Core.Exceptions;
+using Domain.Entities;
+using FluentAssertions;
+using NUnit.Framework;
+using static Application.IntegrationTest.TestHelper;
 
-namespace Application.IntegrationTest.Themes
+namespace Application.IntegrationTest.Students.Courses.Themes
 {
     public class GetThemeQueryTest
     {
@@ -70,8 +70,8 @@ namespace Application.IntegrationTest.Themes
         public async Task GetThemeQuery_NotExistingStudentId_NotFoundException()
         {
             await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
-            var course = new Course() { Id = Guid.NewGuid(), LearningLanguage = "Tajik", Name = "Name", TeacherId = teacher.Id };
+            var teacherId = Guid.NewGuid(); 
+            var course = new Course() { Id = Guid.NewGuid(), LearningLanguage = "Tajik", Name = "Name", TeacherId = teacherId };
             await AddAsync(course);
             var theme = new Theme() { Id = Guid.NewGuid(), Content = "Content", CourseId = course.Id, Name = "Name"};
             await AddAsync(theme);

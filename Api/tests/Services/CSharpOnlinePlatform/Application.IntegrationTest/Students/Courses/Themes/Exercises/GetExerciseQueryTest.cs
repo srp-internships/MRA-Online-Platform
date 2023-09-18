@@ -17,11 +17,9 @@ public class GetExerciseQueryTest
 
         // Create Students
 
-        var alish = new Student { Id = new Guid(), Birthdate = DateTime.Now };
-        await AddAsync(alish);
+        var alishId = Guid.NewGuid();
 
-        var lion = new Student { Id = new Guid(), Birthdate = DateTime.Now };
-        await AddAsync(lion);
+        var lionId = Guid.NewGuid();
 
         //Create Course for made up Students
         var course = CreateCourse();
@@ -38,7 +36,7 @@ public class GetExerciseQueryTest
         await AddAsync(dataType);
 
         //Link the Course to the Students and the Exercises to the StudentCourse for Alish
-        var studentCourse = CreateStudentCourse(alish.Id, course.Id);
+        var studentCourse = CreateStudentCourse(alishId, course.Id);
         await AddAsync(studentCourse);
         var studentCourseExercise =
             CreateStudentCourseExercise(studentCourse.Id, variable.Id, Status.Passed, DateTime.Now.AddDays(-5));
@@ -48,7 +46,7 @@ public class GetExerciseQueryTest
         await AddAsync(studentCourseExercise);
 
         //Link the Course to the Students and the Exercises to the StudentCourse for Lion
-        studentCourse = CreateStudentCourse(lion.Id, course.Id);
+        studentCourse = CreateStudentCourse(lionId, course.Id);
         await AddAsync(studentCourse);
         studentCourseExercise =
             CreateStudentCourseExercise(studentCourse.Id, variable.Id, Status.Failed, DateTime.Now.AddDays(-3));
@@ -58,13 +56,13 @@ public class GetExerciseQueryTest
         await AddAsync(studentCourseExercise);
 
         //Testing
-        GetExercisesQuery query = new GetExercisesQuery(theme.Id, alish.Id);
+        GetExercisesQuery query = new GetExercisesQuery(theme.Id, alishId);
         var exerciseDTO = await SendAsync(query);
 
         exerciseDTO[0].Status.Should().Be(Status.Passed);
         exerciseDTO[1].Status.Should().Be(Status.Failed);
 
-        query = new GetExercisesQuery(theme.Id, lion.Id);
+        query = new GetExercisesQuery(theme.Id, lionId);
         var exerciseDTO1 = await SendAsync(query);
 
         exerciseDTO1[0].Status.Should().Be(Status.Failed);
@@ -77,9 +75,8 @@ public class GetExerciseQueryTest
         await RunAsStudentAsync();
 
         // Create Students
-        var alish = new Student { Id = new Guid(), Birthdate = DateTime.Now };
-        await AddAsync(alish);
-            
+        var alishId = Guid.NewGuid();
+
         //Create Course for made up Students
         var course = CreateCourse();
         await AddAsync(course);
@@ -95,7 +92,7 @@ public class GetExerciseQueryTest
         await AddAsync(dataType);
 
         //Testing
-        GetExercisesQuery query = new GetExercisesQuery(theme.Id, alish.Id);
+        GetExercisesQuery query = new GetExercisesQuery(theme.Id, alishId);
         var exerciseDTO = await SendAsync(query);
 
         exerciseDTO.Count.Should().Be(0);
@@ -106,7 +103,7 @@ public class GetExerciseQueryTest
     {
         //arrange
         await RunAsStudentAsync();
-        var student = await GetAuthenticatedUser<Student>();
+        var studentId = Guid.NewGuid();
 
         var course = CreateCourse();
         await AddAsync(course);
@@ -116,7 +113,7 @@ public class GetExerciseQueryTest
         var variable = CreateExercise("Variables", 1, theme.Id);
         await AddAsync(variable);
 
-        var studentCourse = CreateStudentCourse(student.Id, course.Id);
+        var studentCourse = CreateStudentCourse(studentId, course.Id);
         await AddAsync(studentCourse);
 
         var studentCourseExercise =
@@ -128,7 +125,7 @@ public class GetExerciseQueryTest
         await AddAsync(studentCourseExercise);
 
         //act
-        var query = new GetExercisesQuery(theme.Id, student.Id);
+        var query = new GetExercisesQuery(theme.Id, studentId);
         var exerciseDTO = await SendAsync(query);
 
         //assert
@@ -196,6 +193,6 @@ public class GetExerciseQueryTest
             LearningLanguage = "Tajik"
         };
     }
-        
+
     #endregion
 }

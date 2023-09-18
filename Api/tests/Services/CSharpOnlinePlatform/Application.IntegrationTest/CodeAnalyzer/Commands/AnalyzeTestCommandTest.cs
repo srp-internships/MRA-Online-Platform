@@ -7,7 +7,6 @@ using static Application.IntegrationTest.TestHelper;
 using Application.CodeAnalyzer.Commands;
 using Application.Teachers.Commands.TestCommand;
 using System.Collections.Generic;
-using System.Linq;
 using Application.Exercises.DTO;
 
 namespace Application.IntegrationTest.CodeAnalyzer.Commands
@@ -19,15 +18,8 @@ namespace Application.IntegrationTest.CodeAnalyzer.Commands
         {
             await RunAsStudentAsync();
 
-            
-            var dali = new Student
-            {
-                Id = Guid.NewGuid(),
-                Birthdate = DateTime.Now
-            };
+            var daliId = Guid.NewGuid();
 
-            await AddAsync(dali);
-            
             var course = CreateCourse();
             await AddAsync(course);
 
@@ -42,11 +34,11 @@ namespace Application.IntegrationTest.CodeAnalyzer.Commands
             var variant1 = CreateVariant(test, v1Id, v2Id);
             await SendAsync(variant1);
 
-            var studentCourse = CreateStudentCourse(dali.Id, course.Id);
+            var studentCourse = CreateStudentCourse(daliId, course.Id);
             await AddAsync(studentCourse);
 
             var analyzeTestCommandParameter = new AnalyzeTestCommandParameter() { TestId = test.Id, VariantId = v1Id };
-            var analyzeTest = new AnalyzeTestCommand(dali.Id, analyzeTestCommandParameter.TestId, analyzeTestCommandParameter.VariantId);
+            var analyzeTest = new AnalyzeTestCommand(daliId, analyzeTestCommandParameter.TestId, analyzeTestCommandParameter.VariantId);
             var analyzeDTO = await SendAsync(analyzeTest);
             analyzeDTO.Success.Should().BeTrue();
         }
@@ -115,25 +107,6 @@ namespace Application.IntegrationTest.CodeAnalyzer.Commands
                 LearningLanguage = "Tajik"
             };
         }
-
-        // CreateStudentCommand GetStudentCommand(string name, string email)
-        // {
-        //     return new CreateStudentCommand()
-        //     {
-        //         FirstName = name,
-        //         LastName = "Glick",
-        //         Address = "PA, Lancaster",
-        //         BirthDate = System.DateTime.Today,
-        //         PhoneNumber = "992927770000",
-        //         City = "Khujand",
-        //         Country = "Tajikistan",
-        //         Email = email,
-        //         Occupation = "student",
-        //         Password = "Pw12345@",
-        //         Region = "Sogd",
-        //         CourseName = "C# for beginners"
-        //     };
-        // }
         #endregion
     }
 }

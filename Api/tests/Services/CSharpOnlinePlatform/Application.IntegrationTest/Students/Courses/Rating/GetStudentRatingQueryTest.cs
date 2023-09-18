@@ -17,14 +17,11 @@ namespace Application.IntegrationTest.Students.Courses.Rating
 
             // Create Students
 
-            var alex = new Student { Id = new Guid(), Birthdate = DateTime.Now };
-            await AddAsync(alex);
+            var alexId = Guid.NewGuid();
 
-            var baha = new Student { Id = new Guid(), Birthdate = DateTime.Now };
-            await AddAsync(baha);
+            var bahaId = Guid.NewGuid();
 
-            var alik = new Student { Id = new Guid(), Birthdate = DateTime.Now };
-            await AddAsync(alik);
+            var alikId = Guid.NewGuid();
 
             //Create Course for made up Students
             var course = CreateCourse();
@@ -40,22 +37,22 @@ namespace Application.IntegrationTest.Students.Courses.Rating
             var dataType = await CreateExercise("Data Types", 5, theme.Id);
 
             //Link the Course to the Students and the Exercises to the StudentCourse for Alex
-            var studentCourse = await CreateStudentCourse(alex.Id, course.Id);
+            var studentCourse = await CreateStudentCourse(alexId, course.Id);
             await CreateStudentCourseExercises(variable, Status.Passed, typeCasting, Status.Passed, dataType,
                 Status.Passed, studentCourse);
 
             //Link the Course to the Students and the Exercises to the StudentCourse for Baha
-            studentCourse = await CreateStudentCourse(baha.Id, course.Id);
+            studentCourse = await CreateStudentCourse(bahaId, course.Id);
             await CreateStudentCourseExercises(variable, Status.Passed, typeCasting, Status.Failed, dataType,
                 Status.Passed, studentCourse);
 
             //Link the Course to the Students and the Exercises to the StudentCourse for Alik
-            studentCourse = await CreateStudentCourse(alik.Id, course.Id);
+            studentCourse = await CreateStudentCourse(alikId, course.Id);
             await CreateStudentCourseExercises(variable, Status.Failed, typeCasting, Status.Passed, dataType,
                 Status.Passed, studentCourse);
 
             //Testing
-            GetStudentRatingQuery alexRate = new GetStudentRatingQuery(course.Id, alex.Id);
+            GetStudentRatingQuery alexRate = new GetStudentRatingQuery(course.Id, alexId);
             var ratingDTO = await SendAsync(alexRate);
 
             ratingDTO.TotalRate.Should().Be(16);
@@ -63,13 +60,13 @@ namespace Application.IntegrationTest.Students.Courses.Rating
             ratingDTO.CompletedRate.Should().Be(16);
             ratingDTO.Position.Should().Be(1);
 
-            var bahaRate = new GetStudentRatingQuery(course.Id, baha.Id);
+            var bahaRate = new GetStudentRatingQuery(course.Id, bahaId);
             ratingDTO = await SendAsync(bahaRate);
 
             ratingDTO.CompletedRate.Should().Be(6);
             ratingDTO.Position.Should().Be(3);
 
-            var alikRate = new GetStudentRatingQuery(course.Id, alik.Id);
+            var alikRate = new GetStudentRatingQuery(course.Id, alikId);
             ratingDTO = await SendAsync(alikRate);
 
             ratingDTO.CompletedRate.Should().Be(15);
@@ -86,7 +83,7 @@ namespace Application.IntegrationTest.Students.Courses.Rating
 
         #region TestData
 
-        async Task<StudentCourseExercise> CreateStudentCourseExercise(Guid studentCourseId, Guid exerciseId,
+        async Task CreateStudentCourseExercise(Guid studentCourseId, Guid exerciseId,
             Status status)
         {
             var studentCourseExercise = new StudentCourseExercise()
@@ -97,7 +94,6 @@ namespace Application.IntegrationTest.Students.Courses.Rating
                 Code = "string"
             };
             await AddAsync(studentCourseExercise);
-            return studentCourseExercise;
         }
 
         async Task<Exercise> CreateExercise(string name, int rate, Guid themId)

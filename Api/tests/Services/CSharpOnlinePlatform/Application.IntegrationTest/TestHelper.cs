@@ -110,7 +110,7 @@ namespace Application.IntegrationTest
             return _currentUserId;
         }
 
-        public static async Task<T> GetAuthenticatedUser<T>() where T : User
+        public static async Task<T> GetAuthenticatedUser<T>() where T : class, IEntity
         {
             var userId = GetAuthenticatedUserId();
             return await GetAsync<T>(userId);
