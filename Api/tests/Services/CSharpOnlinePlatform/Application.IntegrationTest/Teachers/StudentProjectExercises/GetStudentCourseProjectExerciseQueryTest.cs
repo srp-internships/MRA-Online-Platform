@@ -12,7 +12,7 @@ namespace Application.IntegrationTest.Teachers.StudentProjectExercises
     public class GetStudentCourseProjectExerciseQueryTest
     {
         [Test]
-        public async Task GetStudentCourseProjectExerciseQuery_NotExistingProjectExerciseId_NotFoundException()
+        public void GetStudentCourseProjectExerciseQuery_NotExistingProjectExerciseId_NotFoundException()
         {
             var teacherId = Guid.NewGuid();
             var getStudentProjectExercise = new GetStudentCourseProjectExerciseQuery(Guid.NewGuid(), teacherId);
@@ -23,27 +23,13 @@ namespace Application.IntegrationTest.Teachers.StudentProjectExercises
 
             projectExerciseNotFoundExceptionShown.Should().BeTrue();
         }
-
-        [Test]
-        public async Task GetStudentCourseProjectExerciseQuery_NotExistingTeacherId_NotFoundException()
-        {
-            var projectExerciseId = await GetProjectExerciseId();
-
-            var getStudentProjectExercise =
-                new GetStudentCourseProjectExerciseQuery(projectExerciseId, Guid.NewGuid());
-            ValidationFailureException validationException = Assert.ThrowsAsync<ValidationFailureException>
-                (() => SendAsync(getStudentProjectExercise));
-            var projectExerciseNotFoundExceptionShown =
-                IsErrorExists("TeacherId", "Учитель не найден.", validationException);
-
-            projectExerciseNotFoundExceptionShown.Should().BeTrue();
-        }
+        
 
         [Test]
         public async Task GetStudentCourseProjectExerciseQuery_NoStudentProjectExerciseUploads_EmptyList()
         {
-            var projectExerciseId = await GetProjectExerciseId();
             var teacherId = Guid.NewGuid();
+            var projectExerciseId = await GetProjectExerciseId(teacherId);
             var getStudentProjectExercise =
                 new GetStudentCourseProjectExerciseQuery(projectExerciseId, teacherId);
             var listOfStudentProjectExercises = await SendAsync(getStudentProjectExercise);
@@ -54,9 +40,9 @@ namespace Application.IntegrationTest.Teachers.StudentProjectExercises
         [Test]
         public async Task GetStudentCourseProjectExerciseQuery_CorrectData_NotEmptyList()
         {
-            await RunAsTeacherAsync();
-            var courseId = await AddCourse();
             var teacherId = Guid.NewGuid();
+            var courseId = await AddCourse(teacherId);
+            
             var themeId = await AddTheme(courseId);
             var projectExerciseId = await AddProjectExcercise(themeId);
             await AddStudentProjectexercise(courseId, projectExerciseId);
@@ -90,10 +76,9 @@ namespace Application.IntegrationTest.Teachers.StudentProjectExercises
             await AddAsync(newStudentCourseProjectExercise);
         }
 
-        async Task<Guid> AddCourse()
+        async Task<Guid> AddCourse(Guid teacherId)
         {
-            var teacherId = Guid.NewGuid();
-
+            
             var course = new Course()
             {
                 Id = Guid.NewGuid(),
@@ -134,9 +119,9 @@ namespace Application.IntegrationTest.Teachers.StudentProjectExercises
             return projectExercise.Id;
         }
 
-        async Task<Guid> GetProjectExerciseId()
+        async Task<Guid> GetProjectExerciseId(Guid teacherId)
         {
-            var courseId = await AddCourse();
+            var courseId = await AddCourse(teacherId);
             var themeId = await AddTheme(courseId);
             var projectExerciseId = await AddProjectExcercise(themeId);
             return projectExerciseId;

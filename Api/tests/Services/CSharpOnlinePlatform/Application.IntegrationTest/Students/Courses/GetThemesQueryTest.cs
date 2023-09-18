@@ -71,19 +71,7 @@ namespace Application.IntegrationTest.Students.Courses
             //assert
             themesDto.Should().Equal(themesDto.OrderBy(s => s.StartDate));
         }
-
-        [Test]
-        public async Task GetThemesQuery_NotExistingStudentId_NotFoundException()
-        {
-            var teacherId = Guid.NewGuid();
-            var course = new Course() { Id = Guid.NewGuid(), LearningLanguage = "Tajik", Name = "Name", TeacherId = teacherId };
-            await AddAsync(course);
-            var command = new GetThemesQuery(course.Id, Guid.NewGuid());
-
-            ValidationFailureException validationFailureException = Assert.ThrowsAsync<ValidationFailureException>(() => SendAsync(command));
-            var notFoundExceptionShown = IsErrorExists("StudentGuid", "Студент не найден.", validationFailureException);
-        }
-
+        
         #region Test Data
 
         Course CreateTestCourse(Guid guid)

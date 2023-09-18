@@ -10,7 +10,6 @@ namespace Application.Courses.DTO
         public string Name { get; init; }
         public int TotalThemes { get; init; }
         public int CompletedThemes { get; set; }
-        public string TeacherName { get; init; }
         public DateTime EndDate { get; init; }
 
         public void Mapping(Profile profile)

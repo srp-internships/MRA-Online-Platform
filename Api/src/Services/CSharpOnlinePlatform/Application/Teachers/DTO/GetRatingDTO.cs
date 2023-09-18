@@ -5,7 +5,6 @@ namespace Application.Teachers.DTO
 {
     public class GetRatingDTO : IMapFrom<StudentCourse>
     {
-        public string FullName { get; set; }
         public int TotalRate { get; set; }
         public int TotalSubmit { get; set; }
 
