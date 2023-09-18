@@ -1,10 +1,10 @@
-﻿using Domain.Entities;
-using Infrastructure.Account.Services;
+﻿using Infrastructure.Account.Services;
 using Microsoft.AspNetCore.Http;
 using Moq;
 using NUnit.Framework;
 using System;
 using System.Security.Claims;
+using ClaimTypes = Mra.Shared.Common.Constants.ClaimTypes;
 
 namespace Infrastructure.Test.Account.Services
 {
@@ -40,7 +40,7 @@ namespace Infrastructure.Test.Account.Services
         public void UserHttpContextAccessor_ShouldReturnEmpty_WhenUserClaimIsNotGuidTest()
         {
             var userMock = new Mock<ClaimsPrincipal>();
-            userMock.Setup(u => u.FindFirst(nameof(User.Id))).Returns(new Claim(nameof(User.Id), "Not Guid"));
+            userMock.Setup(u => u.FindFirst(ClaimTypes.Id)).Returns(new Claim(ClaimTypes.Id, "Not Guid"));
 
             var httpContextMock = new Mock<HttpContext>();
             httpContextMock.Setup(s => s.User).Returns(userMock.Object);
@@ -58,7 +58,7 @@ namespace Infrastructure.Test.Account.Services
             var userGuid = Guid.NewGuid();
 
             var userMock = new Mock<ClaimsPrincipal>();
-            userMock.Setup(u => u.FindFirst(nameof(User.Id))).Returns(new Claim(nameof(User.Id), userGuid.ToString()));
+            userMock.Setup(u => u.FindFirst(ClaimTypes.Id)).Returns(new Claim(ClaimTypes.Id, userGuid.ToString()));
 
             var httpContextMock = new Mock<HttpContext>();
             httpContextMock.Setup(s => s.User).Returns(userMock.Object);
