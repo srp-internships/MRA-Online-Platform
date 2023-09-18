@@ -25,8 +25,10 @@ public class CheckProjectExerciseCommandTests
         await GetProjectExerciseId();
         var command = GetCheckProjectExerciseCommand(Guid.NewGuid(), string.Empty, Status.Passed, Guid.NewGuid());
 
-        ValidationFailureException validationException = Assert.ThrowsAsync<ValidationFailureException>(() => SendAsync(command));
-        var projectExerciseNotFoundExceptionShown = IsErrorExists("ProjectExerciseId", "Проект не найден.", validationException);
+        ValidationFailureException validationException =
+            Assert.ThrowsAsync<ValidationFailureException>(() => SendAsync(command));
+        var projectExerciseNotFoundExceptionShown =
+            IsErrorExists("ProjectExerciseId", "Проект не найден.", validationException);
 
         projectExerciseNotFoundExceptionShown.Should().BeTrue();
     }
@@ -37,8 +39,10 @@ public class CheckProjectExerciseCommandTests
         var projectExerciseId = await GetProjectExerciseId();
         var command = GetCheckProjectExerciseCommand(projectExerciseId, string.Empty, Status.Failed, Guid.NewGuid());
 
-        ValidationFailureException validationException = Assert.ThrowsAsync<ValidationFailureException>(() => SendAsync(command));
-        var commentEmptyExceptionShown = IsErrorExists("Comment", ValidationMessages.GetNotEmptyMessage("Comment"), validationException);
+        ValidationFailureException validationException =
+            Assert.ThrowsAsync<ValidationFailureException>(() => SendAsync(command));
+        var commentEmptyExceptionShown = IsErrorExists("Comment", ValidationMessages.GetNotEmptyMessage("Comment"),
+            validationException);
 
         commentEmptyExceptionShown.Should().BeTrue();
     }
@@ -49,7 +53,8 @@ public class CheckProjectExerciseCommandTests
         var projectExerciseId = await GetProjectExerciseId();
         var command = GetCheckProjectExerciseCommand(projectExerciseId, "Comment1", Status.Failed, Guid.NewGuid());
 
-        ValidationFailureException validationException = Assert.ThrowsAsync<ValidationFailureException>(() => SendAsync(command));
+        ValidationFailureException validationException =
+            Assert.ThrowsAsync<ValidationFailureException>(() => SendAsync(command));
         var forbiddenExceptionShown = IsErrorExists("TeacherId", "Ваш доступ ограничен.", validationException);
 
         forbiddenExceptionShown.Should().BeTrue();
@@ -61,10 +66,10 @@ public class CheckProjectExerciseCommandTests
         var courseId = await AddCourse();
         var themeid = await AddTheme(courseId);
         var projectExerciseId = await AddProjectExcercise(themeid);
-        var teacherId = await GetAuthenticatedUser<Teacher>();
+        var teacherId = Guid.NewGuid();
         await AddStudentProjectexercise(courseId, projectExerciseId);
         var command = GetCheckProjectExerciseCommand(projectExerciseId,
-            "Comment", Status.Failed, teacherId.Id);
+            "Comment", Status.Failed, teacherId);
 
         var projectExerciseIdReturn = await SendAsync(command);
         var databaseProjectExercise = await FindAsync<StudentCourseProjectExercise>(projectExerciseIdReturn);
@@ -74,18 +79,16 @@ public class CheckProjectExerciseCommandTests
     }
 
 
-
     async Task AddStudentProjectexercise(Guid courseId, Guid projectExerciseId)
     {
-        await RunAsStudentAsync();
-        var student = await GetAuthenticatedUser<Student>();
+        var studentId = Guid.NewGuid();
         var studentCourse = new StudentCourse()
         {
             Id = Guid.NewGuid(),
             CourseId = courseId,
-            StudentId = student.Id,
+            StudentId = studentId,
         };
-        await AddAsync(studentCourse);        
+        await AddAsync(studentCourse);
         var newStudentCourseProjectExercise = new StudentCourseProjectExercise
         {
             ProjectExerciseId = projectExerciseId,
@@ -100,20 +103,17 @@ public class CheckProjectExerciseCommandTests
 
     async Task<Guid> AddCourse()
     {
-        await RunAsTeacherAsync();
-        var teacher = await GetAuthenticatedUser<Teacher>();
+        var teacherId = Guid.NewGuid();
 
         var course = new Course()
         {
             Id = Guid.NewGuid(),
             LearningLanguage = "Tajik",
             Name = "C# Basics",
-            TeacherId = teacher.Id
+            TeacherId = teacherId
         };
         await AddAsync(course);
         return course.Id;
-
-
     }
 
     async Task<Guid> AddTheme(Guid courseId)
@@ -153,7 +153,8 @@ public class CheckProjectExerciseCommandTests
         return projectExerciseId;
     }
 
-    CheckProjectExerciseCommand GetCheckProjectExerciseCommand(Guid projectExerciseId, string comment, Status status, Guid teacherId)
+    CheckProjectExerciseCommand GetCheckProjectExerciseCommand(Guid projectExerciseId, string comment, Status status,
+        Guid teacherId)
     {
         var checkProjectExerciseCommandDTO = new CheckProjectExerciseCommandDTO()
         {

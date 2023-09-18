@@ -25,12 +25,11 @@ namespace Application.IntegrationTest.Teachers.Themes.Commands
         [Test]
         public async Task ShouldCreateThemeTest()
         {
-            await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
+            var teacherId = Guid.NewGuid();
 
-            var courseId = await SendAsync(new CreateCourseCommand(teacher.Id, "C# Advanced", "English"));
+            var courseId = await SendAsync(new CreateCourseCommand(teacherId, "C# Advanced", "English"));
 
-            var theme = new CreateThemeCommand(teacher.Id, "Collection", "In C#, collection represents group of objects.", new DateTime(2022, 07, 15), new DateTime(2022, 07, 22), courseId);
+            var theme = new CreateThemeCommand(teacherId, "Collection", "In C#, collection represents group of objects.", new DateTime(2022, 07, 15), new DateTime(2022, 07, 22), courseId);
             var themeId = await SendAsync(theme);
 
             var dataBaseTheme = await FindAsync<Theme>(themeId);
@@ -46,14 +45,13 @@ namespace Application.IntegrationTest.Teachers.Themes.Commands
         [Test]
         public async Task CreateThemeCommand_EmptyName_NotEmptyException()
         {
-            await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
+            var teacherId = Guid.NewGuid();
             var course = new Course()
             {
                 Id = Guid.NewGuid(),
                 Name = "C# Training",
                 LearningLanguage = "Tajik",
-                TeacherId = teacher.Id
+                TeacherId = teacherId
             };
             await AddAsync(course);
             var commandDTO = new CreateThemeCommandDTO()
@@ -64,7 +62,7 @@ namespace Application.IntegrationTest.Teachers.Themes.Commands
                 EndDate = DateTime.Now.AddDays(7),
                 CourseId = course.Id
             };
-            var command = new CreateThemeCommand(teacher.Id, commandDTO.Name, commandDTO.Content, commandDTO.StartDate, commandDTO.EndDate, course.Id);
+            var command = new CreateThemeCommand(teacherId, commandDTO.Name, commandDTO.Content, commandDTO.StartDate, commandDTO.EndDate, course.Id);
 
             ValidationFailureException validationFailureException = Assert.ThrowsAsync<ValidationFailureException>(() => SendAsync(command));
             var notEmptyExceptionShown = IsErrorExists("Name", ValidationMessages.GetNotEmptyMessage("Name"), validationFailureException);
@@ -75,14 +73,13 @@ namespace Application.IntegrationTest.Teachers.Themes.Commands
         [Test]
         public async Task CreateThemeCommand_EmptyContent_NotEmptyException()
         {
-            await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
+            var teacherId = Guid.NewGuid();
             var course = new Course()
             {
                 Id = Guid.NewGuid(),
                 Name = "C# Training",
                 LearningLanguage = "Tajik",
-                TeacherId = teacher.Id
+                TeacherId = teacherId
             };
             await AddAsync(course);
             var commandDTO = new CreateThemeCommandDTO()
@@ -93,7 +90,7 @@ namespace Application.IntegrationTest.Teachers.Themes.Commands
                 EndDate = DateTime.Now.AddDays(7),
                 CourseId = course.Id
             };
-            var command = new CreateThemeCommand(teacher.Id, commandDTO.Name, commandDTO.Content, commandDTO.StartDate, commandDTO.EndDate, course.Id);
+            var command = new CreateThemeCommand(teacherId, commandDTO.Name, commandDTO.Content, commandDTO.StartDate, commandDTO.EndDate, course.Id);
 
             ValidationFailureException validationFailureException = Assert.ThrowsAsync<ValidationFailureException>(() => SendAsync(command));
             var notEmptyExceptionShown = IsErrorExists("Content", ValidationMessages.GetNotEmptyMessage("Content"), validationFailureException);
@@ -104,14 +101,13 @@ namespace Application.IntegrationTest.Teachers.Themes.Commands
         [Test]
         public async Task CreateThemeCommand_LessEndDate_NotLessException()
         {
-            await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
+            var teacherId = Guid.NewGuid();
             var course = new Course()
             {
                 Id = Guid.NewGuid(),
                 Name = "C# Training",
                 LearningLanguage = "Tajik",
-                TeacherId = teacher.Id
+                TeacherId = teacherId
             };
             await AddAsync(course);
             var commandDTO = new CreateThemeCommandDTO()
@@ -122,7 +118,7 @@ namespace Application.IntegrationTest.Teachers.Themes.Commands
                 EndDate = DateTime.Now.AddDays(1),
                 CourseId = course.Id
             };
-            var command = new CreateThemeCommand(teacher.Id, commandDTO.Name, commandDTO.Content, commandDTO.StartDate, commandDTO.EndDate, course.Id);
+            var command = new CreateThemeCommand(teacherId, commandDTO.Name, commandDTO.Content, commandDTO.StartDate, commandDTO.EndDate, course.Id);
 
             ValidationFailureException validationFailureException = Assert.ThrowsAsync<ValidationFailureException>(() => SendAsync(command));
             var NotLessException = IsErrorExists("EndDate", ValidationMessages.GetGreaterThanMessage(commandDTO.StartDate.ToShortDateString()), validationFailureException);
@@ -133,14 +129,13 @@ namespace Application.IntegrationTest.Teachers.Themes.Commands
         [Test]
         public async Task CreateThemeCommand_NotExistingTeacherId_NotFoundException()
         {
-            await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
+            var teacherId = Guid.NewGuid();
             var course = new Course()
             {
                 Id = Guid.NewGuid(),
                 Name = "C# Training",
                 LearningLanguage = "Tajik",
-                TeacherId = teacher.Id
+                TeacherId = teacherId
             };
             await AddAsync(course);
             var commandDTO = new CreateThemeCommandDTO()

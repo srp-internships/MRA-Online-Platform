@@ -13,10 +13,9 @@ namespace Application.IntegrationTest.Teachers.Tests.Command
         [Test]
         public async Task UpdateTest_AsyncTest()
         {
-            await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
+            var teacherId = Guid.NewGuid();
 
-            var course = CreateCourse(teacher.Id);
+            var course = CreateCourse(teacherId);
             await AddAsync(course);
 
             var theme = CreateTheme(course.Id, DateTime.Now);

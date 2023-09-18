@@ -1,15 +1,9 @@
-﻿using Application.Admin.Commands.TeacherCommand;
-using Application.Students.Commands;
-using Application.Teachers.Commands.CourseCommand;
-using Application.Teachers.Commands.ProjectExerciseCommand.CreateProjectExercise;
-using Application.Teachers.Commands.ThemeCommands;
-using Application.Teachers.Queries.StudentCourseProjectExerciseQuery;
+﻿using Application.Teachers.Queries.StudentCourseProjectExerciseQuery;
 using Core.Exceptions;
 using Domain.Entities;
 using FluentAssertions;
 using NUnit.Framework;
 using System;
-using System.IO;
 using System.Threading.Tasks;
 using static Application.IntegrationTest.TestHelper;
 
@@ -20,13 +14,12 @@ namespace Application.IntegrationTest.Teachers.StudentProjectExercises
         [Test]
         public async Task GetStudentCourseProjectExerciseQuery_NotExistingProjectExerciseId_NotFoundException()
         {
-            var projectExerciseId = await GetProjectExerciseId();
-            var teacher = await GetAuthenticatedUser<Teacher>();
-
-            var getStudentProjectExercise = new GetStudentCourseProjectExerciseQuery(Guid.NewGuid(), teacher.Id);
+            var teacherId = Guid.NewGuid();
+            var getStudentProjectExercise = new GetStudentCourseProjectExerciseQuery(Guid.NewGuid(), teacherId);
             ValidationFailureException validationException = Assert.ThrowsAsync<ValidationFailureException>
                 (() => SendAsync(getStudentProjectExercise));
-            var projectExerciseNotFoundExceptionShown = IsErrorExists("ProjectExerciseId", "Проект не найден.", validationException);
+            var projectExerciseNotFoundExceptionShown =
+                IsErrorExists("ProjectExerciseId", "Проект не найден.", validationException);
 
             projectExerciseNotFoundExceptionShown.Should().BeTrue();
         }
@@ -40,35 +33,19 @@ namespace Application.IntegrationTest.Teachers.StudentProjectExercises
                 new GetStudentCourseProjectExerciseQuery(projectExerciseId, Guid.NewGuid());
             ValidationFailureException validationException = Assert.ThrowsAsync<ValidationFailureException>
                 (() => SendAsync(getStudentProjectExercise));
-            var projectExerciseNotFoundExceptionShown = IsErrorExists("TeacherId", "Учитель не найден.", validationException);
+            var projectExerciseNotFoundExceptionShown =
+                IsErrorExists("TeacherId", "Учитель не найден.", validationException);
 
             projectExerciseNotFoundExceptionShown.Should().BeTrue();
         }
-
-        // [ Test]
-        // public async Task GetStudentCourseProjectExerciseQuery_WrongTeacherId_NotFoundException()
-        // {
-        //     var projectExerciseId = await GetProjectExerciseId();
-        //     // await SendAsync(GetTeacherCommand());
-        //     var anotherTeacher = await GetAsync<Teacher>(t => t.Email == "test1999@mail.ru");
-        //
-        //     var getStudentProjectExercise =
-        //         new GetStudentCourseProjectExerciseQuery(projectExerciseId, anotherTeacher.Id);
-        //     ValidationFailureException validationException = Assert.ThrowsAsync<ValidationFailureException>
-        //         (() => SendAsync(getStudentProjectExercise));
-        //     var projectExerciseNotFoundExceptionShown = IsErrorExists("TeacherId", "Отказано в доступе.", validationException);
-        //
-        //     projectExerciseNotFoundExceptionShown.Should().BeTrue();
-        // }
 
         [Test]
         public async Task GetStudentCourseProjectExerciseQuery_NoStudentProjectExerciseUploads_EmptyList()
         {
             var projectExerciseId = await GetProjectExerciseId();
-            var teacher = await GetAuthenticatedUser<Teacher>();
-
+            var teacherId = Guid.NewGuid();
             var getStudentProjectExercise =
-                new GetStudentCourseProjectExerciseQuery(projectExerciseId, teacher.Id);
+                new GetStudentCourseProjectExerciseQuery(projectExerciseId, teacherId);
             var listOfStudentProjectExercises = await SendAsync(getStudentProjectExercise);
 
             listOfStudentProjectExercises.Should().BeEmpty();
@@ -78,45 +55,27 @@ namespace Application.IntegrationTest.Teachers.StudentProjectExercises
         public async Task GetStudentCourseProjectExerciseQuery_CorrectData_NotEmptyList()
         {
             await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
             var courseId = await AddCourse();
+            var teacherId = Guid.NewGuid();
             var themeId = await AddTheme(courseId);
             var projectExerciseId = await AddProjectExcercise(themeId);
             await AddStudentProjectexercise(courseId, projectExerciseId);
 
-            var getStudentProjectExercise = new GetStudentCourseProjectExerciseQuery(projectExerciseId, teacher.Id);
+            var getStudentProjectExercise = new GetStudentCourseProjectExerciseQuery(projectExerciseId, teacherId);
             var listOfStudentProjectExercises = await SendAsync(getStudentProjectExercise);
 
             listOfStudentProjectExercises.Should().NotBeEmpty();
         }
 
 
-        // CreateTeacherCommand GetTeacherCommand()
-        // {
-        //     return new CreateTeacherCommand()
-        //     {
-        //         FirstName = "FirstName",
-        //         LastName = "Lastname",
-        //         DateOfBirth = DateTime.Now,
-        //         Email = "test1999@mail.ru",
-        //         Password = "Abcd1234)",
-        //         PhoneNumber = "123456789",
-        //         Country = "Tojikiston",
-        //         Region = "Mintaqa",
-        //         City = "Shahr",
-        //         Address = "Suroga",
-        //     };
-        // }
-
         async Task AddStudentProjectexercise(Guid courseId, Guid projectExerciseId)
         {
-            await RunAsStudentAsync();
-            var student = await GetAuthenticatedUser<Student>();
+            var studentId = Guid.NewGuid();
             var studentCourse = new StudentCourse()
             {
                 Id = Guid.NewGuid(),
                 CourseId = courseId,
-                StudentId = student.Id,
+                StudentId = studentId,
             };
             await AddAsync(studentCourse);
             var newStudentCourseProjectExercise = new StudentCourseProjectExercise
@@ -133,15 +92,14 @@ namespace Application.IntegrationTest.Teachers.StudentProjectExercises
 
         async Task<Guid> AddCourse()
         {
-            await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
+            var teacherId = Guid.NewGuid();
 
             var course = new Course()
             {
                 Id = Guid.NewGuid(),
                 LearningLanguage = "Tajik",
                 Name = "C# Basics",
-                TeacherId = teacher.Id
+                TeacherId = teacherId
             };
             await AddAsync(course);
             return course.Id;

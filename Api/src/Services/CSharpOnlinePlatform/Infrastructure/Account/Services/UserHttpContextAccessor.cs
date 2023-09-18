@@ -1,5 +1,6 @@
 ﻿using Application.Account.Services;
 using Microsoft.AspNetCore.Http;
+using Mra.Shared.Common.Constants;
 
 namespace Infrastructure.Account.Services
 {
@@ -16,7 +17,7 @@ namespace Infrastructure.Account.Services
             var user = _httpContextAccessor.HttpContext?.User;
             if (user != null)
             {
-                //todo
+                return Guid.Parse(user.FindFirst(ClaimTypes.Id).Value);
             }
             return Guid.Empty;
         }

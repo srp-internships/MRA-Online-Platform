@@ -17,7 +17,9 @@ namespace Application.IntegrationTest.Teachers.Themes.Commands
         [Test]
         public async Task ShouldRequireValidThemeId()
         {
-            var command = new UpdateThemeCommand(Guid.NewGuid(), "Collection", "In C#, collection represents group of objects.", new DateTime(2022, 07, 15), new DateTime(2022, 07, 22), Guid.NewGuid());
+            var command = new UpdateThemeCommand(Guid.NewGuid(), "Collection",
+                "In C#, collection represents group of objects.", new DateTime(2022, 07, 15),
+                new DateTime(2022, 07, 22), Guid.NewGuid());
 
             await FluentActions.Invoking(() =>
                 SendAsync(command)).Should().ThrowAsync<ValidationFailureException>();
@@ -26,13 +28,16 @@ namespace Application.IntegrationTest.Teachers.Themes.Commands
         [Test]
         public async Task ShouldUpdateTheme()
         {
-            await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
-            var courseId = await SendAsync(new CreateCourseCommand(teacher.Id, "Python", "English"));
+            var teacherId = Guid.NewGuid();
+            var courseId = await SendAsync(new CreateCourseCommand(teacherId, "Python", "English"));
 
-            var themeId = await SendAsync(new CreateThemeCommand(teacher.Id, "if Statements", "Python if statement is one of the most commonly used conditional statements in programming languages.", new DateTime(2022, 07, 15), new DateTime(2022, 08, 20), courseId));
+            var themeId = await SendAsync(new CreateThemeCommand(teacherId, "if Statements",
+                "Python if statement is one of the most commonly used conditional statements in programming languages.",
+                new DateTime(2022, 07, 15), new DateTime(2022, 08, 20), courseId));
 
-            var updateTheme = new UpdateThemeCommand(themeId, "if Statements", "Python if statement is one of the most commonly used conditional statements in programming languages.", new DateTime(2022, 07, 30), new DateTime(2022, 08, 5), teacher.Id);
+            var updateTheme = new UpdateThemeCommand(themeId, "if Statements",
+                "Python if statement is one of the most commonly used conditional statements in programming languages.",
+                new DateTime(2022, 07, 30), new DateTime(2022, 08, 5), teacherId);
 
             await SendAsync(updateTheme);
 
@@ -49,9 +54,8 @@ namespace Application.IntegrationTest.Teachers.Themes.Commands
         [Test]
         public async Task UpdateThemeCommand_EmptyName_NotEmptyException()
         {
-            await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
-            var themeId = await GetTheme(teacher.Id);
+            var teacherId = Guid.NewGuid();
+            var themeId = await GetTheme(teacherId);
             var commandDTO = new UpdateThemeCommandDTO()
             {
                 Id = themeId,
@@ -60,10 +64,13 @@ namespace Application.IntegrationTest.Teachers.Themes.Commands
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now.AddDays(7)
             };
-            var command = new UpdateThemeCommand(commandDTO.Id, commandDTO.Name, commandDTO.Content, commandDTO.StartDate, commandDTO.EndDate, teacher.Id);
+            var command = new UpdateThemeCommand(commandDTO.Id, commandDTO.Name, commandDTO.Content,
+                commandDTO.StartDate, commandDTO.EndDate, teacherId);
 
-            ValidationFailureException validationFailureException = Assert.ThrowsAsync<ValidationFailureException>(() => SendAsync(command));
-            var notEmptyExceptionShown = IsErrorExists("Name", ValidationMessages.GetNotEmptyMessage("Name"), validationFailureException);
+            ValidationFailureException validationFailureException =
+                Assert.ThrowsAsync<ValidationFailureException>(() => SendAsync(command));
+            var notEmptyExceptionShown = IsErrorExists("Name", ValidationMessages.GetNotEmptyMessage("Name"),
+                validationFailureException);
 
             notEmptyExceptionShown.Should().BeTrue();
         }
@@ -71,9 +78,8 @@ namespace Application.IntegrationTest.Teachers.Themes.Commands
         [Test]
         public async Task UpdateThemeCommand_EmptyContent_NotEmptyException()
         {
-            await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
-            var themeId = await GetTheme(teacher.Id);
+            var teacherId = Guid.NewGuid();
+            var themeId = await GetTheme(teacherId);
             var commandDTO = new UpdateThemeCommandDTO()
             {
                 Id = themeId,
@@ -82,10 +88,13 @@ namespace Application.IntegrationTest.Teachers.Themes.Commands
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now.AddDays(7)
             };
-            var command = new UpdateThemeCommand(commandDTO.Id, commandDTO.Name, commandDTO.Content, commandDTO.StartDate, commandDTO.EndDate, teacher.Id);
+            var command = new UpdateThemeCommand(commandDTO.Id, commandDTO.Name, commandDTO.Content,
+                commandDTO.StartDate, commandDTO.EndDate, teacherId);
 
-            ValidationFailureException validationFailureException = Assert.ThrowsAsync<ValidationFailureException>(() => SendAsync(command));
-            var notEmptyExceptionShown = IsErrorExists("Content", ValidationMessages.GetNotEmptyMessage("Content"), validationFailureException);
+            ValidationFailureException validationFailureException =
+                Assert.ThrowsAsync<ValidationFailureException>(() => SendAsync(command));
+            var notEmptyExceptionShown = IsErrorExists("Content", ValidationMessages.GetNotEmptyMessage("Content"),
+                validationFailureException);
 
             notEmptyExceptionShown.Should().BeTrue();
         }
@@ -93,9 +102,8 @@ namespace Application.IntegrationTest.Teachers.Themes.Commands
         [Test]
         public async Task UpdateThemeCommand_LessEndDate_NotLessException()
         {
-            await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
-            var themeId = await GetTheme(teacher.Id);
+            var teacherId = Guid.NewGuid();
+            var themeId = await GetTheme(teacherId);
             var commandDTO = new UpdateThemeCommandDTO()
             {
                 Id = themeId,
@@ -104,10 +112,14 @@ namespace Application.IntegrationTest.Teachers.Themes.Commands
                 StartDate = DateTime.Now.AddDays(2),
                 EndDate = DateTime.Now.AddDays(1)
             };
-            var command = new UpdateThemeCommand(commandDTO.Id, commandDTO.Name, commandDTO.Content, commandDTO.StartDate, commandDTO.EndDate, teacher.Id);
+            var command = new UpdateThemeCommand(commandDTO.Id, commandDTO.Name, commandDTO.Content,
+                commandDTO.StartDate, commandDTO.EndDate, teacherId);
 
-            ValidationFailureException validationFailureException = Assert.ThrowsAsync<ValidationFailureException>(() => SendAsync(command));
-            var notEmptyExceptionShown = IsErrorExists("EndDate", ValidationMessages.GetGreaterThanMessage(commandDTO.StartDate.ToShortDateString()), validationFailureException);
+            ValidationFailureException validationFailureException =
+                Assert.ThrowsAsync<ValidationFailureException>(() => SendAsync(command));
+            var notEmptyExceptionShown = IsErrorExists("EndDate",
+                ValidationMessages.GetGreaterThanMessage(commandDTO.StartDate.ToShortDateString()),
+                validationFailureException);
 
             notEmptyExceptionShown.Should().BeTrue();
         }
@@ -115,9 +127,8 @@ namespace Application.IntegrationTest.Teachers.Themes.Commands
         [Test]
         public async Task UpdateThemeCommand_NotExistingTeacherId_NotFoundException()
         {
-            await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
-            var themeId = await GetTheme(teacher.Id);
+            var teacherId = Guid.NewGuid();
+            var themeId = await GetTheme(teacherId);
             var commandDTO = new UpdateThemeCommandDTO()
             {
                 Id = themeId,
@@ -126,9 +137,11 @@ namespace Application.IntegrationTest.Teachers.Themes.Commands
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now.AddDays(1)
             };
-            var command = new UpdateThemeCommand(commandDTO.Id, commandDTO.Name, commandDTO.Content, commandDTO.StartDate, commandDTO.EndDate, Guid.NewGuid());
+            var command = new UpdateThemeCommand(commandDTO.Id, commandDTO.Name, commandDTO.Content,
+                commandDTO.StartDate, commandDTO.EndDate, Guid.NewGuid());
 
-            ValidationFailureException validationFailureException = Assert.ThrowsAsync<ValidationFailureException>(() => SendAsync(command));
+            ValidationFailureException validationFailureException =
+                Assert.ThrowsAsync<ValidationFailureException>(() => SendAsync(command));
             var notFoundException = IsErrorExists("TeacherId", "Ваш доступ ограничен.", validationFailureException);
 
             notFoundException.Should().BeTrue();
@@ -145,7 +158,11 @@ namespace Application.IntegrationTest.Teachers.Themes.Commands
             };
             await AddAsync(course);
 
-            var theme = new Theme() { CourseId = course.Id, Name = "Welcome to JS", Content = "Javascript is cool", StartDate = DateTime.Now, EndDate = DateTime.Now.AddDays(5) };
+            var theme = new Theme()
+            {
+                CourseId = course.Id, Name = "Welcome to JS", Content = "Javascript is cool", StartDate = DateTime.Now,
+                EndDate = DateTime.Now.AddDays(5)
+            };
             await AddAsync(theme);
             return theme.Id;
         }

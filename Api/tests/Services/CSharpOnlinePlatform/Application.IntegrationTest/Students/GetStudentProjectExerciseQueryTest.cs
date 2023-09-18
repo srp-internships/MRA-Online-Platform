@@ -48,20 +48,20 @@ namespace Application.IntegrationTest.Students
         public async Task GetStudentProjectExerciseQuery_CorrectData_ListOfStudentProjectExercise()
         {
             await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
-            var course = new Course() { Id = Guid.NewGuid(), LearningLanguage = "en", Name = "C# Basics", TeacherId = teacher.Id };
+            var teacherId = Guid.NewGuid();
+            var course = new Course() { Id = Guid.NewGuid(), LearningLanguage = "en", Name = "C# Basics", TeacherId = teacherId };
             await AddAsync(course);
             var theme = new Theme() { Id = Guid.NewGuid(), Content = "Content", Name = "Name", CourseId = course.Id };
             await AddAsync(theme);
             var projectExercise = new ProjectExercise() { Id = Guid.NewGuid(), Description = "Description", Name = "Name", Rating = 5, ThemeId = theme.Id };
             await AddAsync(projectExercise);
             await RunAsStudentAsync();
-            var student = await GetAuthenticatedUser<Student>();
-            var studentCourse = new StudentCourse() { Id = Guid.NewGuid(), CourseId = course.Id, StudentId = student.Id };
+            var studentId = Guid.NewGuid();
+            var studentCourse = new StudentCourse() { Id = Guid.NewGuid(), CourseId = course.Id, StudentId = studentId };
             await AddAsync(studentCourse);
             var studentProjectExcercise = new StudentCourseProjectExercise() { Id = Guid.NewGuid(), Comment = "Comment", ProjectExerciseId = projectExercise.Id, StudentCourseId = studentCourse.Id };
             await AddAsync(studentProjectExcercise);
-            var command = new GetStudentProjectExerciseQuery(theme.Id, student.Id);
+            var command = new GetStudentProjectExerciseQuery(theme.Id, studentId);
 
             var listOfStudentProjectExercise = await SendAsync(command);
 

@@ -15,10 +15,9 @@ namespace Application.IntegrationTest.Teachers.Tests.Command
         [Test]
         public async Task CreateTestForTheme_AsyncTest()
         {
-            await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
+            var teacherId = Guid.NewGuid();
 
-            var course = CreateCourse(teacher.Id);
+            var course = CreateCourse(teacherId);
             await AddAsync(course);
 
             var theme = CreateTheme(course.Id, DateTime.Now);
@@ -34,7 +33,8 @@ namespace Application.IntegrationTest.Teachers.Tests.Command
             createDTO.Description.Should().Be(cretateTestCommand.Description);
         }
 
-        #region TestData 
+        #region TestData
+
         CreateTestCommand CreateTestCommand(string name, int rate, Guid themId)
         {
             return new CreateTestCommand()
@@ -68,6 +68,7 @@ namespace Application.IntegrationTest.Teachers.Tests.Command
                 LearningLanguage = "Tajik"
             };
         }
+
         #endregion
     }
 }

@@ -14,10 +14,9 @@ namespace Application.IntegrationTest.Teachers.ProjectExercises.Commands
         [Test]
         public async Task UpdateTest_AsyncTest()
         {
-            await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
+            var teacherId = Guid.NewGuid();
 
-            var course = CreateCourse(teacher.Id);
+            var course = CreateCourse(teacherId);
             await AddAsync(course);
 
             var theme = CreateTheme(course.Id, DateTime.Now);
@@ -42,7 +41,8 @@ namespace Application.IntegrationTest.Teachers.ProjectExercises.Commands
             updateDTO.Rating.Should().Be(updateProjectExerciseCommand.Rating);
         }
 
-        #region TestData 
+        #region TestData
+
         ProjectExercise CreateProjectExercise(string name, int rate, Guid themId)
         {
             return new ProjectExercise()
@@ -76,6 +76,7 @@ namespace Application.IntegrationTest.Teachers.ProjectExercises.Commands
                 LearningLanguage = "Tajik"
             };
         }
+
         #endregion
     }
 }

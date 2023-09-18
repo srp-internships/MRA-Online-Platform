@@ -24,19 +24,18 @@ namespace Application.IntegrationTest.Teachers.Courses.Commands
         [Test]
         public async Task ShouldUpdateCourse()
         {
-            await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
+            var teacherId = Guid.NewGuid();
 
-            var courseId = await SendAsync(new CreateCourseCommand(teacher.Id, "C# Advanced", "Tajik"));
+            var courseId = await SendAsync(new CreateCourseCommand(teacherId, "C# Advanced", "Tajik"));
 
-            var updateCourse = new UpdateCourseCommand(teacher.Id, courseId, "C# Beginner", "Tajik");
+            var updateCourse = new UpdateCourseCommand(teacherId, courseId, "C# Beginner", "Tajik");
 
             await SendAsync(updateCourse);
 
             var dataBaseCourse = await FindAsync<Course>(courseId);
 
             dataBaseCourse.Should().NotBeNull();
-            dataBaseCourse!.Id.Should().Be((Guid)updateCourse.CourseId);
+            dataBaseCourse!.Id.Should().Be(updateCourse.CourseId);
             dataBaseCourse!.TeacherId.Should().Be(updateCourse.TeacherId);
             dataBaseCourse.Name.Should().Be(updateCourse.CourseName);
             dataBaseCourse.LearningLanguage.Should().Be(updateCourse.CourseLanguage);
@@ -45,14 +44,13 @@ namespace Application.IntegrationTest.Teachers.Courses.Commands
         [Test]
         public async Task UpdateCourseCommand_EmptyCourseName_NotEmptyException()
         {
-            await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
+            var teacherId = Guid.NewGuid();
             var course = new Course()
             {
                 Id = Guid.NewGuid(),
                 LearningLanguage = "Language",
                 Name = "Name",
-                TeacherId = teacher.Id
+                TeacherId = teacherId
             };
             await AddAsync(course);
             var commandDTO = new UpdateCourseCommandDTO()
@@ -61,7 +59,7 @@ namespace Application.IntegrationTest.Teachers.Courses.Commands
                 Name = string.Empty,
                 CourseLanguage = "CourseLanguage"
             };
-            var command = new UpdateCourseCommand(teacher.Id, course.Id, commandDTO.Name, commandDTO.CourseLanguage);
+            var command = new UpdateCourseCommand(teacherId, course.Id, commandDTO.Name, commandDTO.CourseLanguage);
             ValidationFailureException validationFailureException = Assert.ThrowsAsync<ValidationFailureException>(() => SendAsync(command));
             var notEmptyExceptionShown = IsErrorExists("CourseName", ValidationMessages.GetNotEmptyMessage("Course Name"), validationFailureException);
             notEmptyExceptionShown.Should().BeTrue();
@@ -70,14 +68,13 @@ namespace Application.IntegrationTest.Teachers.Courses.Commands
         [Test]
         public async Task UpdateCourseCommand_EmptyCourseLanguage_NotEmptyException()
         {
-            await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
+            var teacherId = Guid.NewGuid();
             var course = new Course()
             {
                 Id = Guid.NewGuid(),
                 LearningLanguage = "Language",
                 Name = "Name",
-                TeacherId = teacher.Id
+                TeacherId = teacherId
             };
             await AddAsync(course);
             var commandDTO = new UpdateCourseCommandDTO()
@@ -86,7 +83,7 @@ namespace Application.IntegrationTest.Teachers.Courses.Commands
                 Name = "Name",
                 CourseLanguage = string.Empty
             };
-            var command = new UpdateCourseCommand(teacher.Id, course.Id, commandDTO.Name, commandDTO.CourseLanguage);
+            var command = new UpdateCourseCommand(teacherId, course.Id, commandDTO.Name, commandDTO.CourseLanguage);
             ValidationFailureException validationFailureException = Assert.ThrowsAsync<ValidationFailureException>(() => SendAsync(command));
             var notEmptyExceptionShown = IsErrorExists("CourseLanguage", ValidationMessages.GetNotEmptyMessage("Course Language"), validationFailureException);
             notEmptyExceptionShown.Should().BeTrue();

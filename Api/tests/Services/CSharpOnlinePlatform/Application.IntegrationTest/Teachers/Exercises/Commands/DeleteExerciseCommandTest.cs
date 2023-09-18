@@ -14,9 +14,8 @@ namespace Application.IntegrationTest.Teachers.Exercises.Commands
         [Test]
         public async Task ShouldRequireValidExerciseId()
         {
-            await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
-            var command = new DeleteExerciseCommand(Guid.NewGuid(), teacher.Id);
+            var teacherId = Guid.NewGuid();
+            var command = new DeleteExerciseCommand(Guid.NewGuid(), teacherId);
 
             await FluentActions.Invoking(() =>
                 SendAsync(command)).Should().ThrowAsync<ValidationFailureException>();
@@ -25,10 +24,9 @@ namespace Application.IntegrationTest.Teachers.Exercises.Commands
         [Test]
         public async Task ShouldDeleteExercise()
         {
-            await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
+            var teacherId = Guid.NewGuid();
 
-            var course = CreateCourse(teacher);
+            var course = CreateCourse(teacherId);
             await AddAsync(course);
 
             var theme = CreateTheme(course);
@@ -37,20 +35,20 @@ namespace Application.IntegrationTest.Teachers.Exercises.Commands
             var exercise = CreateExercise(theme);
             await AddAsync(exercise);
 
-            await SendAsync(new DeleteExerciseCommand(exercise.Id, teacher.Id));
+            await SendAsync(new DeleteExerciseCommand(exercise.Id, teacherId));
 
             var item = await FindAsync<Exercise>(exercise.Id);
             item.Should().BeNull();
         }
 
-        Course CreateCourse(Teacher teacher)
+        Course CreateCourse(Guid teacherId)
         {
             return new Course()
             {
                 Id = Guid.NewGuid(),
                 Name = "C# Training",
                 LearningLanguage = "Tajik",
-                TeacherId = teacher.Id
+                TeacherId = teacherId
             };
         }
 
@@ -73,7 +71,8 @@ namespace Application.IntegrationTest.Teachers.Exercises.Commands
             {
                 Id = Guid.NewGuid(),
                 Name = "Integer",
-                Description = "A distanceLis given in centimeters. Find the amount of full meters of this distance (1m=1000cm). Use the operator of integer division. ",
+                Description =
+                    "A distanceLis given in centimeters. Find the amount of full meters of this distance (1m=1000cm). Use the operator of integer division. ",
                 Template = "",
                 ThemeId = theme.Id,
                 Test = "Test"
