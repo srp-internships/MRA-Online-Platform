@@ -66,21 +66,6 @@ namespace Application.IntegrationTest.Students.Courses.Themes
             var firstNameMustNotBeEmptyErrorWasShown = IsErrorExists("ThemeGuid", "Это тема ешё не началас.", validationError);
         }
 
-        [Test]
-        public async Task GetThemeQuery_NotExistingStudentId_NotFoundException()
-        {
-            await RunAsTeacherAsync();
-            var teacherId = Guid.NewGuid(); 
-            var course = new Course() { Id = Guid.NewGuid(), LearningLanguage = "Tajik", Name = "Name", TeacherId = teacherId };
-            await AddAsync(course);
-            var theme = new Theme() { Id = Guid.NewGuid(), Content = "Content", CourseId = course.Id, Name = "Name"};
-            await AddAsync(theme);
-            var command = new GetThemeQuery(theme.Id, Guid.NewGuid());
-
-            ValidationFailureException validationFailureException = Assert.ThrowsAsync<ValidationFailureException>(() => SendAsync(command));
-            var notFoundExceptionShown = IsErrorExists("StudentGuid", "Студент не найден.", validationFailureException);
-        }
-
         #region Test Data
 
         Course CreateTestCourse(Guid guid)

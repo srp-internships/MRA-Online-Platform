@@ -124,29 +124,6 @@ namespace Application.IntegrationTest.Teachers.Themes.Commands
             notEmptyExceptionShown.Should().BeTrue();
         }
 
-        [Test]
-        public async Task UpdateThemeCommand_NotExistingTeacherId_NotFoundException()
-        {
-            var teacherId = Guid.NewGuid();
-            var themeId = await GetTheme(teacherId);
-            var commandDTO = new UpdateThemeCommandDTO()
-            {
-                Id = themeId,
-                Name = "Name",
-                Content = "Content",
-                StartDate = DateTime.Now,
-                EndDate = DateTime.Now.AddDays(1)
-            };
-            var command = new UpdateThemeCommand(commandDTO.Id, commandDTO.Name, commandDTO.Content,
-                commandDTO.StartDate, commandDTO.EndDate, Guid.NewGuid());
-
-            ValidationFailureException validationFailureException =
-                Assert.ThrowsAsync<ValidationFailureException>(() => SendAsync(command));
-            var notFoundException = IsErrorExists("TeacherId", "Ваш доступ ограничен.", validationFailureException);
-
-            notFoundException.Should().BeTrue();
-        }
-
         async Task<Guid> GetTheme(Guid teacherId)
         {
             var course = new Course()

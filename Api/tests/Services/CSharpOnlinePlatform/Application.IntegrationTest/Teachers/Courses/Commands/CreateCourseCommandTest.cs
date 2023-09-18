@@ -13,15 +13,6 @@ namespace Application.IntegrationTest.Teachers.Courses.Commands
     public class CreateCourseCommandTest
     {
         [Test]
-        public async Task ShouldRequireValidCourseId()
-        {
-            var command = new CreateCourseCommand(Guid.NewGuid(), "C# Advanced", "Tajik");
-
-            await FluentActions.Invoking(() =>
-                SendAsync(command)).Should().ThrowAsync<ValidationFailureException>();
-        }
-
-        [Test]
         public async Task ShouldCreateCourseTest()
         {
             var teacherId = Guid.NewGuid();

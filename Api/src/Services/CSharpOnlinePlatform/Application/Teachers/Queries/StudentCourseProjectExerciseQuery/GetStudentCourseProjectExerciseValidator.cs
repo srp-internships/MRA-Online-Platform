@@ -7,11 +7,16 @@ namespace Application.Teachers.Queries.StudentCourseProjectExerciseQuery
 {
     public class GetStudentCourseProjectExerciseValidator : AbstractValidator<GetStudentCourseProjectExerciseQuery>
     {
+        public GetStudentCourseProjectExerciseValidator(IApplicationDbContext context)
+        {
+            ProjectShouldExist(context);
+            ProjectExerciseWithItsTeacher(context);
+        }
         IRuleBuilderOptions<GetStudentCourseProjectExerciseQuery, Guid> ProjectShouldExist(IApplicationDbContext dbContext)
         {
             return RuleFor(s => s.ProjectExerciseId).Must((projectExerciseId) =>
             {
-                return dbContext.GetEntities<ProjectExercise>().Where(p => p.Id == projectExerciseId).Any();
+                return dbContext.GetEntities<ProjectExercise>().Any(p => p.Id == projectExerciseId);
             }).WithMessage("Проект не найден.");
         }
         

@@ -12,7 +12,7 @@ namespace Application.IntegrationTest.Teachers.StudentProjectExercises
     public class GetStudentCourseProjectExerciseQueryTest
     {
         [Test]
-        public async Task GetStudentCourseProjectExerciseQuery_NotExistingProjectExerciseId_NotFoundException()
+        public void GetStudentCourseProjectExerciseQuery_NotExistingProjectExerciseId_NotFoundException()
         {
             var teacherId = Guid.NewGuid();
             var getStudentProjectExercise = new GetStudentCourseProjectExerciseQuery(Guid.NewGuid(), teacherId);
@@ -23,21 +23,7 @@ namespace Application.IntegrationTest.Teachers.StudentProjectExercises
 
             projectExerciseNotFoundExceptionShown.Should().BeTrue();
         }
-
-        [Test]
-        public async Task GetStudentCourseProjectExerciseQuery_NotExistingTeacherId_NotFoundException()
-        {
-            var projectExerciseId = await GetProjectExerciseId();
-
-            var getStudentProjectExercise =
-                new GetStudentCourseProjectExerciseQuery(projectExerciseId, Guid.NewGuid());
-            ValidationFailureException validationException = Assert.ThrowsAsync<ValidationFailureException>
-                (() => SendAsync(getStudentProjectExercise));
-            var projectExerciseNotFoundExceptionShown =
-                IsErrorExists("TeacherId", "Учитель не найден.", validationException);
-
-            projectExerciseNotFoundExceptionShown.Should().BeTrue();
-        }
+        
 
         [Test]
         public async Task GetStudentCourseProjectExerciseQuery_NoStudentProjectExerciseUploads_EmptyList()

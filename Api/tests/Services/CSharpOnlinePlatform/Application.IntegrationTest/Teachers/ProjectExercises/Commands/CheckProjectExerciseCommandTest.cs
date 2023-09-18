@@ -6,14 +6,7 @@ using System;
 using FluentAssertions;
 using static Application.IntegrationTest.TestHelper;
 using Core.ValidationsBehaviours;
-using Application.Teachers.Commands.ProjectExerciseCommand.CreateProjectExercise;
 using System.Threading.Tasks;
-using Application.Teachers.Commands.CourseCommand;
-using Application.Teachers.Commands.ThemeCommands;
-using Application.Students.Commands;
-using System.IO;
-using Microsoft.AspNetCore.Http;
-using System.Text;
 
 namespace Application.IntegrationTest.Teachers.ProjectExercises.Commands;
 
@@ -63,11 +56,14 @@ public class CheckProjectExerciseCommandTests
     [Test]
     public async Task CheckProjectExerciseCommand_CorrectData_NotNull()
     {
-        var courseId = await AddCourse();
-        var themeid = await AddTheme(courseId);
-        var projectExerciseId = await AddProjectExcercise(themeid);
         var teacherId = Guid.NewGuid();
-        await AddStudentProjectexercise(courseId, projectExerciseId);
+        var courseId = await AddCourse(teacherId);
+        var themeId = await AddTheme(courseId);
+        var projectExerciseId = await AddProjectExcercise(themeId);
+        
+        
+        
+        await AddStudentProjectExercise(courseId, projectExerciseId);
         var command = GetCheckProjectExerciseCommand(projectExerciseId,
             "Comment", Status.Failed, teacherId);
 
@@ -79,7 +75,7 @@ public class CheckProjectExerciseCommandTests
     }
 
 
-    async Task AddStudentProjectexercise(Guid courseId, Guid projectExerciseId)
+    async Task AddStudentProjectExercise(Guid courseId, Guid projectExerciseId)
     {
         var studentId = Guid.NewGuid();
         var studentCourse = new StudentCourse()
@@ -101,10 +97,8 @@ public class CheckProjectExerciseCommandTests
         await AddAsync(newStudentCourseProjectExercise);
     }
 
-    async Task<Guid> AddCourse()
+    async Task<Guid> AddCourse(Guid teacherId)
     {
-        var teacherId = Guid.NewGuid();
-
         var course = new Course()
         {
             Id = Guid.NewGuid(),
@@ -147,7 +141,8 @@ public class CheckProjectExerciseCommandTests
 
     async Task<Guid> GetProjectExerciseId()
     {
-        var courseId = await AddCourse();
+        var teacherId = Guid.NewGuid();
+        var courseId = await AddCourse(teacherId);
         var themeId = await AddTheme(courseId);
         var projectExerciseId = await AddProjectExcercise(themeId);
         return projectExerciseId;

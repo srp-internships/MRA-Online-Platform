@@ -17,7 +17,9 @@ namespace Infrastructure.Account.Services
             var user = _httpContextAccessor.HttpContext?.User;
             if (user != null)
             {
-                return Guid.Parse(user.FindFirst(ClaimTypes.Id).Value);
+                var idClaim = user.FindFirst(ClaimTypes.Id);
+                if (idClaim != null && Guid.TryParse(idClaim.Value, out Guid id))
+                    return id;
             }
             return Guid.Empty;
         }

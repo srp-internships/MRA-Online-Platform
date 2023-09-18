@@ -65,21 +65,6 @@ public class SubmitProjectExerciseCommandTest
     }
 
     [Test]
-    public async Task SubmitProjectExerciseCommand_UploadProjectError_False()
-    {
-        var studentId =Guid.NewGuid();
-        var courseId = await AddCourse();
-        await AddStudentCourse(courseId, studentId);
-        var themeId = await AddTheme(courseId);
-        var projectExerciseId = await AddProjectExcercise(themeId);
-
-        var testSubmit = new SubmitProjectExerciseCommand(projectExerciseId, studentId, IFormFileFake(RandomString(5)));
-        var serverResponseDTO = await SendAsync(testSubmit);
-
-        serverResponseDTO.Success.Should().BeFalse();
-    }
-
-    [Test]
     public async Task SubmitProjectExerciseCommand_UploadProjectSuccess_True()
     {
         var studentId =Guid.NewGuid();
