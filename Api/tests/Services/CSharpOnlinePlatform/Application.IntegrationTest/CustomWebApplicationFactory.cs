@@ -36,13 +36,6 @@ namespace Application.IntegrationTest
                 services.Replace(descriptor);
 
                 descriptor =
-                    new ServiceDescriptor(
-                        typeof(IEmailSenderService),
-                        typeof(TestEmailSenderService),
-                        ServiceLifetime.Transient);
-                services.Replace(descriptor);
-
-                descriptor =
                    new ServiceDescriptor(
                        typeof(IGoogleDriveService),
                        typeof(TestGoogleDriveService),

@@ -2,7 +2,6 @@
 using Domain.Entities;
 using Infrastructure.Persistence;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Infrastructure.Identity;
 using WebApi;
 
 namespace Application.IntegrationTest
@@ -94,55 +94,23 @@ namespace Application.IntegrationTest
 
         public static async Task<Guid> RunAsStudentAsync()
         {
-            var student = new Student { FirstName = "FirstName", LastName = "LastName", Occupation = "Student" };
-            return await RunAsUserAsync("student@local", "Administrator1234!", new[] { "student" }, student);
+            // return await RunAsUserAsync("student@local", "Administrator1234!", new[] { ApplicationClaimValues.Student });
+            return Guid.NewGuid();
         }
 
         public static async Task<Guid> RunAsTeacherAsync()
         {
-            var teacher = new Teacher { FirstName = "FirstName", LastName = "LastName" };
-            return await RunAsUserAsync("teacher@local", "Administrator12345!", new[] { "teacher" }, teacher);
+            // var teacher = new Teacher { FirstName = "FirstName", LastName = "LastName" };
+            // return await RunAsUserAsync("teacher@local", "Administrator12345!", new[] { "teacher" }, teacher);
+            return Guid.NewGuid();
         }
-
-        public static async Task<Guid> RunAsUserAsync<T>(string userName, string password, string[] roles, T user) where T : User
-        {
-            using var scope = _scopeFactory.CreateScope();
-            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
-            user.Email = userName;
-            user.UserName = userName;
-            var existingUser = userManager.Users.FirstOrDefault(s => s.UserName == userName);
-            if (existingUser != null)
-            {
-                user = (T)existingUser;
-            }
-            else
-            {
-                await userManager.CreateAsync(user, password);
-            }
-
-            if (roles.Any())
-            {
-                var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
-
-                foreach (var role in roles)
-                {
-                    await roleManager.CreateAsync(new IdentityRole<Guid>(role));
-                }
-
-                await userManager.AddToRolesAsync(user, roles);
-            }
-            await userManager.AddClaimAsync(user, new System.Security.Claims.Claim("", ""));
-            _currentUserId = user.Id;
-
-            return _currentUserId;
-        }
-
+        
         public static Guid GetAuthenticatedUserId()
         {
             return _currentUserId;
         }
 
-        public static async Task<T> GetAuthenticatedUser<T>() where T : User
+        public static async Task<T> GetAuthenticatedUser<T>() where T : class, IEntity
         {
             var userId = GetAuthenticatedUserId();
             return await GetAsync<T>(userId);

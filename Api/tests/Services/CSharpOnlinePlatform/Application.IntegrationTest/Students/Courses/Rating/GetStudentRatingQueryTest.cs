@@ -1,5 +1,4 @@
-﻿using Application.Admin.Commands.StudentCommand;
-using Application.Students.Queries;
+﻿using Application.Students.Queries;
 using Domain.Entities;
 using NUnit.Framework;
 using System;
@@ -17,15 +16,12 @@ namespace Application.IntegrationTest.Students.Courses.Rating
             await RunAsStudentAsync();
 
             // Create Students
-            var student = GetStudentCommand("Alex", "alex@mail.ru");
-            await SendAsync(student);
-            var alex = await GetAsync<Student>(s => s.Email == student.Email);
-            student = GetStudentCommand("Baha", "baha@mail.ru");
-            await SendAsync(student);
-            var baha = await GetAsync<Student>(s => s.Email == student.Email);
-            student = GetStudentCommand("Alik", "alik@mail.ru");
-            await SendAsync(student);
-            var alik = await GetAsync<Student>(s => s.Email == student.Email);
+
+            var alexId = Guid.NewGuid();
+
+            var bahaId = Guid.NewGuid();
+
+            var alikId = Guid.NewGuid();
 
             //Create Course for made up Students
             var course = CreateCourse();
@@ -41,19 +37,22 @@ namespace Application.IntegrationTest.Students.Courses.Rating
             var dataType = await CreateExercise("Data Types", 5, theme.Id);
 
             //Link the Course to the Students and the Exercises to the StudentCourse for Alex
-            var studentCourse = await CreateStudentCourse(alex.Id, course.Id);
-            await CreateStudentCourseExercises(variable, Status.Passed, typeCasting, Status.Passed, dataType, Status.Passed, studentCourse);
+            var studentCourse = await CreateStudentCourse(alexId, course.Id);
+            await CreateStudentCourseExercises(variable, Status.Passed, typeCasting, Status.Passed, dataType,
+                Status.Passed, studentCourse);
 
             //Link the Course to the Students and the Exercises to the StudentCourse for Baha
-            studentCourse = await CreateStudentCourse(baha.Id, course.Id);
-            await CreateStudentCourseExercises(variable, Status.Passed, typeCasting, Status.Failed, dataType, Status.Passed, studentCourse);
+            studentCourse = await CreateStudentCourse(bahaId, course.Id);
+            await CreateStudentCourseExercises(variable, Status.Passed, typeCasting, Status.Failed, dataType,
+                Status.Passed, studentCourse);
 
             //Link the Course to the Students and the Exercises to the StudentCourse for Alik
-            studentCourse = await CreateStudentCourse(alik.Id, course.Id);
-            await CreateStudentCourseExercises(variable, Status.Failed, typeCasting, Status.Passed, dataType, Status.Passed, studentCourse);
+            studentCourse = await CreateStudentCourse(alikId, course.Id);
+            await CreateStudentCourseExercises(variable, Status.Failed, typeCasting, Status.Passed, dataType,
+                Status.Passed, studentCourse);
 
             //Testing
-            GetStudentRatingQuery alexRate = new GetStudentRatingQuery(course.Id, alex.Id);
+            GetStudentRatingQuery alexRate = new GetStudentRatingQuery(course.Id, alexId);
             var ratingDTO = await SendAsync(alexRate);
 
             ratingDTO.TotalRate.Should().Be(16);
@@ -61,28 +60,31 @@ namespace Application.IntegrationTest.Students.Courses.Rating
             ratingDTO.CompletedRate.Should().Be(16);
             ratingDTO.Position.Should().Be(1);
 
-            var bahaRate = new GetStudentRatingQuery(course.Id, baha.Id);
+            var bahaRate = new GetStudentRatingQuery(course.Id, bahaId);
             ratingDTO = await SendAsync(bahaRate);
 
             ratingDTO.CompletedRate.Should().Be(6);
             ratingDTO.Position.Should().Be(3);
 
-            var alikRate = new GetStudentRatingQuery(course.Id, alik.Id);
+            var alikRate = new GetStudentRatingQuery(course.Id, alikId);
             ratingDTO = await SendAsync(alikRate);
 
             ratingDTO.CompletedRate.Should().Be(15);
             ratingDTO.Position.Should().Be(2);
         }
 
-        private async Task CreateStudentCourseExercises(Exercise variable, Status statusVariable, Exercise typeCasting, Status statusTypeCasting, Exercise dataType, Status statusDataType, StudentCourse studentCourse)
+        private async Task CreateStudentCourseExercises(Exercise variable, Status statusVariable, Exercise typeCasting,
+            Status statusTypeCasting, Exercise dataType, Status statusDataType, StudentCourse studentCourse)
         {
             await CreateStudentCourseExercise(studentCourse.Id, variable.Id, statusVariable);
             await CreateStudentCourseExercise(studentCourse.Id, typeCasting.Id, statusTypeCasting);
             await CreateStudentCourseExercise(studentCourse.Id, dataType.Id, statusDataType);
         }
 
-        #region TestData 
-        async Task<StudentCourseExercise> CreateStudentCourseExercise(Guid studentCourseId, Guid exerciseId, Status status)
+        #region TestData
+
+        async Task CreateStudentCourseExercise(Guid studentCourseId, Guid exerciseId,
+            Status status)
         {
             var studentCourseExercise = new StudentCourseExercise()
             {
@@ -92,7 +94,6 @@ namespace Application.IntegrationTest.Students.Courses.Rating
                 Code = "string"
             };
             await AddAsync(studentCourseExercise);
-            return studentCourseExercise;
         }
 
         async Task<Exercise> CreateExercise(string name, int rate, Guid themId)
@@ -143,25 +144,6 @@ namespace Application.IntegrationTest.Students.Courses.Rating
                 Id = Guid.NewGuid(),
                 Name = "C# Basic",
                 LearningLanguage = "Tajik"
-            };
-        }
-
-        CreateStudentCommand GetStudentCommand(string name, string email)
-        {
-            return new CreateStudentCommand()
-            {
-                FirstName = name,
-                LastName = "Glick",
-                Address = "PA, Lancaster",
-                BirthDate = System.DateTime.Today,
-                PhoneNumber = "992927770000",
-                City = "Khujand",
-                Country = "Tajikistan",
-                Email = email,
-                Occupation = "student",
-                Password = "Pw12345@",
-                Region = "Sogd",
-                CourseName = "C# for beginners"
             };
         }
 

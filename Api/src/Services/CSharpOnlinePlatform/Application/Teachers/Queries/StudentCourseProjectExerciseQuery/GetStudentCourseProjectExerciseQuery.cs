@@ -34,7 +34,6 @@ namespace Application.Teachers.Queries.StudentCourseProjectExerciseQuery
         {
             return await _dbContext.GetEntities<StudentCourseProjectExercise>().AsNoTracking()
                 .Include(s => s.StudentCourse)
-                .ThenInclude(s => s.Student)
                 .Where(t => t.ProjectExerciseId == request.ProjectExerciseId && t.Status == Status.WaitForTeacher)
                 .Select(s => _mapper.Map<GetStudentCourseProjectExerciseDTO>(s))
                 .ToListAsync(cancellationToken);

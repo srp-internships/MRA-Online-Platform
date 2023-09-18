@@ -34,7 +34,6 @@ namespace Application.Teachers.Queries.RatingQuery
         public async Task<List<GetRatingDTO>> Handle(GetStudentsRatingQuery request, CancellationToken cancellationToken)
         {
             var studentCourses = await _dbContext.GetEntities<StudentCourse>().AsNoTracking()
-                        .Include(s => s.Student)
                         .Include(s => s.Exercises).ThenInclude(s => s.Exercise)
                         .Include(s => s.Tests).ThenInclude(s => s.Test)
                         .Where(s => s.CourseId == request.CourseId && s.Course.TeacherId == request.TeacherId)

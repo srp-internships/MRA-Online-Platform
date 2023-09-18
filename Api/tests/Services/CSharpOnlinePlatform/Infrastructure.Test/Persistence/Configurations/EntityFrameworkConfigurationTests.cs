@@ -1,6 +1,5 @@
 ﻿using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using System;

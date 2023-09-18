@@ -29,15 +29,14 @@ namespace Application.IntegrationTest.Teachers.Exercises.Commands
         [Test]
         public async Task ShouldCreateExerciseTest()
         {
-            await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
+            var teacherId = Guid.NewGuid();
 
-            var theme = CreateCourseWithTheme(teacher);
+            var theme = CreateCourseWithTheme(teacherId);
             await AddAsync(theme);
 
             var exercise = CreateExercise(theme.Id);
 
-            var newExercise = new CreateExerciseCommand(exercise, teacher.Id);
+            var newExercise = new CreateExerciseCommand(exercise, teacherId);
             var exerciseId = await SendAsync(newExercise);
 
             var dataBaseExercise = await FindAsync<Exercise>(exerciseId);
@@ -56,9 +55,8 @@ namespace Application.IntegrationTest.Teachers.Exercises.Commands
         [TestCase("Name", "Template", "Test", "", "ExerciseDTO.Description", "Exercise DT O Description")]
         public async Task CreateExerciseCommand_EmptyParameters_NotEmptyException(string name, string template, string test, string description, string propertyName, string exceptionMessage)
         {
-            await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
-            var themeId = await AddTheme(teacher.Id);
+            var teacherId = Guid.NewGuid();
+            var themeId = await AddTheme(teacherId);
             var commandDTO = new CreateExerciseCommandDTO()
             {
                 Name = name,
@@ -69,7 +67,7 @@ namespace Application.IntegrationTest.Teachers.Exercises.Commands
                 ThemeId = themeId
             };
 
-            var command = new CreateExerciseCommand(commandDTO, teacher.Id);
+            var command = new CreateExerciseCommand(commandDTO, teacherId);
             ValidationFailureException validationFailureException = Assert.ThrowsAsync<ValidationFailureException>(() => SendAsync(command));
             var notEmpmtyExceptionShown = IsErrorExists(propertyName, ValidationMessages.GetNotEmptyMessage(exceptionMessage), validationFailureException);
 
@@ -79,9 +77,8 @@ namespace Application.IntegrationTest.Teachers.Exercises.Commands
         [Test]
         public async Task CreateExerciseCommand_GreatRating_GreatRatingException()
         {
-            await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
-            var themeId = await AddTheme(teacher.Id);
+            var teacherId = Guid.NewGuid();
+            var themeId = await AddTheme(teacherId);
             var commandDTO = new CreateExerciseCommandDTO()
             {
                 Name = "Name",
@@ -92,7 +89,7 @@ namespace Application.IntegrationTest.Teachers.Exercises.Commands
                 ThemeId = themeId
             };
 
-            var command = new CreateExerciseCommand(commandDTO, teacher.Id);
+            var command = new CreateExerciseCommand(commandDTO, teacherId);
             ValidationFailureException validationFailureException = Assert.ThrowsAsync<ValidationFailureException>(() => SendAsync(command));
             var notEmpmtyExceptionShown = IsErrorExists("ExerciseDTO.Rating", ValidationMessages.GetLessThanOrEqualToMessage("Exercise DT O Rating", 10), validationFailureException);
 
@@ -102,9 +99,8 @@ namespace Application.IntegrationTest.Teachers.Exercises.Commands
         [Test]
         public async Task CreateExerciseCommand_LessRating_LessRatinException()
         {
-            await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
-            var themeId = await AddTheme(teacher.Id);
+            var teacherId = Guid.NewGuid();
+            var themeId = await AddTheme(teacherId);
             var commandDTO = new CreateExerciseCommandDTO()
             {
                 Name = "Name",
@@ -115,7 +111,7 @@ namespace Application.IntegrationTest.Teachers.Exercises.Commands
                 ThemeId = themeId
             };
 
-            var command = new CreateExerciseCommand(commandDTO, teacher.Id);
+            var command = new CreateExerciseCommand(commandDTO, teacherId);
             ValidationFailureException validationFailureException = Assert.ThrowsAsync<ValidationFailureException>(() => SendAsync(command));
             var notEmpmtyExceptionShown = IsErrorExists("ExerciseDTO.Rating", ValidationMessages.GetGreaterThanOrEqualToMessage("Exercise DT O Rating", 0), validationFailureException);
 
@@ -125,8 +121,7 @@ namespace Application.IntegrationTest.Teachers.Exercises.Commands
         [Test]
         public async Task CreateExerciseCommand_NotExistingThemeId_ForbiddenException()
         {
-            await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
+            var teacherId = Guid.NewGuid();
             var commandDTO = new CreateExerciseCommandDTO()
             {
                 Name = "Name",
@@ -137,16 +132,16 @@ namespace Application.IntegrationTest.Teachers.Exercises.Commands
                 ThemeId = Guid.NewGuid()
             };
 
-            var command = new CreateExerciseCommand(commandDTO, teacher.Id);
+            var command = new CreateExerciseCommand(commandDTO, teacherId);
             ValidationFailureException validationFailureException = Assert.ThrowsAsync<ValidationFailureException>(() => SendAsync(command));
             var forbiddenException = IsErrorExists("ExerciseDTO.ThemeId", "Ваш доступ ограничен.", validationFailureException);
 
             forbiddenException.Should().BeTrue();
         }
 
-        Theme CreateCourseWithTheme(Teacher teacher)
+        Theme CreateCourseWithTheme(Guid teacherId)
         {
-            var course = new Course() { LearningLanguage = "TAJIK", Name = "Javascript", TeacherId = teacher.Id };
+            var course = new Course() { LearningLanguage = "TAJIK", Name = "Javascript", TeacherId = teacherId };
             return new Theme() { Course = course, Name = "Welcome to JS", Content = "Javascript is cool", StartDate = DateTime.Now, EndDate = DateTime.Now.AddDays(5) };
         }
 

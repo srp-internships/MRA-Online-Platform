@@ -14,16 +14,15 @@ namespace Application.IntegrationTest.Teachers.ProjectExercises.Commands
         [Test]
         public async Task CreateProjectExerciseForTheme_AsyncTest()
         {
-            await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
+            var teacherId = Guid.NewGuid();
 
-            var course = CreateCourse(teacher.Id);
+            var course = CreateCourse(teacherId);
             await AddAsync(course);
 
             var theme = CreateTheme(course.Id, DateTime.Now);
             await AddAsync(theme);
 
-            var cretateprojectExerciseCommand = CreateProjectExercise(teacher.Id, "Test 1", 10, theme.Id);
+            var cretateprojectExerciseCommand = CreateProjectExercise(teacherId, "Test 1", 10, theme.Id);
             var proExerciseId = await SendAsync(cretateprojectExerciseCommand);
 
             var createDTO = await FindAsync<ProjectExercise>(proExerciseId);

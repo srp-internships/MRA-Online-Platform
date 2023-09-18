@@ -14,9 +14,8 @@ namespace Application.IntegrationTest.Teachers.Themes.Commands
         [Test]
         public async Task ShouldRequireValidThemeId()
         {
-            await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
-            var command = new DeleteThemeCommand(Guid.NewGuid(), teacher.Id);
+            var teacherId = Guid.NewGuid();
+            var command = new DeleteThemeCommand(Guid.NewGuid(), teacherId);
 
             await FluentActions.Invoking(() =>
                 SendAsync(command)).Should().ThrowAsync<ValidationFailureException>();
@@ -25,29 +24,28 @@ namespace Application.IntegrationTest.Teachers.Themes.Commands
         [Test]
         public async Task ShouldDeleteTheme()
         {
-            await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
+            var teacherId = Guid.NewGuid();
 
-            var course = CreateCourse(teacher);
+            var course = CreateCourse(teacherId);
             await AddAsync(course);
 
             var theme = CreateTheme(course);
             await AddAsync(theme);
 
-            await SendAsync(new DeleteThemeCommand(theme.Id, teacher.Id));
+            await SendAsync(new DeleteThemeCommand(theme.Id, teacherId));
 
             var item = await FindAsync<Course>(theme.Id);
             item.Should().BeNull();
         }
 
-        Course CreateCourse(Teacher teacher)
+        Course CreateCourse(Guid teacherId)
         {
             return new Course()
             {
                 Id = Guid.NewGuid(),
                 Name = "C# Training",
                 LearningLanguage = "Tajik",
-                TeacherId = teacher.Id
+                TeacherId = teacherId
             };
         }
 

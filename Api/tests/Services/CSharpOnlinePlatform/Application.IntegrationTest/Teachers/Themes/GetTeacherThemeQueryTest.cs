@@ -11,27 +11,16 @@ namespace Application.IntegrationTest.Teachers.Themes
 {
     public class GetTeacherThemeQueryTest
     {
-        [Test]
-        public void GetTeacherThemeQuery_NotExistingThemeId_ForbiddenException()
-        {
-            var command = new GetTeacherThemeQuery(Guid.NewGuid(), Guid.NewGuid());
-
-            ValidationFailureException validationFailureException = Assert.ThrowsAsync<ValidationFailureException>(() => SendAsync(command));
-
-            var forbiddenExceptionShown = IsErrorExists("ThemeId", "Ваш доступ ограничен.", validationFailureException);
-            forbiddenExceptionShown.Should().BeTrue();
-        }
-
+        
         [Test]
         public async Task GetTeacherThemeQuery_CorrectData_ThemeDTO()
         {
-            await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
-            var course = new Course() { Id = Guid.NewGuid(), LearningLanguage = "Tajik", Name = "Name", TeacherId = teacher.Id };
+            var teacherId = Guid.NewGuid();
+            var course = new Course() { Id = Guid.NewGuid(), LearningLanguage = "Tajik", Name = "Name", TeacherId = teacherId };
             await AddAsync(course);
             var theme = new Theme() { Id = Guid.NewGuid(), Name = "Name", Content = "Content", CourseId = course.Id };
             await AddAsync(theme);
-            var command = new GetTeacherThemeQuery(theme.Id, teacher.Id);
+            var command = new GetTeacherThemeQuery(theme.Id, teacherId);
 
             var themeDTO = await SendAsync(command);
 

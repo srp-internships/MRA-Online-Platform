@@ -24,10 +24,9 @@ namespace Application.IntegrationTest.Teachers.Themes
         [Test]
         public async Task GetThemes_ShouldReturnThemesFromDataBaseTest()
         {
-            await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
+            var teacherId = Guid.NewGuid();
 
-            var course = CreateCourse(teacher);
+            var course = CreateCourse(teacherId);
             await AddAsync(course);
 
             var theme = CreateTheme(course, new DateTime(2022, 07, 15));
@@ -43,9 +42,8 @@ namespace Application.IntegrationTest.Teachers.Themes
         public async Task GetOrderedThemesByStartDate_ShouldReturnThemesFromDataBaseTestAsync()
         {
             //arrange
-            await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
-            var course = CreateCourse(teacher);
+            var teacherId = Guid.NewGuid();
+            var course = CreateCourse(teacherId);
             await AddAsync(course);
 
             var theme = CreateTheme(course, DateTime.Today.AddDays(2));
@@ -76,14 +74,14 @@ namespace Application.IntegrationTest.Teachers.Themes
             };
         }
 
-        Course CreateCourse(Teacher teacher)
+        Course CreateCourse(Guid teacherId)
         {
             return new Course()
             {
                 Id = Guid.NewGuid(),
                 Name = "C# Training",
                 LearningLanguage = "Tajik",
-                TeacherId = teacher.Id
+                TeacherId = teacherId
             };
         }
 

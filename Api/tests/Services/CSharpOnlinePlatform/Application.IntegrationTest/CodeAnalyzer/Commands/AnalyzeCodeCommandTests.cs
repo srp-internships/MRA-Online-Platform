@@ -58,11 +58,10 @@ namespace Application.IntegrationTest.CodeAnalyzer.Commands
             await AddAsync(theme);
             var exercise = CreateExercise(theme);
             await AddAsync(exercise);
-            var student = await GetAuthenticatedUser<Student>();
-            var studentCourse = new StudentCourse { CourseId = course.Id, StudentId = student.Id };
+            var studentCourse = new StudentCourse { CourseId = course.Id, StudentId = Guid.NewGuid()};
             await AddAsync(studentCourse);
 
-            AnalyzeCodeCommand command = new(student.Id, new() { Code = TestCodeAnalyzerService.SuccessCode, Id = exercise.Id }, GetVersion());
+            AnalyzeCodeCommand command = new(studentCourse.StudentId, new AnalyzeCodeCommandParameter { Code = TestCodeAnalyzerService.SuccessCode, Id = exercise.Id }, GetVersion());
             CodeAnalyzeResultDTO codeAnalyzeResult = await SendAsync(command);
             codeAnalyzeResult.Success.Should().BeTrue();
 
@@ -82,11 +81,11 @@ namespace Application.IntegrationTest.CodeAnalyzer.Commands
             await AddAsync(theme);
             var exercise = CreateExercise(theme);
             await AddAsync(exercise);
-            var student = await GetAuthenticatedUser<Student>();
-            var studentCourse = new StudentCourse { CourseId = course.Id, StudentId = student.Id };
+            var studentId = Guid.NewGuid();
+            var studentCourse = new StudentCourse { CourseId = course.Id, StudentId = studentId };
             await AddAsync(studentCourse);
 
-            AnalyzeCodeCommand command = new(student.Id, new() { Code = TestCodeAnalyzerService.FailCode, Id = exercise.Id }, GetVersion());
+            AnalyzeCodeCommand command = new(studentId, new() { Code = TestCodeAnalyzerService.FailCode, Id = exercise.Id }, GetVersion());
             CodeAnalyzeResultDTO codeAnalyzeResult = await SendAsync(command);
             codeAnalyzeResult.Success.Should().BeFalse();
 
@@ -109,12 +108,12 @@ namespace Application.IntegrationTest.CodeAnalyzer.Commands
             await AddAsync(theme);
             var exercise = CreateExercise(theme);
             await AddAsync(exercise);
-            var student = await GetAuthenticatedUser<Student>();
-            var studentCourse = new StudentCourse { CourseId = course.Id, StudentId = student.Id };
+            var studentId = Guid.NewGuid();
+            var studentCourse = new StudentCourse { CourseId = course.Id, StudentId = studentId };
             await AddAsync(studentCourse);
 
             //act
-            AnalyzeCodeCommand command = new(student.Id, new() { Code = TestCodeAnalyzerService.ExceptionCode, Id = exercise.Id }, GetVersion());
+            AnalyzeCodeCommand command = new(studentId, new() { Code = TestCodeAnalyzerService.ExceptionCode, Id = exercise.Id }, GetVersion());
             var codeAnalyzeResult = await SendAsync(command);
 
             //assert

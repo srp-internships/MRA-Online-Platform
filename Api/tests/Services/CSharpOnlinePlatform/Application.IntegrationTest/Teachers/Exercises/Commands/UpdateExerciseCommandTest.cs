@@ -31,18 +31,19 @@ namespace Application.IntegrationTest.Teachers.Exercises.Commands
         [Test]
         public async Task ShouldUpdateExercise()
         {
-            await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
-            var courseId = await SendAsync(new CreateCourseCommand(teacher.Id, "Python", "English"));
-            var themeId = await SendAsync(new CreateThemeCommand(teacher.Id, "if Statements", "Python if statement is one of the most commonly used conditional statements in programming languages.", new DateTime(2022, 07, 15), new DateTime(2022, 08, 20), courseId));
+            var teacherId = Guid.NewGuid();
+            var courseId = await SendAsync(new CreateCourseCommand(teacherId, "Python", "English"));
+            var themeId = await SendAsync(new CreateThemeCommand(teacherId, "if Statements",
+                "Python if statement is one of the most commonly used conditional statements in programming languages.",
+                new DateTime(2022, 07, 15), new DateTime(2022, 08, 20), courseId));
             var exercise = CreateExercise(themeId);
-            var newExercise = new CreateExerciseCommand(exercise, teacher.Id);
+            var newExercise = new CreateExerciseCommand(exercise, teacherId);
             var exerciseId = await SendAsync(newExercise);
             exercise.Name = "Boolean";
             exercise.Description = "New Description";
             exercise.Template = "New Template";
             var updateExerciseDTO = UpdateExerciseDTO(exerciseId);
-            var updateExercise = new UpdateExerciseCommand(updateExerciseDTO, teacher.Id);
+            var updateExercise = new UpdateExerciseCommand(updateExerciseDTO, teacherId);
 
             await SendAsync(updateExercise);
 
@@ -60,11 +61,11 @@ namespace Application.IntegrationTest.Teachers.Exercises.Commands
         [TestCase("Name", "", "Test", "Description", "ExerciseDTO.Template", "Exercise DT O Template")]
         [TestCase("Name", "Template", "", "Description", "ExerciseDTO.Test", "Exercise DT O Test")]
         [TestCase("Name", "Template", "Test", "", "ExerciseDTO.Description", "Exercise DT O Description")]
-        public async Task UpdateExerciseCommand_EmptyName_NotEmptyException(string name, string template, string test, string description, string propertyName, string exceptionMessage)
+        public async Task UpdateExerciseCommand_EmptyName_NotEmptyException(string name, string template, string test,
+            string description, string propertyName, string exceptionMessage)
         {
-            await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
-            var exerciseId = await AddExercise(teacher.Id);
+            var teacherId = Guid.NewGuid();
+            var exerciseId = await AddExercise(teacherId);
             var commandDTO = new UpdateExerciseCommandDTO()
             {
                 Id = exerciseId,
@@ -75,9 +76,11 @@ namespace Application.IntegrationTest.Teachers.Exercises.Commands
                 Description = description,
             };
 
-            var command = new UpdateExerciseCommand(commandDTO, teacher.Id);
-            ValidationFailureException validationFailureException = Assert.ThrowsAsync<ValidationFailureException>(() => SendAsync(command));
-            var notEmpmtyExceptionShown = IsErrorExists(propertyName, ValidationMessages.GetNotEmptyMessage(exceptionMessage), validationFailureException);
+            var command = new UpdateExerciseCommand(commandDTO, teacherId);
+            ValidationFailureException validationFailureException =
+                Assert.ThrowsAsync<ValidationFailureException>(() => SendAsync(command));
+            var notEmpmtyExceptionShown = IsErrorExists(propertyName,
+                ValidationMessages.GetNotEmptyMessage(exceptionMessage), validationFailureException);
 
             notEmpmtyExceptionShown.Should().BeTrue();
         }
@@ -85,9 +88,8 @@ namespace Application.IntegrationTest.Teachers.Exercises.Commands
         [Test]
         public async Task UpdateExerciseCommand_GreatRating_GreatRatingException()
         {
-            await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
-            var exerciseId = await AddExercise(teacher.Id);
+            var teacherId = Guid.NewGuid();
+            var exerciseId = await AddExercise(teacherId);
             var commandDTO = new UpdateExerciseCommandDTO()
             {
                 Id = exerciseId,
@@ -98,9 +100,11 @@ namespace Application.IntegrationTest.Teachers.Exercises.Commands
                 Description = "Description",
             };
 
-            var command = new UpdateExerciseCommand(commandDTO, teacher.Id);
-            ValidationFailureException validationFailureException = Assert.ThrowsAsync<ValidationFailureException>(() => SendAsync(command));
-            var notEmpmtyExceptionShown = IsErrorExists("ExerciseDTO.Rating", ValidationMessages.GetLessThanOrEqualToMessage("Exercise DT O Rating", 10), validationFailureException);
+            var command = new UpdateExerciseCommand(commandDTO, teacherId);
+            ValidationFailureException validationFailureException =
+                Assert.ThrowsAsync<ValidationFailureException>(() => SendAsync(command));
+            var notEmpmtyExceptionShown = IsErrorExists("ExerciseDTO.Rating",
+                ValidationMessages.GetLessThanOrEqualToMessage("Exercise DT O Rating", 10), validationFailureException);
 
             notEmpmtyExceptionShown.Should().BeTrue();
         }
@@ -108,9 +112,8 @@ namespace Application.IntegrationTest.Teachers.Exercises.Commands
         [Test]
         public async Task UpdateExerciseCommand_LessRating_LessRatingException()
         {
-            await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
-            var exerciseId = await AddExercise(teacher.Id);
+            var teacherId = Guid.NewGuid();
+            var exerciseId = await AddExercise(teacherId);
             var commandDTO = new UpdateExerciseCommandDTO()
             {
                 Id = exerciseId,
@@ -121,9 +124,12 @@ namespace Application.IntegrationTest.Teachers.Exercises.Commands
                 Description = "Description",
             };
 
-            var command = new UpdateExerciseCommand(commandDTO, teacher.Id);
-            ValidationFailureException validationFailureException = Assert.ThrowsAsync<ValidationFailureException>(() => SendAsync(command));
-            var notEmpmtyExceptionShown = IsErrorExists("ExerciseDTO.Rating", ValidationMessages.GetGreaterThanOrEqualToMessage("Exercise DT O Rating", 0), validationFailureException);
+            var command = new UpdateExerciseCommand(commandDTO, teacherId);
+            ValidationFailureException validationFailureException =
+                Assert.ThrowsAsync<ValidationFailureException>(() => SendAsync(command));
+            var notEmpmtyExceptionShown = IsErrorExists("ExerciseDTO.Rating",
+                ValidationMessages.GetGreaterThanOrEqualToMessage("Exercise DT O Rating", 0),
+                validationFailureException);
 
             notEmpmtyExceptionShown.Should().BeTrue();
         }
@@ -134,7 +140,8 @@ namespace Application.IntegrationTest.Teachers.Exercises.Commands
             {
                 Name = "Integer",
                 Rating = 5,
-                Template = "A distanceLis given in centimeters. Find the amount of full meters of this distance (1m=1000cm). Use the operator of integer division.",
+                Template =
+                    "A distanceLis given in centimeters. Find the amount of full meters of this distance (1m=1000cm). Use the operator of integer division.",
                 Test = "Test",
                 Description = "Description",
                 ThemeId = themeId
@@ -148,7 +155,8 @@ namespace Application.IntegrationTest.Teachers.Exercises.Commands
                 Id = exerciseId,
                 Name = "Integer",
                 Rating = 5,
-                Template = "A distanceLis given in centimeters. Find the amount of full meters of this distance (1m=1000cm). Use the operator of integer division.",
+                Template =
+                    "A distanceLis given in centimeters. Find the amount of full meters of this distance (1m=1000cm). Use the operator of integer division.",
                 Test = "Test",
                 Description = "Description"
             };
@@ -174,7 +182,11 @@ namespace Application.IntegrationTest.Teachers.Exercises.Commands
                 CourseId = course.Id,
             };
             await AddAsync(theme);
-            var exercise = new Exercise() { Id = Guid.NewGuid(), Description = "", Name = "", Rating = 5, Template = "", Test = "", ThemeId = theme.Id, };
+            var exercise = new Exercise()
+            {
+                Id = Guid.NewGuid(), Description = "", Name = "", Rating = 5, Template = "", Test = "",
+                ThemeId = theme.Id,
+            };
             await AddAsync(exercise);
             return exercise.Id;
         }

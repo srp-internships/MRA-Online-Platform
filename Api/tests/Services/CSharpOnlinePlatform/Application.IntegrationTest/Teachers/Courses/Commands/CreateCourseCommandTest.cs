@@ -24,10 +24,9 @@ namespace Application.IntegrationTest.Teachers.Courses.Commands
         [Test]
         public async Task ShouldCreateCourseTest()
         {
-            await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
+            var teacherId = Guid.NewGuid();
 
-            var course = new CreateCourseCommand(teacher.Id, "C# Advanced", "English");
+            var course = new CreateCourseCommand(teacherId, "C# Advanced", "English");
             var courseId = await SendAsync(course);
             var dataBaseCourse = await FindAsync<Course>(courseId);
 
@@ -40,15 +39,14 @@ namespace Application.IntegrationTest.Teachers.Courses.Commands
         [Test]
         public async Task CreateCourseCommand_EmptyName_NotEmptyException()
         {
-            await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
+            var teacherId = Guid.NewGuid();
             var commandDTO = new CreateCourseCommandDTO()
             {
                 Name = string.Empty,
                 CourseLanguage = "Tajik"
             };
 
-            var command = new CreateCourseCommand(teacher.Id, commandDTO.Name, commandDTO.CourseLanguage);
+            var command = new CreateCourseCommand(teacherId, commandDTO.Name, commandDTO.CourseLanguage);
             ValidationFailureException validationFailureException = Assert.ThrowsAsync<ValidationFailureException>(() => SendAsync(command));
             var notEmptyExceptionShown = IsErrorExists("Name", ValidationMessages.GetNotEmptyMessage("Name"), validationFailureException);
             notEmptyExceptionShown.Should().BeTrue();
@@ -57,15 +55,14 @@ namespace Application.IntegrationTest.Teachers.Courses.Commands
         [Test]
         public async Task CreateCourseCommand_EmptyCourseLanguage_NotEmptyException()
         {
-            await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
+            var teacherId = Guid.NewGuid();
             var commandDTO = new CreateCourseCommandDTO()
             {
                 Name = "C# Basics",
                 CourseLanguage = string.Empty
             };
 
-            var command = new CreateCourseCommand(teacher.Id, commandDTO.Name, commandDTO.CourseLanguage);
+            var command = new CreateCourseCommand(teacherId, commandDTO.Name, commandDTO.CourseLanguage);
             ValidationFailureException validationFailureException = Assert.ThrowsAsync<ValidationFailureException>(() => SendAsync(command));
             var notEmptyExceptionShown = IsErrorExists("CourseLanguage", ValidationMessages.GetNotEmptyMessage("Course Language"), validationFailureException);
             notEmptyExceptionShown.Should().BeTrue();

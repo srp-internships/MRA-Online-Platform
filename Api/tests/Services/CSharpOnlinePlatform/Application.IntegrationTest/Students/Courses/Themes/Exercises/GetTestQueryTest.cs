@@ -1,5 +1,4 @@
-﻿using Application.Admin.Commands.StudentCommand;
-using Application.Students.Queries;
+﻿using Application.Students.Queries;
 using Domain.Entities;
 using NUnit.Framework;
 using System;
@@ -16,9 +15,7 @@ namespace Application.IntegrationTest.Students.Courses.Themes.Exercises
         {
             await RunAsStudentAsync();
 
-            var student = GetStudentCommand("Iyu", "iyu@mail.ru");
-            await SendAsync(student);
-            var iyu = await GetAsync<Student>(s => s.Email == student.Email);
+            var iyuId = Guid.NewGuid();
 
             var course = CreateCourse();
             await AddAsync(course);
@@ -35,19 +32,20 @@ namespace Application.IntegrationTest.Students.Courses.Themes.Exercises
             var variant2 = CreateVariant(test.Id, "Not Correct 1");
             await AddAsync(variant2);
 
-            var studentCourse = CreateStudentCourse(iyu.Id, course.Id);
+            var studentCourse = CreateStudentCourse(iyuId, course.Id);
             await AddAsync(studentCourse);
 
             var studentCourseTest = CreateStudentCourseTest(test.Id, studentCourse.Id);
             await AddAsync(studentCourseTest);
 
-            GetTestsQuery query = new GetTestsQuery(theme.Id, iyu.Id);
+            GetTestsQuery query = new GetTestsQuery(theme.Id, iyuId);
             var testDTO = await SendAsync(query);
             testDTO[0].Status.Should().Be(Status.Passed);
             testDTO[0].Variants.Count.Should().Be(2);
         }
 
-        #region TestData 
+        #region TestData
+
         VariantTest CreateVariant(Guid testId, string value)
         {
             return new VariantTest()
@@ -115,24 +113,6 @@ namespace Application.IntegrationTest.Students.Courses.Themes.Exercises
             };
         }
 
-        CreateStudentCommand GetStudentCommand(string name, string email)
-        {
-            return new CreateStudentCommand()
-            {
-                FirstName = name,
-                LastName = "Glick",
-                Address = "PA, Lancaster",
-                BirthDate = System.DateTime.Today,
-                PhoneNumber = "992927770000",
-                City = "Khujand",
-                Country = "Tajikistan",
-                Email = email,
-                Occupation = "student",
-                Password = "Pw12345@",
-                Region = "Sogd",
-                CourseName = "C# for beginners"
-            };
-        }
         #endregion
     }
 }

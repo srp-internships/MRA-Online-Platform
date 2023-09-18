@@ -13,11 +13,7 @@ namespace Application.Students.Queries
             {
                 return applicationDbContext.GetEntities<Course>().AsNoTracking().Any(s => s.Id == courseGuid);
             }).WithMessage($"Ваш доступ ограничен.");
-
-            RuleFor(query => query.StudentGuid).Must(studentGuid =>
-            {
-                return applicationDbContext.GetEntities<Student>().AsNoTracking().Any(s => s.Id == studentGuid);
-            }).WithMessage($"Студент не найден.");
+            
         }
     }
 }

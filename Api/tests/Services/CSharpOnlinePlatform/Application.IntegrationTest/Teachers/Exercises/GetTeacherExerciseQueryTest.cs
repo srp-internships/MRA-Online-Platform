@@ -15,24 +15,25 @@ namespace Application.IntegrationTest.Teachers.Exercises
         [Test]
         public async Task GetExercises_ShouldReturnExercisesFromDataBaseTest()
         {
-            await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
+            var teacherId = Guid.NewGuid();
 
-            var courseId = await SendAsync(new CreateCourseCommand(teacher.Id, "Python", "English"));
+            var courseId = await SendAsync(new CreateCourseCommand(teacherId, "Python", "English"));
 
-            var themeId = await SendAsync(new CreateThemeCommand(teacher.Id, "if Statements", "Python if statement is one of the most commonly used conditional statements in programming languages.", new DateTime(2022, 07, 15), new DateTime(2022, 08, 20), courseId));
+            var themeId = await SendAsync(new CreateThemeCommand(teacherId, "if Statements",
+                "Python if statement is one of the most commonly used conditional statements in programming languages.",
+                new DateTime(2022, 07, 15), new DateTime(2022, 08, 20), courseId));
 
-            var exercise = CreateExercise(themeId); 
+            var exercise = CreateExercise(themeId);
 
-            var exercise1 = new CreateExerciseCommand(exercise, teacher.Id);
+            var exercise1 = new CreateExerciseCommand(exercise, teacherId);
             await SendAsync(exercise1);
-            
+
             exercise.Name = "Long";
 
-            var exercise2 = new CreateExerciseCommand(exercise, teacher.Id);
+            var exercise2 = new CreateExerciseCommand(exercise, teacherId);
             await SendAsync(exercise2);
 
-            var getExercise = new GetExercisesTeacherQuery(themeId, teacher.Id);
+            var getExercise = new GetExercisesTeacherQuery(themeId, teacherId);
 
             var exerciseDto = await SendAsync(getExercise);
             Assert.That(exerciseDto.Count, Is.EqualTo(2));

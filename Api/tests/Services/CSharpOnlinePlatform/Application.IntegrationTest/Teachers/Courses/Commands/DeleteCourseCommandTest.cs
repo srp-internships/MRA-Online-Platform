@@ -14,9 +14,8 @@ namespace Application.IntegrationTest.Teachers.Courses.Commands
         [Test]
         public async Task ShouldRequireValidCourseId()
         {
-            await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
-            var command = new DeleteCourseCommand(teacher.Id, Guid.NewGuid());
+            var teacherId = Guid.NewGuid();
+            var command = new DeleteCourseCommand(teacherId, Guid.NewGuid());
 
             await FluentActions.Invoking(() =>
                 SendAsync(command)).Should().ThrowAsync<ValidationFailureException>();
@@ -25,10 +24,8 @@ namespace Application.IntegrationTest.Teachers.Courses.Commands
         [Test]
         public async Task ShouldDeleteCourse()
         {
-            await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
-
-            var course = CreateCourse(teacher);
+            var teacherId = Guid.NewGuid();
+            var course = CreateCourse(teacherId);
 
             await AddAsync(course);
 
@@ -38,14 +35,14 @@ namespace Application.IntegrationTest.Teachers.Courses.Commands
             item.Should().BeNull();
         }
 
-        Course CreateCourse(Teacher teacher)
+        Course CreateCourse(Guid teacherId)
         {
             return new Course()
             {
                 Id = Guid.NewGuid(),
                 Name = "C# Training",
                 LearningLanguage = "Tajik",
-                TeacherId = teacher.Id
+                TeacherId = teacherId
             };
         }
     }

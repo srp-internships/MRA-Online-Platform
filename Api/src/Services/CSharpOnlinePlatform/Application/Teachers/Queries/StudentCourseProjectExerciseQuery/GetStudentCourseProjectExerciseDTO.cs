@@ -14,7 +14,7 @@ namespace Application.Teachers.Queries.StudentCourseProjectExerciseQuery
         public void Mapping(Profile profile)
         {
             var map = profile.CreateMap<StudentCourseProjectExercise, GetStudentCourseProjectExerciseDTO>();
-            map.ForMember(s => s.FullName, op => op.MapFrom(x => x.StudentCourse.Student.FullName));
+            // map.ForMember(s => s.FullName, op => op.MapFrom(x => x.StudentCourse.Student.FullName));
         }
     }
 }

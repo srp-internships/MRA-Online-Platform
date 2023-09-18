@@ -35,7 +35,6 @@ namespace Application.Students.Queries
             var courses = await _dbContext.GetEntities<StudentCourse>().AsNoTracking()
                            .Include(s => s.Course.Themes).ThenInclude(s => s.Exercises).ThenInclude(s => s.Students.Where(s => s.StudentCourse.StudentId == request.StudentId))
                            .Include(s => s.Course.Themes).ThenInclude(s => s.Tests).ThenInclude(s => s.Students.Where(s => s.StudentCourse.StudentId == request.StudentId))
-                           .Include(s => s.Course.Teacher)
                            .Where(s => s.StudentId == studentGuid)
                            .Select(st => st.Course)
                            .ToListAsync(cancellationToken: cancellationToken);

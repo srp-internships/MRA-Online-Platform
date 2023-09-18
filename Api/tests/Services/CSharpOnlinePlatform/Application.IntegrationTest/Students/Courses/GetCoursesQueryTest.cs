@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using static Application.IntegrationTest.TestHelper;
-using Application.Admin.Commands.StudentCommand;
 
 namespace Application.IntegrationTest.Students.Courses
 {
@@ -16,13 +15,13 @@ namespace Application.IntegrationTest.Students.Courses
         public async Task GetCourses_ShouldReturnCourseOfStudentFromDataBaseTest()
         {
             await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
+            var teacherId = Guid.NewGuid();
 
             await RunAsStudentAsync();
-            var student = await GetAuthenticatedUser<Student>();
-            var course = CreateCourse(teacher);
+            var studentId = Guid.NewGuid();
+            var course = CreateCourse(teacherId);
             await AddAsync(course);
-            var studentCourse = CreateStudentCourse(course, student);
+            var studentCourse = CreateStudentCourse(course, studentId);
             await AddAsync(studentCourse);
 
             var them = CreateTheme(course, DateTime.Now);
@@ -32,7 +31,7 @@ namespace Application.IntegrationTest.Students.Courses
             them = CreateTheme(course, DateTime.Now.AddDays(-2));
             await AddAsync(them);
 
-            GetCoursesQuery query = new(student.Id);
+            GetCoursesQuery query = new(studentId);
 
             var coursesDto = await SendAsync(query);
 
@@ -48,20 +47,17 @@ namespace Application.IntegrationTest.Students.Courses
             await RunAsStudentAsync();
 
             // Arrange
-            var student = GetStudentCommand("Hasanboy", "hasanboy@mail.ru");
-            await SendAsync(student);
-            var hasanboy = await GetAsync<Student>(s => s.Email == student.Email);
 
-            student = GetStudentCommand("Vosid", "vosid@mail.ru");
-            await SendAsync(student);
-            var vosid = await GetAsync<Student>(s => s.Email == student.Email);
+            var hasanboyId = Guid.NewGuid();
 
-            Course course = await CreateTestData(hasanboy, vosid);
+            var vosidId = Guid.NewGuid();
+
+            Course course = await CreateTestData(hasanboyId, vosidId);
 
             // Act
-            GetCoursesQuery query = new(hasanboy.Id);
+            GetCoursesQuery query = new(hasanboyId);
             var hasanboyDTO = await SendAsync(query);
-            query = new(vosid.Id);
+            query = new(vosidId);
             var vosidDTO = await SendAsync(query);
 
             // Assert
@@ -75,12 +71,12 @@ namespace Application.IntegrationTest.Students.Courses
         }
 
         #region Test Data
-        private async Task<Course> CreateTestData(Student hasanboy, Student vosid)
+        private async Task<Course> CreateTestData(Guid hasanboyId, Guid vosidId)
         {
             await RunAsTeacherAsync();
-            var teacher = await GetAuthenticatedUser<Teacher>();
+            var teacherId = Guid.NewGuid();
 
-            var course = CreateCourse(teacher);
+            var course = CreateCourse(teacherId);
             await AddAsync(course);
 
             var theme = CreateTheme(course, DateTime.Now.AddDays(-2));
@@ -88,26 +84,26 @@ namespace Application.IntegrationTest.Students.Courses
 
             var variable = await CreateExercise("Variables", 1, theme.Id);
 
-            var studentCourse = CreateStudentCourse(course, hasanboy);
+            var studentCourse = CreateStudentCourse(course, hasanboyId);
             await AddAsync(studentCourse);
 
             await CreateStudentCourseExercise(studentCourse.Id, variable.Id, Status.Failed);
 
-            studentCourse = CreateStudentCourse(course, vosid);
+            studentCourse = CreateStudentCourse(course, vosidId);
             await AddAsync(studentCourse);
 
             await CreateStudentCourseExercise(studentCourse.Id, variable.Id, Status.Passed);
             return course;
         }
 
-        Course CreateCourse(Teacher teacher)
+        Course CreateCourse(Guid teacherId)
         {
             return new Course()
             {
                 Id = Guid.NewGuid(),
                 Name = "C# Training",
                 LearningLanguage = "Tajik",
-                TeacherId = teacher.Id
+                TeacherId = teacherId
             };
         }
         Theme CreateTheme(Course course, DateTime endDate)
@@ -122,13 +118,13 @@ namespace Application.IntegrationTest.Students.Courses
                 EndDate = endDate
             };
         }
-        StudentCourse CreateStudentCourse(Course course, Student student)
+        StudentCourse CreateStudentCourse(Course course, Guid studentId)
         {
             return new StudentCourse()
             {
                 Id = Guid.NewGuid(),
                 CourseId = course.Id,
-                StudentId = student.Id,
+                StudentId = studentId,
             };
         }
         async Task<StudentCourseExercise> CreateStudentCourseExercise(Guid studentCourseId, Guid exerciseId, Status status)
@@ -158,25 +154,6 @@ namespace Application.IntegrationTest.Students.Courses
             };
             await AddAsync(exercise);
             return exercise;
-        }
-
-        CreateStudentCommand GetStudentCommand(string name, string email)
-        {
-            return new CreateStudentCommand()
-            {
-                FirstName = name,
-                LastName = "Glick",
-                Address = "PA, Lancaster",
-                BirthDate = System.DateTime.Today,
-                PhoneNumber = "992927770000",
-                City = "Khujand",
-                Country = "Tajikistan",
-                Email = email,
-                Occupation = "student",
-                Password = "Pw12345@",
-                Region = "Sogd",
-                CourseName = "C# for beginners"
-            };
         }
         #endregion
     }
