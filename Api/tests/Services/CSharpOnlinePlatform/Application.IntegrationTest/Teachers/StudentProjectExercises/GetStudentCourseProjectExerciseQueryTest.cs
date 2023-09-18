@@ -28,8 +28,8 @@ namespace Application.IntegrationTest.Teachers.StudentProjectExercises
         [Test]
         public async Task GetStudentCourseProjectExerciseQuery_NoStudentProjectExerciseUploads_EmptyList()
         {
-            var projectExerciseId = await GetProjectExerciseId();
             var teacherId = Guid.NewGuid();
+            var projectExerciseId = await GetProjectExerciseId(teacherId);
             var getStudentProjectExercise =
                 new GetStudentCourseProjectExerciseQuery(projectExerciseId, teacherId);
             var listOfStudentProjectExercises = await SendAsync(getStudentProjectExercise);
@@ -40,9 +40,9 @@ namespace Application.IntegrationTest.Teachers.StudentProjectExercises
         [Test]
         public async Task GetStudentCourseProjectExerciseQuery_CorrectData_NotEmptyList()
         {
-            await RunAsTeacherAsync();
-            var courseId = await AddCourse();
             var teacherId = Guid.NewGuid();
+            var courseId = await AddCourse(teacherId);
+            
             var themeId = await AddTheme(courseId);
             var projectExerciseId = await AddProjectExcercise(themeId);
             await AddStudentProjectexercise(courseId, projectExerciseId);
@@ -76,10 +76,9 @@ namespace Application.IntegrationTest.Teachers.StudentProjectExercises
             await AddAsync(newStudentCourseProjectExercise);
         }
 
-        async Task<Guid> AddCourse()
+        async Task<Guid> AddCourse(Guid teacherId)
         {
-            var teacherId = Guid.NewGuid();
-
+            
             var course = new Course()
             {
                 Id = Guid.NewGuid(),
@@ -120,9 +119,9 @@ namespace Application.IntegrationTest.Teachers.StudentProjectExercises
             return projectExercise.Id;
         }
 
-        async Task<Guid> GetProjectExerciseId()
+        async Task<Guid> GetProjectExerciseId(Guid teacherId)
         {
-            var courseId = await AddCourse();
+            var courseId = await AddCourse(teacherId);
             var themeId = await AddTheme(courseId);
             var projectExerciseId = await AddProjectExcercise(themeId);
             return projectExerciseId;
