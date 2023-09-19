@@ -38,7 +38,7 @@ public static class DependencyInjection
                     b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
         }
 
-        services.AddIdentityServices(configuration);
+        services.AddIdentityServices();
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
         services.AddScoped<ILoadSeedData, LoadSeedDataFromJson>();
         services.AddScoped<IMigration, DbMigration>();
@@ -59,7 +59,7 @@ public static class DependencyInjection
         return services;
     }
 
-    static void AddIdentityServices(this IServiceCollection services, IConfiguration configuration)
+    static void AddIdentityServices(this IServiceCollection services)
     {
         services.AddAuthentication(x =>
         {
@@ -71,17 +71,19 @@ public static class DependencyInjection
         services.AddAuthorization(a =>
         {
             a.AddPolicy(ApplicationPolicies.Administrator, op => op
-                .RequireClaim(ClaimTypes.Role, ApplicationClaimValues.Administrator)
+                .RequireRole(ApplicationClaimValues.Administrator)
                 .RequireClaim(ClaimTypes.Application, ApplicationClaimValues.ApplicationName));
 
             a.AddPolicy(ApplicationPolicies.Teacher, op => op
-                .RequireClaim(ClaimTypes.Role, ApplicationClaimValues.Teacher, ApplicationClaimValues.Administrator)
-                .RequireClaim(ClaimTypes.Application, ApplicationClaimValues.ApplicationName));
+                .RequireRole(ApplicationClaimValues.Teacher, ApplicationClaimValues.Administrator)
+                .RequireClaim(ClaimTypes.Application, ApplicationClaimValues.ApplicationName)
+                .RequireClaim(ClaimTypes.Id));
 
             a.AddPolicy(ApplicationPolicies.Student, op => op
-                .RequireClaim(ClaimTypes.Role, ApplicationClaimValues.Student, ApplicationClaimValues.Teacher,
+                .RequireRole(ApplicationClaimValues.Student, ApplicationClaimValues.Teacher,
                     ApplicationClaimValues.Administrator)
-                .RequireClaim(ClaimTypes.Application, ApplicationClaimValues.ApplicationName));
+                .RequireClaim(ClaimTypes.Application, ApplicationClaimValues.ApplicationName)
+                .RequireClaim(ClaimTypes.Id));
         });
         
     }

@@ -1,10 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-
-using MRA.Jobs.Web.AzureKeyVault;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Mra.Shared.Initializer.Azure.Insight;
 using Mra.Shared.Initializer.Azure.KeyVault;
