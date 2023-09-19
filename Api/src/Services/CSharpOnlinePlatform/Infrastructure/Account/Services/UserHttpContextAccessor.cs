@@ -2,36 +2,51 @@
 using Microsoft.AspNetCore.Http;
 using Mra.Shared.Common.Constants;
 
-namespace Infrastructure.Account.Services
+namespace Infrastructure.Account.Services;
+
+public class UserHttpContextAccessor : IUserHttpContextAccessor
 {
-    public class UserHttpContextAccessor : IUserHttpContextAccessor
+    private readonly IHttpContextAccessor _httpContextAccessor;
+
+    public UserHttpContextAccessor(IHttpContextAccessor httpContextAccessor)
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        public UserHttpContextAccessor(IHttpContextAccessor httpContextAccessor)
+        _httpContextAccessor = httpContextAccessor;
+    }
+
+    public Guid GetUserId()
+    {
+        var user = _httpContextAccessor.HttpContext?.User;
+        if (user != null)
         {
-            _httpContextAccessor = httpContextAccessor;
+            var idClaim = user.FindFirst(ClaimTypes.Id);
+            if (idClaim != null && Guid.TryParse(idClaim.Value, out Guid id))
+                return id;
         }
 
-        public Guid GetUserId()
+        return Guid.Empty;
+    }
+
+    public string GetEmail()
+    {
+        var user = _httpContextAccessor.HttpContext?.User;
+        if (user != null)
         {
-            var user = _httpContextAccessor.HttpContext?.User;
-            if (user != null)
-            {
-                var idClaim = user.FindFirst(ClaimTypes.Id);
-                if (idClaim != null && Guid.TryParse(idClaim.Value, out Guid id))
-                    return id;
-            }
-            return Guid.Empty;
+            var emailClaim = user.FindFirst(ClaimTypes.Email);
+            return emailClaim?.Value ?? "";
         }
 
-        public string GetEmail()
+        return "";
+    }
+
+    public string GetUserName()
+    {
+        var user = _httpContextAccessor.HttpContext?.User;
+        if (user != null)
         {
-            throw new NotImplementedException();
+            var emailClaim = user.FindFirst(ClaimTypes.Username);
+            return emailClaim?.Value ?? "";
         }
 
-        public string GetUserName()
-        {
-            throw new NotImplementedException();
-        }
+        return "";
     }
 }
