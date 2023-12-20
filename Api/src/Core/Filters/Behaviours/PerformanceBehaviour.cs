@@ -20,16 +20,26 @@ namespace Core.Filters.Behaviours
         public async Task<TResponce> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponce> next)
         {
             _timer.Start();
-            var response = await next();
-            _timer.Stop();
-            var elapsedMilliseconds = _timer.ElapsedMilliseconds;
-            int threshold = int.Parse(_configuration["LongRunningRequestThreshold"]);
-            if (elapsedMilliseconds > threshold)
+
+            try
             {
-                var requestName = typeof(TRequest).Name;
-                _logger.LogError($"Long Running Request: {requestName}, millisecond: {elapsedMilliseconds}");
+                var response = await next();
+                return response;
             }
-            return response;
+            finally
+            {
+                _timer.Stop();
+
+                var elapsedMilliseconds = _timer.ElapsedMilliseconds;
+                int threshold = int.Parse(_configuration["LongRunningRequestThreshold"]);
+
+                if (elapsedMilliseconds > threshold)
+                {
+                    var requestName = typeof(TRequest).Name;
+                    _logger.LogError($"Long Running Request: {requestName}, millisecond: {elapsedMilliseconds}");
+                }
+            }
         }
+
     }
 }
