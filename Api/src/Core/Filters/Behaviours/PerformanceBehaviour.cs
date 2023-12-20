@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 
@@ -8,10 +9,12 @@ namespace Core.Filters.Behaviours
     {
         private readonly Stopwatch _timer;
         private readonly ILogger<TRequest> _logger;
+        private readonly IConfiguration _configuration;
 
-        public PerformanceBehaviour(ILogger<TRequest> logger)
+        public PerformanceBehaviour(ILogger<TRequest> logger, IConfiguration configuration)
         {
             _logger = logger;
+            _configuration = configuration;
             _timer = new Stopwatch();
         }
         public async Task<TResponce> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponce> next)
@@ -20,10 +23,11 @@ namespace Core.Filters.Behaviours
             var response = await next();
             _timer.Stop();
             var elapsedMilliseconds = _timer.ElapsedMilliseconds;
-            if (elapsedMilliseconds > 1000)
+            int threshold = int.Parse(_configuration["LongRunningRequestThreshold"]);
+            if (elapsedMilliseconds > threshold)
             {
                 var requestName = typeof(TRequest).Name;
-                _logger.LogWarning($"Long Running Request: {requestName}, millisecond: {elapsedMilliseconds}");
+                _logger.LogError($"Long Running Request: {requestName}, millisecond: {elapsedMilliseconds}");
             }
             return response;
         }
