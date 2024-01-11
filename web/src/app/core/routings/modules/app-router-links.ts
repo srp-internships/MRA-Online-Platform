@@ -3,4 +3,5 @@ export enum AppRouterLinks {
   Teacher = 'teacher',
   Student = 'student',
   Admin = 'admin',
+  ComingSoon = 'ComingSoon'
 }

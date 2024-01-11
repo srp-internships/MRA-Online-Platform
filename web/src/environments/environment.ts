@@ -8,6 +8,7 @@ export const environment = {
   recaptcha: {
     siteKey: '6Lfbn64iAAAAAA65vQjtjeEwcFDY2rlF6lvq3LKa',
   },
+  IsComingSoonMode: true
 };
 
 /*
