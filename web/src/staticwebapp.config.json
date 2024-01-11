@@ -1,0 +1,8 @@
+{
+  "navigationFallback": {
+    "rewrite": "/coming-soon/index.html",
+    "exclude": [
+      "/coming-soon/*"
+    ]
+  }
+}
