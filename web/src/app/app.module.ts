@@ -14,6 +14,8 @@ import { InfrastructureModule } from './infrastructure/infrastructure.module';
 import { FORM_STRATEGY } from './core/form-elements';
 import { SrpDialogModule } from './core/modules/srp-dialog/srp-dialog.module';
 import { BetaComponent } from './presentation/common-pages/beta/beta.component';
+import {ComingSoonInterceptor} from "./injectors";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -28,6 +30,7 @@ export function tokenGetter() {
     DataModulte,
     InfrastructureModule,
     SrpDialogModule,
+    HttpClientModule,
     JwtModule.forRoot({
       config: {
         allowedDomains: [environment.baseUrl],
@@ -37,6 +40,11 @@ export function tokenGetter() {
     ToastrModule.forRoot({ positionClass: 'toast-bottom-right', preventDuplicates: true }),
   ],
   bootstrap: [AppComponent],
-  providers: [{ provide: FORM_STRATEGY, useValue: {} }],
+  providers: [{ provide: FORM_STRATEGY, useValue: {} },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ComingSoonInterceptor,
+      multi: true,
+    },],
 })
 export class AppModule {}

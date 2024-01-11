@@ -14,6 +14,7 @@ import { PathResolver } from './path-resolver';
 import { StudentRouterLinks, StudentRoutingModule } from './modules/student/student.rm';
 import { GuideRouterLinks } from './modules/student/guide.rm';
 import { Observable, Subject } from 'rxjs';
+import {ComingSoonLinks, ComingSoonModule} from "./modules/ComingSoon/ComingSoon.rm";
 
 @Injectable({
   providedIn: 'root',
@@ -25,6 +26,7 @@ export class NavigationService {
   constructor(
     private router: Router,
     private accountRouting: AccountRoutingModule,
+    private ComingSoonRouting: ComingSoonModule,
     private teacherRouting: TeacherRoutingModule,
     private adminRouting: AdminRoutingModule,
     private studentRouting: StudentRoutingModule,
@@ -54,6 +56,9 @@ export class NavigationService {
 
   accountModule(link?: AccountRouterLinks) {
     return new RouterNavigation(this.accountRouting.getPath(link), this.router);
+  }
+  ComingSoonModule(link?: ComingSoonLinks) {
+    return new RouterNavigation(this.ComingSoonRouting.getPath(link), this.router);
   }
 
   teacherModule(link?: TeacherRouterLinks) {
