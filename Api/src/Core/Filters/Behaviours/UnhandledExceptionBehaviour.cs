@@ -12,7 +12,7 @@ namespace Core.Filters.Behaviours
             _logger = logger;
         }
 
-        public async Task<TResponce> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponce> next)
+        public async Task<TResponce> Handle(TRequest request, RequestHandlerDelegate<TResponce> next, CancellationToken cancellationToken)
         {
             try
             {
