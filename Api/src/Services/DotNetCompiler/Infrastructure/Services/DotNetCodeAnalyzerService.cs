@@ -36,9 +36,9 @@ namespace DotNetCompiler.Console.Services
                     process.StartInfo.StandardErrorEncoding = Encoding.UTF8;
                     process.StartInfo.WorkingDirectory = GetExecutingAssemblyPath();
                     process.Start();
+                    await process.WaitForExitAsync();
                     string output = process.StandardOutput.ReadToEnd();
                     string err = process.StandardError.ReadToEnd();
-                    await process.WaitForExitAsync();
 
                     if (process.ExitCode == ProcessSuccessCode)
                     {

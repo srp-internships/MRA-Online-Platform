@@ -84,9 +84,6 @@
 	  <None Update="Resources\Languages\CSharp\Versions\NET8\MetaData\System.Runtime.dll">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Resources\Languages\CSharp\Versions\NET8\MetaData\System.Text.Json.dll">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
 	  <None Update="Resources\Languages\CSharp\Versions\NET8\DefaultUsings.txt">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
