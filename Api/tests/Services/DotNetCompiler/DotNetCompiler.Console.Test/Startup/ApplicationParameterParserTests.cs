@@ -55,7 +55,7 @@ namespace DotNetCompiler.Console.Test.Startup
 
         string GetValidJson()
         {
-            var dotNetVersion = GetCSharpNet6VersionDTO();
+            var dotNetVersion = GetCSharpNet8VersionDTO();
             var parameter = new DotNetAnalyzeCodeCommand() { DotNetVersionInfo = dotNetVersion };
             return JsonConvert.SerializeObject(parameter);
         }

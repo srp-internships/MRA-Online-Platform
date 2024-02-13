@@ -46,10 +46,9 @@ namespace DotNetCompiler.Console.Test.Services
             Assert.That(codeAnalyzeOutput.Success, Is.False);
             Assert.That(codeAnalyzeOutput.Errors, Contains.Substring("Sum function is not returned number as expected"));
         }
-
         DotNetAnalyzeCodeCommand GetNetAnalyzeCodeCommand(List<string> codes)
         {
-            var version = GetCSharpNet6VersionDTO();
+            var version = GetCSharpNet8VersionDTO();
             return new DotNetAnalyzeCodeCommand() { Codes = codes, DotNetVersionInfo = version };
         }
 

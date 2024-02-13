@@ -35,12 +35,19 @@ namespace DotNetCompiler.Console.Test
 
         protected DotNetInfoDTO GetCSharpNet6VersionDTO()
         {
-            return new DotNetInfoDTO() { Language = Constants.CSHARP_LANGUAGE, Version = Constants.DOTNET_SIX_VERSION };
+            return new DotNetInfoDTO() { Language = Constants.CSHARP_LANGUAGE, Version = Constants.DOTNET_EIGHT_VERSION };
+        }
+
+        protected DotNetInfoDTO GetCSharpNet8VersionDTO()
+        {
+            return new DotNetInfoDTO()
+                { Language = Constants.CSHARP_LANGUAGE, Version = Constants.DOTNET_EIGHT_VERSION };
         }
 
         protected DotNetVersionInfo GetCSharpNet6Version()
         {
-            return new DotNetVersionInfo() { Language = Constants.CSHARP_LANGUAGE, Version = Constants.DOTNET_SIX_VERSION };
+            return new DotNetVersionInfo()
+                { Language = Constants.CSHARP_LANGUAGE, Version = Constants.DOTNET_EIGHT_VERSION };
         }
     }
 }

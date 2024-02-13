@@ -38,7 +38,7 @@ namespace Application.IntegrationTest.DotNetCodeAnalyzer
         public async Task DotNetAnalyzeCodeCommand_ShouldReturnError_WhenCompilerWasFailedTest()
         {
             DotNetAnalyzeCodeCommand command = new() { Codes = new List<string>() { "some code" } };
-            command.DotNetVersionInfo = new DotNetInfoDTO() { Language = Constants.CSHARP_LANGUAGE, Version = Constants.DOTNET_SIX_VERSION };
+            command.DotNetVersionInfo = new DotNetInfoDTO() { Language = Constants.CSHARP_LANGUAGE, Version = Constants.DOTNET_EIGHT_VERSION };
 
             var codeAnalyzeOutput = await SendAsync(command);
             Assert.That(codeAnalyzeOutput.Success, Is.False);
@@ -49,7 +49,7 @@ namespace Application.IntegrationTest.DotNetCodeAnalyzer
         public async Task DotNetAnalyzeCodeCommand_ShouldReturnError_WhenCompilerSuccessAndCodeAnalyzerFailedTest()
         {
             DotNetAnalyzeCodeCommand command = new() { Codes = new() };
-            command.DotNetVersionInfo = new DotNetInfoDTO() { Language = Constants.CSHARP_LANGUAGE, Version = Constants.DOTNET_SIX_VERSION };
+            command.DotNetVersionInfo = new DotNetInfoDTO() { Language = Constants.CSHARP_LANGUAGE, Version = Constants.DOTNET_EIGHT_VERSION };
             command.Codes.Add(GetSumFunctionTaskTestCode());
             command.Codes.Add(GetSumUnResolvedFunctionTaskCode());
 
@@ -62,7 +62,7 @@ namespace Application.IntegrationTest.DotNetCodeAnalyzer
         public async Task DotNetAnalyzeCodeCommand_ShouldReturnSuccess_WhenCompilerSuccededAndCodeAnalyzerSuccededTest()
         {
             DotNetAnalyzeCodeCommand command = new() { Codes = new() };
-            command.DotNetVersionInfo = new DotNetInfoDTO() { Language = Constants.CSHARP_LANGUAGE, Version = Constants.DOTNET_SIX_VERSION };
+            command.DotNetVersionInfo = new DotNetInfoDTO() { Language = Constants.CSHARP_LANGUAGE, Version = Constants.DOTNET_EIGHT_VERSION };
             command.Codes.Add(GetSumFunctionTaskTestCode());
             command.Codes.Add(GetSumOfResolvedFunctionTaskCode());
 
@@ -74,7 +74,7 @@ namespace Application.IntegrationTest.DotNetCodeAnalyzer
         public async Task DotNetAnalyzeCodeCommand_ShouldReturnError_WhenStackoverflowExceptionWillBeThrownTest()
         {
             DotNetAnalyzeCodeCommand command = new() { Codes = new() };
-            command.DotNetVersionInfo = new DotNetInfoDTO() { Language = Constants.CSHARP_LANGUAGE, Version = Constants.DOTNET_SIX_VERSION };
+            command.DotNetVersionInfo = new DotNetInfoDTO() { Language = Constants.CSHARP_LANGUAGE, Version = Constants.DOTNET_EIGHT_VERSION };
             command.Codes.Add(GetSumFunctionTaskTestCode());
             command.Codes.Add(GetStackoverflowCode());
 
@@ -86,7 +86,7 @@ namespace Application.IntegrationTest.DotNetCodeAnalyzer
         public async Task DotNetAnalyzeCodeCommand_ShouldReturnError_WhenRunningCodeTakesMoreThan3SecondsTest()
         {
             DotNetAnalyzeCodeCommand command = new() { Codes = new() };
-            command.DotNetVersionInfo = new DotNetInfoDTO() { Language = Constants.CSHARP_LANGUAGE, Version = Constants.DOTNET_SIX_VERSION };
+            command.DotNetVersionInfo = new DotNetInfoDTO() { Language = Constants.CSHARP_LANGUAGE, Version = Constants.DOTNET_EIGHT_VERSION };
             command.Codes.Add(GetSumFunctionTaskTestCode());
             command.Codes.Add(GetTimeoutCode());
 

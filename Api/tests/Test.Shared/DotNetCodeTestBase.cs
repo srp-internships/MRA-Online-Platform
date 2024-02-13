@@ -101,7 +101,7 @@
                                 int a = 100;
                                 int b = 100;
                                 int summ = Function.Sum(a, b);
-                                Assert.AreEqual(200, summ, ""Sum function is not returned number as expected"");
+                                Assert.That(summ, Is.EqualTo(200), ""Sum function is not returning the expected number"");
                             }
                         }
                     ";
@@ -120,7 +120,7 @@
                             public void FunctionTest(int a, int b, int expected)
                             {
                                 int summ = Function.Sum(a, b);
-                                Assert.AreEqual(summ, expected, ""Sum function is not returned number as expected"");
+                                Assert.That(summ, Is.EqualTo(expected), ""Sum function is not returning the expected number"");
                             }
                         }
                     ";
@@ -167,7 +167,7 @@
                             {
                                 Function f = new Function();
                                 int summ = f.Sum(a, b, c);
-                                Assert.AreEqual(summ, expected, ""Sum function is not returned number as expected"");
+                                Assert.That(summ, Is.EqualTo(expected), ""Sum function is not returning the expected number"");
                             }
                         }
                     ";
