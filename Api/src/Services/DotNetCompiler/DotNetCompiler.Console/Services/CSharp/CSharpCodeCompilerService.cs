@@ -17,7 +17,7 @@ namespace DotNetCompiler.Console.Services.CSharp
 {
     internal class CSharpCodeCompilerService : IDotNetCompilerService
     {
-        const string DotNetVersion = Constants.DOTNET_SIX_VERSION;
+        const string DotNetVersion = Constants.DOTNET_EIGHT_VERSION;
         const string Language = Constants.CSHARP_LANGUAGE;
         public DotNetVersionInfo DotNetVersionInfo { get; }
 
