@@ -19,8 +19,8 @@ jobs:
 
       - name: build docker image for Web API
         run: |
-          docker build -t silkroadprofessionals.azurecr.io/mra-online-platform-api:${{ steps.taggerDryRun.outputs.new_tag }}
-        working-directory: /
+          docker build -t silkroadprofessionals.azurecr.io/mra-online-platform-api:${{ steps.taggerDryRun.outputs.new_tag }} .
+        working-directory: ./Api/src/Services/CSharpOnlinePlatform/WebApi
 
       - name: Publish Web API to ACR
         run: |
