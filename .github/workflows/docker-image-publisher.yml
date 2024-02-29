@@ -1,7 +1,7 @@
 name: Publish image to Azure
 on:
   push:
-    branches: [ "production" ]
+    branches: [ "api-production" ]
 
 jobs:
   publish_image:
@@ -16,11 +16,11 @@ jobs:
         env:
           WITH_V: true
           DRY_RUN: true
-    
+
       - name: build docker image for Web API
         run: |
           docker build -t silkroadprofessionals.azurecr.io/mra-onlinePlatform-api:${{ steps.taggerDryRun.outputs.new_tag }} .
-        working-directory: ./Api/srt/Services/WebApi
+        working-directory: ./Api/src/Services/WebApi
 
       - name: Publish Web API to ACR
         run: |
