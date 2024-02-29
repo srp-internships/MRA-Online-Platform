@@ -19,7 +19,7 @@ jobs:
 
       - name: build docker image for Web API
         run: |
-          docker build -t silkroadprofessionals.azurecr.io/mra-online-platform-api:${{ steps.taggerDryRun.outputs.new_tag }} .
+          docker build -t silkroadprofessionals.azurecr.io/mra-online-platform-api:${{ steps.taggerDryRun.outputs.new_tag }}
         working-directory: /
 
       - name: Publish Web API to ACR
