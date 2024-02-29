@@ -19,13 +19,13 @@ jobs:
 
       - name: build docker image for Web API
         run: |
-          docker build -t silkroadprofessionals.azurecr.io/mra-onlinePlatform-api:${{ steps.taggerDryRun.outputs.new_tag }} .
+          docker build -t silkroadprofessionals.azurecr.io/mra-online-platform-api:${{ steps.taggerDryRun.outputs.new_tag }} .
         working-directory: /
 
       - name: Publish Web API to ACR
         run: |
           docker login silkroadprofessionals.azurecr.io -u silkroadprofessionals -p ${{ secrets.ACR_PASS }}
-          docker push silkroadprofessionals.azurecr.io/mra-onlinePlatform-api:${{ steps.taggerDryRun.outputs.new_tag }}
+          docker push silkroadprofessionals.azurecr.io/mra-online-platform-api:${{ steps.taggerDryRun.outputs.new_tag }}
 
       - name: Update infrastructure image version
         uses: peter-evans/repository-dispatch@v2
@@ -33,7 +33,7 @@ jobs:
           event-type: update
           token: ${{ secrets.GH_TOKEN }}
           repository: srp-internships/MRAInfrastructure
-          client-payload: '{"version":"${{ steps.taggerDryRun.outputs.new_tag }}", "environment":"Staging", "image":"mra-onlinePlatform-api"}'
+          client-payload: '{"version":"${{ steps.taggerDryRun.outputs.new_tag }}", "environment":"Staging", "image":"mra-online-platform-api"}'
 
       - name: Minor version for each merge
         id: taggerFinal
