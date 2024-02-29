@@ -5,7 +5,8 @@ using System.Diagnostics;
 
 namespace Core.Filters.Behaviours
 {
-    public class PerformanceBehaviour<TRequest, TResponce> : IPipelineBehavior<TRequest, TResponce> where TRequest : IRequest<TResponce>
+    public class PerformanceBehaviour<TRequest, TResponce> : IPipelineBehavior<TRequest, TResponce>
+        where TRequest : IRequest<TResponce>
     {
         private readonly Stopwatch _timer;
         private readonly ILogger<TRequest> _logger;
@@ -17,7 +18,9 @@ namespace Core.Filters.Behaviours
             _configuration = configuration;
             _timer = new Stopwatch();
         }
-        public async Task<TResponce> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponce> next)
+
+        public async Task<TResponce> Handle(TRequest request, RequestHandlerDelegate<TResponce> next,
+            CancellationToken cancellationToken)
         {
             _timer.Start();
 
@@ -40,6 +43,5 @@ namespace Core.Filters.Behaviours
                 }
             }
         }
-
     }
 }
