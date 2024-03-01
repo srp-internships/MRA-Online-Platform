@@ -15,23 +15,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{9196B4D9
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "api", "api", "{9F47B409-BAE2-44DD-9D0E-EBECC0BA9D88}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.IntegrationTest", "..\..\..\tests\Services\CSharpOnlinePlatform\Application.IntegrationTest\Application.IntegrationTest.csproj", "{63B74783-B12C-4BE0-9D4F-269E0E761C46}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.IntegrationTest", "..\tests\Application.IntegrationTest\Application.IntegrationTest.csproj", "{63B74783-B12C-4BE0-9D4F-269E0E761C46}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.Test", "..\..\..\tests\Services\CSharpOnlinePlatform\Application.Test\Application.Test.csproj", "{F936C43A-8055-4183-B800-71D0CDE4EE8B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.Test", "..\tests\Application.Test\Application.Test.csproj", "{F936C43A-8055-4183-B800-71D0CDE4EE8B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Test", "..\..\..\tests\Services\CSharpOnlinePlatform\Domain.Test\Domain.Test.csproj", "{AA8C9CDF-0540-46C4-B811-77C4E94FF2C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Test", "..\tests\Domain.Test\Domain.Test.csproj", "{AA8C9CDF-0540-46C4-B811-77C4E94FF2C3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Test", "..\..\..\tests\Services\CSharpOnlinePlatform\Infrastructure.Test\Infrastructure.Test.csproj", "{E1E5FB91-2652-4702-A311-F0FAACC82629}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Test", "..\tests\Infrastructure.Test\Infrastructure.Test.csproj", "{E1E5FB91-2652-4702-A311-F0FAACC82629}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.Test", "..\..\..\tests\Services\CSharpOnlinePlatform\WebApi.Test\WebApi.Test.csproj", "{F02CBFE3-CF84-4097-9751-A9A7D0EB051E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.Test", "..\tests\WebApi.Test\WebApi.Test.csproj", "{F02CBFE3-CF84-4097-9751-A9A7D0EB051E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{B22D5C83-DBA7-4FBE-8A2E-B67525B6CB79}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "..\..\Core\Core.csproj", "{BD17CC07-D6DE-4A98-B3F7-CCBF995C34DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{BD17CC07-D6DE-4A98-B3F7-CCBF995C34DC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{BB9A0D8B-87E0-405F-B4A7-821A679344A7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Test", "..\..\..\tests\Core.Test\Core.Test.csproj", "{91B2E04C-B36D-4FC7-A63B-BD3E13AA05DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Test", "..\tests\Core.Test\Core.Test.csproj", "{91B2E04C-B36D-4FC7-A63B-BD3E13AA05DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
