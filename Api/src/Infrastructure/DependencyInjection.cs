@@ -13,7 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Security.Principal;
 using Infrastructure.Identity;
-using Mra.Shared.Common.Constants;
+using MRA.Configurations.Common.Constants;
 
 namespace Infrastructure;
 
@@ -22,21 +22,18 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services,
         IConfiguration configuration)
     {
-        
         //services.AddAzureEmailService();//uncomment this if u wont use email service from Azure from namespace Mra.Shared.Initializer.Azure.EmailService
-
-        if (configuration.GetValue<bool>(ApplicationConstants.USE_MEMORY_DB))
+        services.AddDbContext<ApplicationDbContext>(options =>
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseInMemoryDatabase(ApplicationConstants.ONLINE_PLATFORM_DB));
-        }
-        else
-        {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    configuration.GetConnectionString(ApplicationConstants.DEFAULT_CONNECTION),
-                    b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
-        }
+            if (configuration.GetValue<bool>(ApplicationConstants.USE_MEMORY_DB))
+            {
+                options.UseInMemoryDatabase(ApplicationConstants.ONLINE_PLATFORM_DB);
+            }
+            else
+            {
+                options.UseSqlServer(configuration.GetConnectionString(ApplicationConstants.DEFAULT_CONNECTION));
+            }
+        });
 
         services.AddIdentityServices();
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
@@ -85,6 +82,5 @@ public static class DependencyInjection
                 .RequireClaim(ClaimTypes.Application, ApplicationClaimValues.ApplicationName)
                 .RequireClaim(ClaimTypes.Id));
         });
-        
     }
 }

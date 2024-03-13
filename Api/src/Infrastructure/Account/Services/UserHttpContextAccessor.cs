@@ -1,6 +1,6 @@
 ﻿using Application.Account.Services;
 using Microsoft.AspNetCore.Http;
-using Mra.Shared.Common.Constants;
+using MRA.Configurations.Common.Constants;
 
 namespace Infrastructure.Account.Services;
 

@@ -11,15 +11,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Infrastructure.Identity;
-using WebApi;
 
 namespace Application.IntegrationTest
 {
     [SetUpFixture]
     public partial class TestHelper
     {
-        private static WebApplicationFactory<Startup> _factory = null!;
+        private static WebApplicationFactory<Program> _factory = null!;
         private static IServiceScopeFactory _scopeFactory;
         private static Guid _currentUserId;
 

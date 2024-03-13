@@ -4,7 +4,7 @@ using Moq;
 using NUnit.Framework;
 using System;
 using System.Security.Claims;
-using ClaimTypes = Mra.Shared.Common.Constants.ClaimTypes;
+using ClaimTypes = MRA.Configurations.Common.Constants.ClaimTypes;
 
 namespace Infrastructure.Test.Account.Services
 {
