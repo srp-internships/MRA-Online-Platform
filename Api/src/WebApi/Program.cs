@@ -25,7 +25,7 @@ public class Program
             if (context.HostingEnvironment.IsProduction())
             {                 
                 builder.AddApiApplicationInsights(context.Configuration);
-                context.Configuration.Get<ConfigurationManager>().ConfigureAzureKeyVault("Mra.Online.Platform");
+                context.Configuration.Get<ConfigurationManager>().ConfigureAzureKeyVault("MRAAcademy");
             }
         });
 }
