@@ -99,7 +99,7 @@ export class NavigationService {
       case 'admin':
         return this.adminModule();
       default:
-        return this.accountModule(AccountRouterLinks.SignIn);
+        return this.accountModule(AccountRouterLinks.Callback);
     }
   }
 }

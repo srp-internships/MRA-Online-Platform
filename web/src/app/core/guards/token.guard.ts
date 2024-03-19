@@ -19,7 +19,7 @@ export class TokenGuard implements CanActivate {
   async canActivate() {
     const token = this._tokenManager.getToken();
     if (!token || !token.refreshToken) {
-      this._routingFacade.accountModule(AccountRouterLinks.SignIn).navigate();
+      this._routingFacade.accountModule(AccountRouterLinks.Callback).navigate();
       return false;
     }
     if (this._tokenManager.isExpired(token.accessToken)) {

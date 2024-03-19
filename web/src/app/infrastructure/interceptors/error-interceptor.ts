@@ -25,7 +25,7 @@ export class ErrorCatchingInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(catchError((err: HttpErrorResponse) => {
       if(err.url?.includes("/refresh")) {
         this.tokenService.remove();
-        this._routingFacade.accountModule(AccountRouterLinks.SignIn).navigate();
+        this._routingFacade.accountModule(AccountRouterLinks.Callback).navigate();
       }
       if (err.status === 401) {
         return this.handle401Error(req, next);

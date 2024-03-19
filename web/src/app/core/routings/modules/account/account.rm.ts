@@ -20,4 +20,5 @@ export enum AccountRouterLinks {
   SignUp = 'sign-up',
   ResetPassword = 'reset-password',
   CheckEmail = 'check-email',
+  Callback = 'callback'
 }

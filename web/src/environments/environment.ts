@@ -5,10 +5,12 @@
 export const environment = {
   production: false,
   baseUrl: 'https://localhost:7120/api/',
+  identityClientUrl: 'https://staging.identity.srp.tj/',
+  academyClientUrl: 'https://staging.academy.srp.tj/',
   recaptcha: {
     siteKey: '6Lfbn64iAAAAAA65vQjtjeEwcFDY2rlF6lvq3LKa',
   },
-  IsComingSoonMode: true
+  IsComingSoonMode: false
 };
 
 /*
