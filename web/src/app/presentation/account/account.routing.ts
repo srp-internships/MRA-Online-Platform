@@ -15,7 +15,7 @@ const routes: Routes = [
       },
       {
         path: AccountRouterLinks.Callback,
-        title: 'callback',
+        title: 'Войти',
         component: CallbackComponent,
       },
     ],

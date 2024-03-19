@@ -24,9 +24,7 @@ export class CallbackComponent implements OnInit {
     ngOnInit(): void {
         let accessToken = this._route.snapshot.queryParams['atoken'];
         let refreshToken = this._route.snapshot.queryParams['rtoken'];
-        console.log(accessToken);
-        console.log(environment.identityClientUrl + "login?callback=" + environment.academyClientUrl + "account/callback");
-        if (accessToken == undefined || refreshToken == undefined) {
+        if (accessToken || refreshToken) {
             window.location.href = environment.identityClientUrl + "login?callback=" + environment.academyClientUrl + "account/callback";
         }
         this._tokenService.remove();
