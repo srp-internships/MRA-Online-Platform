@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { TokenModel } from 'src/app/domain';
 
-export const auth_key = 'srp_acadeny_auth';
+export const auth_key = 'srp_academy_auth';
 
 @Injectable({
   providedIn: 'root',
